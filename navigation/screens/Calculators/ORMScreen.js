@@ -2,6 +2,7 @@ import { StyleSheet} from "react-native";
 import * as React from "react";
 // import { TextInput } from "react-native-web";
 import { NativeBaseProvider,  Box,TextArea,Input,View,Text,Heading,Flex, Center, Spacer,HStack } from "native-base";
+import ORMSheet from "./ORMSheet";
 
 
 export default function ORMScreen() {
@@ -87,34 +88,32 @@ const onChangedRepetitions = (text) => {
       
     // </View>
     <NativeBaseProvider>
-    <HStack space="30%" justifyContent="center">
-    <Text fontSize="2xl" >Lift (kg)</Text>
+    <HStack space="30%" justifyContent="center" mt='4'>
+    <Text fontSize="2xl"  >Lift (kg)</Text>
       <Input  w={{
       base: "45%",
-      md: "25%"}} size="xl" placeholder="Enter Weight" keyboardType="numeric"
+      md: "25%"}} rounded='xl' bg='#FFFFFF' size="xl" placeholder="Enter Weight" keyboardType="numeric"
       onChangeText={text => onChangedWeight(text)}
       value = {weight}  />
       </HStack>
-      <HStack space="20%" justifyContent="center">
+      <HStack space="20%" justifyContent="center" mt='4'>
     <Text fontSize="2xl" >Repetitions</Text>
       <Input  w={{
       base: "45%",
-      md: "25%"}} size="xl" placeholder="Count" keyboardType="numeric"
+      md: "25%"}} rounded='xl' bg='#FFFFFF' size="xl" placeholder="Count" keyboardType="numeric"
       onChangeText={text => onChangedRepetitions(text)} 
       value = {repetitions}
        />
       </HStack>
-     
-        <Box alignSelf="center"  p="12" rounded="xl" 
-        shadow="9"
-        _text={{
+
+        <Center rounded='xl' shadow='9' bg='#FFFFFF' px='9' py='3' alignSelf='center' mt='4' _text={{
     fontSize: '2xl',
     fontWeight: 'medium',
     color: 'black',
-    textAlign: 'center'}}
-    >
-      {result}
-        </Box>
+    textAlign: 'center'}}>
+          {result}
+        </Center>
+        <ORMSheet/>
     </NativeBaseProvider>
     
   );

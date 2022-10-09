@@ -8,13 +8,13 @@ export default function CalculatorsSelect(props)
 {
     return(
     
-     <Center>
-      <FormControl w="3/4" maxW="300" isRequired isInvalid>
-        <FormControl.Label>Choose service</FormControl.Label>
+     <Center >
+      <FormControl bg='#FFFFFF' w="3/4" maxW="300" isRequired isInvalid>
         <Select 
         onValueChange={(selectedValue) => props.changeCalc(selectedValue)}
-        minWidth="200" accessibilityLabel="Choose Service" placeholder="Choose Calculator" _selectedItem={{
-        bg: "teal.600",
+        minWidth="200" placeholder="Choose Calculator"
+        size='xl' _selectedItem={{
+        bg: "#FFFFFF",
         endIcon: <CheckIcon size={5} />
       }} mt="1">
           <Select.Item label="BMI Calculator" value="BMI" />

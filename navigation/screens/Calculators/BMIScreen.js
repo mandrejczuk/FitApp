@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { NativeBaseProvider,  Box,TextArea,Input,View,Text,Heading,Flex, Center, Spacer,HStack } from "native-base";
+import BMISlider from './BMISlider';
 
 export default function BMIScreen()
 {
@@ -49,7 +50,7 @@ const onChangedHeight = (text) => {
 
    return(
       <NativeBaseProvider>
-      <HStack space="20%" justifyContent="center">
+      <HStack space="20%" justifyContent="center" mt='4'>
       <Text fontSize="2xl" >Height (cm)</Text>
         <Input  w={{
         base: "45%",
@@ -57,26 +58,23 @@ const onChangedHeight = (text) => {
         onChangeText={text => onChangedHeight(text)}
         value = {height}  />
         </HStack>
-        <HStack space="23%" justifyContent="center">
+        <HStack space="23%" justifyContent="center" mt='4'>
       <Text fontSize="2xl" >Weight(kg)</Text>
         <Input  w={{
         base: "45%",
-        md: "25%"}} size="xl" placeholder="Enter Weight" keyboardType="numeric"
+        md: "25%"}} rounded='xl' size="xl" placeholder="Enter Weight" keyboardType="numeric"
         onChangeText={text => onChangedWeight(text)} 
         value = {weight}
          />
         </HStack>
        
-          <Box alignSelf="center"  p="12" rounded="xl" 
-          shadow="9"
-          _text={{
-      fontSize: '2xl',
-      fontWeight: 'medium',
-      color: 'black',
-      textAlign: 'center'}}
-      >
-        {result}
-          </Box>
+        <Center rounded='xl' shadow='9' bg='#FFFFFF' px='9' py='3' alignSelf='center' mt='4' _text={{
+    fontSize: '2xl',
+    fontWeight: 'medium',
+    color: 'black',
+    textAlign: 'center'}}>
+          {result}
+        </Center>
       </NativeBaseProvider>
    )
 }
