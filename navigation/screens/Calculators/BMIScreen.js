@@ -75,6 +75,7 @@ const onChangedHeight = (text) => {
     textAlign: 'center'}}>
           {result}
         </Center>
+        <BMISlider result ={result}/>
       </NativeBaseProvider>
    )
 }

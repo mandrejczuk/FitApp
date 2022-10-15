@@ -9,7 +9,7 @@ class HomeScreen extends React.Component{
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <Text
             onPress={() => alert('This is the "Home screen.')}
-            style={{fontSize: 26, fontWeight: 'bold' }}>Homdze Screen</Text>
+            style={{fontSize: 26, fontWeight: 'bold' }}></Text>
         </View>
     )
     }
