@@ -19,7 +19,7 @@ export function dataLoad()
     {
         tx.executeSql('SELECT count(*) as licz  FROM sqlite_master WHERE type = ? AND name != ? AND name != ? ',['table','__WebKitDatabaseInfoTable__','sqlite_sequence'],function(tx,res){
 
-            dataDelete()
+           // dataDelete()
            let x = res.rows.item(0).licz
 
             if(x == 0)

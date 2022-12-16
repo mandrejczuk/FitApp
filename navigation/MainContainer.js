@@ -8,7 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 //Screens
 
 import HomeScreen from './screens/HomeScreen'
-import ExercisesScreen from './screens/ExercisesScreen'
+import ExercisesScreen from './screens/Exercises/ExercisesScreen'
 import ProfileScreen from './screens/Profile/ProfileScreen'
 import CalculatorsScreen from './screens/Calculators/CalculatorsScreen'
 
