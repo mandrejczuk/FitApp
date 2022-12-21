@@ -28,4 +28,21 @@ export function exercisesDataLoad(){
       console.log("Populated database (Exercises) OK");
     }
   );
+
+  db.readTransaction(function(tx){
+    tx.executeSql('SELECT * FROM Exercises',[],function(_,res){
+
+      var temp = []
+      for(let i = 0 ;i <res.rows.length;i++)
+      {
+        temp.push(res.rows.item(i).name)
+      }
+    })
+  },
+  function (error) {
+    console.log("Transaction ERROR Exercises data lnotgitoad : " + error.message);
+  },
+  function () {
+    console.log("Populated database (Exercises) git");
+  })
 }

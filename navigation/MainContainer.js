@@ -24,6 +24,7 @@ export default function MainContainer(){
     return(
        <NavigationContainer>
          <Tab.Navigator
+
         initialRouteName={homeName}
         screenOptions={({route}) =>({
             tabBarIcon: ({focused, color, size}) =>{
@@ -49,7 +50,7 @@ export default function MainContainer(){
                
                 return <Ionicons name={iconName} size={size} color={color}/>
             },
-            
+           headerShown: false 
         })}>
             <Tab.Screen name = {homeName} component = {HomeScreen}/>
             <Tab.Screen name = {exercisesName} component = {ExercisesScreen}/>

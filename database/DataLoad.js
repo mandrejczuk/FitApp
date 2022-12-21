@@ -15,13 +15,18 @@ import { dataDelete } from "./DataDelete";
 export function dataLoad()
 {
     
+    
+
     db.readTransaction(function(tx)
     {
-        tx.executeSql('SELECT count(*) as licz  FROM sqlite_master WHERE type = ? AND name != ? AND name != ? ',['table','__WebKitDatabaseInfoTable__','sqlite_sequence'],function(tx,res){
+        tx.executeSql('SELECT count(*) as licz  FROM sqlite_master WHERE type = ? AND name != ? AND name != ? AND name != ? ',['table','__WebKitDatabaseInfoTable__','sqlite_sequence','android_metadata'],function(tx,res){
 
-           // dataDelete()
+            //dataDelete()
+
+    
            let x = res.rows.item(0).licz
-
+           
+        
             if(x == 0)
             {
                 equipmentsDataLoad();
@@ -36,8 +41,20 @@ export function dataLoad()
                 recordsDataLoad();
         
             }
-
+            //dataDelete()
         })
+
+        // tx.executeSql('SELECT *   FROM sqlite_master WHERE type = ? AND name != ? AND name != ? AND name != ? ',['table','__WebKitDatabaseInfoTable__','sqlite_sequence','android_metadata'],function(tx,res){
+        //     var temp =[]
+        //     for(let i=0 ; i<res.rows.length;i++)
+        //     {
+        //         temp.push(res.rows.item(i))
+        //     }
+        //     console.log(temp)
+        // }
+        //
+        //)
+
             
 
     }, function(error){

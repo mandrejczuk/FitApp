@@ -31,7 +31,7 @@ export function exercisesBaseEquipmentsDataLoad()
             else{
                 tx.executeSql(
                     "INSERT INTO ExercisesBase_Equipments(exerciseBase_id,equipment_id)" +
-                      "VALUES(?,?)", [element.id,element.equipment_id]
+                      "VALUES(?,?)", [element.id,'']
                   );
             }
           });
@@ -45,4 +45,12 @@ export function exercisesBaseEquipmentsDataLoad()
           console.log("Populated database (ExerciseBase_Equipments) OK");
         }
       );
+
+      // db.readTransaction(
+      //   function(tx)
+      //   {
+      //     tx.executeSql('SELECT * FROM  ExercisesBase_Equipments ',[],function(_,res)
+      //     {})
+      //   }
+      // )
 }

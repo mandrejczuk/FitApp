@@ -1,5 +1,6 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Modal, Pressable,TextInput, Picker } from "react-native";
+import { View, Text, StyleSheet, Modal, Pressable,TextInput } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { ExerciseCards } from "./ExerciseCard";
 import { db } from '../../../database/DatabaseOpen';
 
@@ -61,6 +62,8 @@ function ExercisesScreen() {
   }
 
   
+
+  
   return (
     <View style={styles.container}>
       <View style={styles.inputView}>
@@ -75,7 +78,7 @@ function ExercisesScreen() {
       <View style={styles.category}>
         <Picker
         selectedValue={categoryValue}
-        onValueChange={(itemValue, itemIndex) => setCategoryValue(itemValue)}
+        onValueChange={(itemValue, itemIndex) =>  setCategoryValue(itemValue)}
         style={styles.pickercategory}
         >
         <Picker.Item label="All" value="(8,9,10,11,12,13,14,15)" />
