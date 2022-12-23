@@ -7,13 +7,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 //Screens
 
-import HomeScreen from './screens/HomeScreen'
+import HomeNavigation from './HomeNavigation'
 import ExercisesScreen from './screens/Exercises/ExercisesScreen'
 import ProfileScreen from './screens/Profile/ProfileScreen'
 import CalculatorsScreen from './screens/Calculators/CalculatorsScreen'
+import DayDetailsScreen from './screens/Home/DayDetailsSceen'
 
 //Screen names
-const homeName = 'Home'
+const homeName = 'HomeNavigation'
 const exercisesName ='Exercises'
 const profileName = 'Profile'
 const calculatorsName= 'Calculators'
@@ -52,7 +53,7 @@ export default function MainContainer(){
             },
            headerShown: false 
         })}>
-            <Tab.Screen name = {homeName} component = {HomeScreen}/>
+            <Tab.Screen name = {homeName} component = {HomeNavigation}/>
             <Tab.Screen name = {exercisesName} component = {ExercisesScreen}/>
             <Tab.Screen name = {calculatorsName} component = {CalculatorsScreen}/> 
             <Tab.Screen name = {profileName} component = {ProfileScreen}/>

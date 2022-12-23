@@ -8,15 +8,16 @@ export function exercisesDoneDataLoad() {
           "id INTEGER PRIMARY KEY AUTOINCREMENT," +
           "weight REAL," +
           "done INTEGER," +
+          "date TEXT," +
           "exerciseWorkoutDay_id," +
           "FOREIGN KEY (exerciseWorkoutDay_id) REFERENCES Exercises_WorkoutDays (id)" +
           ")"
       );
 
       tx.executeSql(
-        "INSERT INTO ExercisesDone(weight,done,exerciseWorkoutDay_id)" +
-          "VALUES(?,?,?)",
-        [34.5, 1, 1]
+        "INSERT INTO ExercisesDone(weight,done,date,exerciseWorkoutDay_id)" +
+          "VALUES(?,?,date(),?)",
+        [34.5,1, 1]
       );
     },
     function (error) {

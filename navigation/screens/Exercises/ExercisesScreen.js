@@ -42,6 +42,7 @@ function ExercisesScreen() {
             temp.push(res.rows.item(i));
            }
            setData(temp)
+           console.log(data)
 
         })
 
