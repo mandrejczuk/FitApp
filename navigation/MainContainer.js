@@ -14,7 +14,7 @@ import CalculatorsScreen from './screens/Calculators/CalculatorsScreen'
 import DayDetailsScreen from './screens/Home/DayDetailsSceen'
 
 //Screen names
-const homeName = 'HomeNavigation'
+const homeName = 'Home'
 const exercisesName ='Exercises'
 const profileName = 'Profile'
 const calculatorsName= 'Calculators'

@@ -1,9 +1,9 @@
-import { db } from "./DatabaseOpen";
+import { db } from "../DatabaseOpen";
 
 export function categoriesDataLoad() {
 
 
-    const categoriesData = require('./data/categoriesWrite.json')
+    const categoriesData = require('../data/categoriesWrite.json')
 
   db.transaction(
     function (tx) {

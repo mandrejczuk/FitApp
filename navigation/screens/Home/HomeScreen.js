@@ -18,7 +18,11 @@ export default function HomeScreen({navigation})
         getData()
     },[markedDates])
 
-   
+    const cesz = () =>
+    {
+        const newDate = selectedDay
+        navigation.navigate('DayDetails',{newDate})
+    } 
 
     const getData =  () =>{
         db.readTransaction(function(tx)
@@ -44,6 +48,7 @@ export default function HomeScreen({navigation})
     function dayLongPressHandler(date)
     {
        let newDate = (new Date(date.dateString)).toLocaleDateString('en-US',DATE_OPTIONS)
+       console.log(newDate)
         setSelectedDay(newDate)
         navigation.navigate('DayDetails',{newDate})
         
@@ -69,9 +74,13 @@ export default function HomeScreen({navigation})
             <View style = {styles.calendarKeyContainer}>
             <Text>zaznaczenia kalendarza today, restday, workoutday,day pressed</Text>
             </View>
+            <View style={styles.workoutBoxContainer}>
             <WorkoutBox 
             data ={data} 
-            selectedDay = {selectedDay} />
+            selectedDay = {selectedDay}
+            cesz = {cesz}
+             />
+            </View>
         </SafeAreaView>
     )
 
@@ -81,20 +90,14 @@ export default function HomeScreen({navigation})
 
 const styles = StyleSheet.create({
     calendarContainer: {
-        flex: 3,
+        flex: 2,
         margin: 10,
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     textContainer: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
     },
     calendarKeyContainer: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
     },
     container: {
         flex: 1,
@@ -104,5 +107,8 @@ const styles = StyleSheet.create({
     calendar: {
         marginBottom: 10
       },
+      workoutBoxContainer: {
+        flex: 2,
+      }
    
 })

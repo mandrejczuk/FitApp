@@ -1,8 +1,8 @@
-import { db } from "./DatabaseOpen";
+import { db } from "../DatabaseOpen";
 
 export function exercisesDataLoad(){
 
-    const exercisesData = require('./data/exercisesWrite.json')
+    const exercisesData = require('../data/exercisesWrite.json')
 
     db.transaction(function(tx){
 

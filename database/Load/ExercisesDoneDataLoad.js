@@ -1,4 +1,4 @@
-import { db } from "./DatabaseOpen";
+import { db } from "../DatabaseOpen";
 
 export function exercisesDoneDataLoad() {
   db.transaction(
@@ -18,6 +18,16 @@ export function exercisesDoneDataLoad() {
         "INSERT INTO ExercisesDone(weight,done,date,exerciseWorkoutDay_id)" +
           "VALUES(?,?,date(),?)",
         [34.5,1, 1]
+      );
+      tx.executeSql(
+        "INSERT INTO ExercisesDone(weight,done,date,exerciseWorkoutDay_id)" +
+          "VALUES(?,?,date(),?)",
+        [70,1, 2]
+      );
+      tx.executeSql(
+        "INSERT INTO ExercisesDone(weight,done,date,exerciseWorkoutDay_id)" +
+          "VALUES(?,?,date(),?)",
+        [5,0, 3]
       );
     },
     function (error) {

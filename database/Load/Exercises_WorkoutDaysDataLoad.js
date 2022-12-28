@@ -1,4 +1,4 @@
-import { db } from "./DatabaseOpen";
+import { db } from "../DatabaseOpen";
 
 export function exercises_WorkoutDaysDataLoad() {
   db.transaction(function (tx) {

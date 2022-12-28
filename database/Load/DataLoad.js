@@ -1,4 +1,4 @@
-import { db } from "./DatabaseOpen";
+import { db } from "../DatabaseOpen";
 import { equipmentsDataLoad } from "./EquipmentsDataLoad";
 import { exercisesBaseDataLoad } from "./ExercisesBaseDataLoad";
 import { categoriesDataLoad } from "./CategoriesDataLoad";
@@ -9,7 +9,7 @@ import { exercises_WorkoutDaysDataLoad } from "./Exercises_WorkoutDaysDataLoad";
 import {workoutDaysDataLoad} from './WorkoutDaysDataLoad'
 import {exercisesDoneDataLoad} from './ExercisesDoneDataLoad'
 import {recordsDataLoad} from './RecordsDataLoad'
-import { dataDelete } from "./DataDelete";
+import { dataDelete } from "../Delete/DataDelete";
 
 
 export function dataLoad()

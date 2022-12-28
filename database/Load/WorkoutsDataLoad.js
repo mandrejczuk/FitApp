@@ -1,4 +1,4 @@
-import { db } from "./DatabaseOpen";
+import { db } from "../DatabaseOpen";
 
 export function workoutsDataLoad() {
   db.transaction(
