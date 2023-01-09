@@ -1,34 +1,19 @@
 import * as React from 'react'
 import {View,Text,StyleSheet, FlatList, Button} from 'react-native'
-import getExerciseName from '../../../database/Requests/WorkoutBoxRequest'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-export default function  WorkoutBox({data,selectedDay,cesz}){
+export default function  WorkoutBox({data,selectedDay,navigateDetails}){
 
-    const temp = data.filter(el => el.date == formatDate(selectedDay))
-    function formatDate(date) {
-        var d = new Date(date),
-            month = '' + (d.getMonth() + 1),
-            day = '' + d.getDate(),
-            year = d.getFullYear();
-    
-        if (month.length < 2) 
-            month = '0' + month;
-        if (day.length < 2) 
-            day = '0' + day;
-    
-        return [year, month, day].join('-');
-    }  
+   
 
+  
     const renderItem = ({ item }) => (
         <Item item={item} />
-   
       );
 
-      const Item = ({ item }) => {
-        return (
+      const Item = ({ item }) => (
           <View style={styles.row}>
             <Text style={styles.name}>
-              {getExerciseName(item.exerciseWorkoutDay_id)}{" "}
+              {item.name}{" "}
             </Text>
             <Text style={styles.name}>{item.weight}</Text>
             {item.done > 0 
@@ -42,11 +27,9 @@ export default function  WorkoutBox({data,selectedDay,cesz}){
             )}
           </View>
         );
-      };
 
     const Box = () =>
     {
-
 
         if(data.length == 0)
         {
@@ -58,7 +41,7 @@ export default function  WorkoutBox({data,selectedDay,cesz}){
         }
         else{
             
-            if(temp.length == 0)
+            if(data.length == 0)
             {
                 return(
                     <View>
@@ -71,7 +54,7 @@ export default function  WorkoutBox({data,selectedDay,cesz}){
             return(
                 <View style={styles.box}>
                     <FlatList
-                    data ={temp}
+                    data ={data}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                     />
@@ -92,17 +75,17 @@ export default function  WorkoutBox({data,selectedDay,cesz}){
                 <Box/>
             </View>
             <View style = {{margin: 10}}>
-                {temp.length > 0 
+                {data.length > 0 
                 ?
                 <Button
                 title='Navigate to this day'
                 color= 'green'
-                onPress={()=> cesz()}
+                onPress={()=> navigateDetails()}
                 />
                 :
                 <Button
                 title='Plan your day'
-                onPress={()=> cesz()}
+                onPress={()=> navigateDetails()}
                 />
                 }
             </View>

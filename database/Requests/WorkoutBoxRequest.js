@@ -20,7 +20,7 @@ export default function getExerciseName(exerciseWorkoutDay_id)
             
           // result = res.rows.item(0).name
            setResult(res.rows.item(0).name)
-           console.log(result)
+          // console.log(result)
         })
         //  result = 'gc'
         // console.log(result)
