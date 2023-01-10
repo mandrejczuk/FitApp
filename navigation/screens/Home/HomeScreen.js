@@ -21,6 +21,8 @@ export default function HomeScreen({navigation})
 
     },[selectedDay])
 
+   
+
     const navigateDetails = () =>
     {
       
