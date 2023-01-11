@@ -26,6 +26,7 @@ export default function HomeScreen({navigation})
     const navigateDetails = () =>
     {
       
+        console.log(data)
         navigation.navigate('DayDetails',{selectedDay,data})
     } 
 
@@ -48,7 +49,7 @@ export default function HomeScreen({navigation})
     const getData =  () =>{
         db.readTransaction(function(tx)
         {
-            tx.executeSql('SELECT * FROM ExercisesDone ed '
+            tx.executeSql('SELECT ed.id, weight, done,date,exerciseWorkoutDay_id, sets, repetitions, workoutDay_id, exercise_id,name,description FROM ExercisesDone ed '
                         +'LEFT JOIN Exercises_WorkoutDays ewd ON ewd.id = ed.exerciseWorkoutDay_id '
                         +'LEFT JOIN Exercises e ON e.id = ewd.exercise_id '
                         + 'WHERE date = "'
@@ -61,7 +62,7 @@ export default function HomeScreen({navigation})
                 {
                     temp.push(res.rows.item(i))
                 }
-                
+                console.log(res.rows)
                 setData(temp);
                 
             })
