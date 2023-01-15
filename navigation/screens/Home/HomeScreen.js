@@ -3,6 +3,7 @@ import {SafeAreaView,View, Text, StyleSheet,} from 'react-native'
 import {Calendar,CalendarUtils} from 'react-native-calendars'
 import { db } from '../../../database/DatabaseOpen';
 import WorkoutBox from './WorkoutBox';
+import { getAllExercises } from '../../../database/Requests/GetAllExercises';
 
 
 export default function HomeScreen({navigation})
@@ -20,14 +21,13 @@ export default function HomeScreen({navigation})
         getData()
 
     },[selectedDay])
-
-   
+    
+    // const exercises = getAllExercises()
 
     const navigateDetails = () =>
     {
       
-        console.log(data)
-        navigation.navigate('DayDetails',{selectedDay,data})
+        navigation.navigate('DayDetails',{selectedDay,data/*,exercises*/})
     } 
 
     function formatDate(date) {
@@ -49,7 +49,8 @@ export default function HomeScreen({navigation})
     const getData =  () =>{
         db.readTransaction(function(tx)
         {
-            tx.executeSql('SELECT ed.id, weight, done,date,exerciseWorkoutDay_id, sets, repetitions, workoutDay_id, exercise_id,name,description FROM ExercisesDone ed '
+            tx.executeSql('SELECT ed.id, weight, done,date,exerciseWorkoutDay_id, sets, repetitions, workoutDay_id, exercise_id,name,description '
+                        +'FROM ExercisesDone ed '
                         +'LEFT JOIN Exercises_WorkoutDays ewd ON ewd.id = ed.exerciseWorkoutDay_id '
                         +'LEFT JOIN Exercises e ON e.id = ewd.exercise_id '
                         + 'WHERE date = "'
@@ -62,7 +63,6 @@ export default function HomeScreen({navigation})
                 {
                     temp.push(res.rows.item(i))
                 }
-                console.log(res.rows)
                 setData(temp);
                 
             })

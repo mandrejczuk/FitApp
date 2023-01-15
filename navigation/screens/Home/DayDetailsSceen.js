@@ -1,18 +1,43 @@
 import { Picker } from "@react-native-picker/picker";
 import * as React from "react";
-import { View, Text, StyleSheet, FlatList, SafeAreaView,Button, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { View, Text, StyleSheet, FlatList, SafeAreaView,Button, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, ScrollView, TextInput } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { deleteExerciseDoneById } from "../../../database/Delete/DeleteExerciseDoneById.js";
+import { ExercisesList } from "./ExercisesList.js";
+import { getExerciesByNameCategoryEquipment } from "../../../database/Requests/GetAllExercises.js";
+import { db } from "../../../database/DatabaseOpen.js";
+
 export default function DayDetailsScreen({ route, navigation }) {
 
     const {selectedDay} = route.params
     
     const {data} = route.params
+    // const {exercises} = route.params
     console.log(selectedDay)
  //   console.log(data.length)
     const [deleteModalVisible,setDeleteModalVisible] = React.useState(false)
     const [addModalVisible,setAddModalVisible] = React.useState(false)
     const [selectedDeleteValue,setSelectedDeleteValue] = React.useState(start())
+    const [selectedAddValue,setSelectedAddValue] = React.useState()
+     const [selectedExerciseName,setSelectedExerciseName] = React.useState()
+    //  const [text, onChangeText] = React.useState("");
+    // const [categoryValue, setCategoryValue] = React.useState('(8,9,10,11,12,13,14,15)');
+    // const [equipmentValue, setEquipmentValue] = React.useState('("",1,2,3,4,5,6,7,8,9,10,11)');
+    // const [exercisesList,setExercisesList] = React.useState(getExerciesByNameCategoryEquipment(text,categoryValue,equipmentValue))
+   
+    // React.useEffect(()=>{
+
+    //   setExercisesList(getExerciesByNameCategoryEquipment(text,categoryValue,equipmentValue))
+    //  // console.log(JSON.stringify(exercisesList))
+
+
+    //  getData()
+
+        
+    // },[categoryValue,equipmentValue,text])
+
+
+   
 
     function start()
     {
@@ -22,6 +47,9 @@ export default function DayDetailsScreen({ route, navigation }) {
       }
       else return 
     }
+
+
+  
 
     const onConfirmDelete = () =>{
       const result = data.filter(exercise =>exercise.id == selectedDeleteValue)
@@ -39,9 +67,75 @@ export default function DayDetailsScreen({ route, navigation }) {
        setDeleteModalVisible(false);
        console.log(data)
    }
+   
 
 
-    const AddExerciseModal = () => (
+   const renderAddItem = ({ item }) => (
+    <AddItem item={item} />
+  );
+
+  const AddItem = ({ item }) => {
+    return(
+    <View style={styles.item}>   
+    <Pressable
+    onPress={()=>{setSelectedExerciseName(item.name)}}>
+      <Text style={styles.name}>{item.name}</Text>
+      </Pressable>
+    </View>
+  )};
+
+ 
+
+    const AddExerciseModal = () => {
+      const [text, onChangeText] = React.useState("");
+      const [categoryValue, setCategoryValue] = React.useState('(8,9,10,11,12,13,14,15)');
+      const [equipmentValue, setEquipmentValue] = React.useState('("",1,2,3,4,5,6,7,8,9,10,11)');
+      const [exercisesList,setExercisesList] = React.useState(getExerciesByNameCategoryEquipment(text,categoryValue,equipmentValue))
+
+
+     
+
+      React.useEffect(()=>{
+
+        // setExercisesList(getExerciesByNameCategoryEquipment(text,categoryValue,equipmentValue))
+       // console.log(JSON.stringify(exercisesList))
+  
+       db.readTransaction(function(tx)
+       {
+          
+         tx.executeSql('SELECT Distinct e.* FROM Exercises e '
+         + 'LEFT JOIN ExercisesBase eb ON e.exerciseBase_id = eb.id ' 
+         + 'LEFT JOIN Categories C  ON eb.category_id = c.id '
+         + 'LEFT JOIN ExercisesBase_Equipments eeb ON eb.id = eeb.exerciseBase_id ' 
+         + 'LEFT JOIN Equipments eq ON eeb.equipment_id = eq.id  '
+         + 'WHERE '
+         + 'equipment_id IN '+ equipmentValue
+         + ' AND '
+         + 'category_id IN ' + categoryValue
+         + ' AND '
+         + 'e.name LIKE ' + '"%' + text + '%"'  
+         ,[],function(_,res)
+           {
+             var tempo = []
+               for(let i = 0; i < res.rows.length ; i++)
+               {
+                  tempo.push(res.rows.item(i))
+               }
+               setExercisesList(tempo)
+           })
+       },
+       function (error) {
+         console.log("Transaction ERROR data delete: " + error.message);
+       },
+       function () {
+         console.log("Populated database (data delete) OK");
+       }
+     );
+          
+      },[categoryValue,equipmentValue,text])
+  
+     
+      return (
         <Modal
         visible={addModalVisible}
         transparent={true}
@@ -54,18 +148,82 @@ export default function DayDetailsScreen({ route, navigation }) {
             >
               <TouchableWithoutFeedback>
             <View style={styles.inner}>
-            <Text>xddddd</Text>
+              <View style={{alignItems:'center'}}>
+              <TextInput onChangeText={onChangeText}  placeholder="Search" value={text} />
+              </View>
+              <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+              <View style={styles.category}>
+        <Picker
+        selectedValue={categoryValue}
+        onValueChange={(itemValue, itemIndex) =>  setCategoryValue(itemValue)}
+        style={styles.pickercategory}
+        >
+        <Picker.Item label="All" value="(8,9,10,11,12,13,14,15)" />
+        <Picker.Item label="Arms" value="(8)" />
+        <Picker.Item label="Legs" value="(9)" />
+        <Picker.Item label="Abs" value="(10)" />
+        <Picker.Item label="Chest" value="(11)" />
+        <Picker.Item label="Back" value="(12)" />
+        <Picker.Item label="Shoulders" value="(13)" />
+        <Picker.Item label="Calves" value="(14)" />
+        <Picker.Item label="Cardio" value="(15)" />
+        </Picker>
+        
+      </View>
+      <View style={styles.equipment}>
+        <Picker
+        selectedValue={equipmentValue}
+        onValueChange={(itemValue, itemIndex) => setEquipmentValue(itemValue)}
+        style={styles.pickerequipment}
+        >
+        <Picker.Item label="All" value="('',1,2,3,4,5,6,7,8,9,10,11)" />
+        <Picker.Item label="Barbell" value="(1)" />
+        <Picker.Item label="SZ-Bar" value="(2)" />
+        <Picker.Item label="Dumbbell" value="(3)" />
+        <Picker.Item label="Gym mat" value="(4)" />
+        <Picker.Item label="Swiss Ball" value="(5)" />
+        <Picker.Item label="Pull-up bar" value="(6)" />
+        <Picker.Item label="none" value="(7)" />
+        <Picker.Item label="Bench" value="(8)" />
+        <Picker.Item label="Incline bench" value="(9)" />
+        <Picker.Item label="Kettlebell" value="(10)" />
+        <Picker.Item label="Resistance Band" value="(11)" />
+        </Picker>
+      </View>
+              </View>
+            <ScrollView>
+            {/* <View style={{height: 200}}>   */}
+              {/* <FlatList
+              data={exercises}
+              renderItem={renderAddItem}
+              keyExtractor={item =>item.id}
+              /> */}
+              <ExercisesList
+              data={exercisesList}
+              />
+            {/* </View> */}
+            </ScrollView>
+            <View>
+              <View>
+                <TextInput placeholder="Number of sets" keyboardType ='number-pad'/>
+                <Text> Reps</Text>
+               </View>
+               <Button title ='Add Exercise' onPress={()=>{}}/>
+            </View>
             </View>
             </TouchableWithoutFeedback>
             </TouchableOpacity>
         </Modal>
     )
+            }
 
     const renderDeleteExerciseList = () => {
       return data.map((exercise)=>{
         return <Picker.Item key={exercise.id} label = {exercise.name} value = {exercise.id}/>
       })
     }
+
+ 
 
     const DeleteExerciseModal = () => (
       <Modal
@@ -269,4 +427,14 @@ elevation: 13,
     // margin: 50,
     // padding: 40
   },
+  item: {
+    backgroundColor: '#5176FD',
+    padding: 12,
+    marginVertical: 8,
+    marginHorizontal: 12,
+    borderRadius: 12
+  },
+  flatcontainer: {
+    flexGrow: 1
+  }
 });
