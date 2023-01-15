@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, FlatList, SafeAreaView,Button, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, ScrollView, TextInput } from "react-native";
 import * as React from 'react'
 
-export function ExercisesList({data}){
+export function ExercisesList({data,callback}){
 
 
   const [selectedExerciseName,setSelectedExerciseName] = React.useState('Select Exercise From List')
@@ -28,7 +28,10 @@ export function ExercisesList({data}){
         return(
         <View style={styles.item}>   
         <Pressable
-        onPress={()=>{setSelectedExerciseName(item.name)}}>
+        onPress={()=>{
+          setSelectedExerciseName(item.name)
+          callback(item)
+        }}>
           <Text style={styles.name}>{item.name}</Text>
           </Pressable>
         </View>

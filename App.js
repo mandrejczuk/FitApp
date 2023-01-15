@@ -3,14 +3,26 @@ import MainContainer from './navigation/MainContainer'
 import { LogBox } from "react-native";
 import {dataLoad} from './database/Load/DataLoad'
 import { dataDelete } from './database/Delete/DataDelete';
-
+import { db } from './database/DatabaseOpen';
 LogBox.ignoreLogs(["EventEmitter.removeListener"])
 
 
 function App(){
 
- // dataDelete();
-   dataLoad();
+  // dataDelete();
+  // db.readTransaction(function(tx)
+  // {
+  //     tx.executeSql('SELECT count(*) as licz  FROM sqlite_master WHERE type = ? AND name != ? AND name != ? AND name != ? ',['table','__WebKitDatabaseInfoTable__','sqlite_sequence','android_metadata'],function(tx,res){
+
+          
+  
+  //        let x = res.rows.item(0).licz
+  //        console.log(x)
+      
+         
+  //     })
+  //   })
+    // dataLoad()
 
   return(
     <MainContainer/>

@@ -14,6 +14,7 @@ export default function DayDetailsScreen({ route, navigation }) {
     const {data} = route.params
     // const {exercises} = route.params
     console.log(selectedDay)
+    console.log(data)
  //   console.log(data.length)
     const [deleteModalVisible,setDeleteModalVisible] = React.useState(false)
     const [addModalVisible,setAddModalVisible] = React.useState(false)
@@ -91,6 +92,9 @@ export default function DayDetailsScreen({ route, navigation }) {
       const [categoryValue, setCategoryValue] = React.useState('(8,9,10,11,12,13,14,15)');
       const [equipmentValue, setEquipmentValue] = React.useState('("",1,2,3,4,5,6,7,8,9,10,11)');
       const [exercisesList,setExercisesList] = React.useState(getExerciesByNameCategoryEquipment(text,categoryValue,equipmentValue))
+      const [selectedExercise, setSelectedExercise] = React.useState()
+      const [sets,onChangeSets] = React.useState("")
+      const [reps, onChangeReps] = React.useState("")
 
 
      
@@ -134,6 +138,19 @@ export default function DayDetailsScreen({ route, navigation }) {
           
       },[categoryValue,equipmentValue,text])
   
+      function onConfirmAdd()
+      {
+       var newItem = {
+          id: selectedExercise.id,
+          name: selectedExercise.name,
+          weight: '80',
+          sets: sets,
+          repetitions: reps,
+          done: 0
+        }
+        data.push(newItem)
+        setAddModalVisible(false)
+      }
      
       return (
         <Modal
@@ -200,15 +217,16 @@ export default function DayDetailsScreen({ route, navigation }) {
               /> */}
               <ExercisesList
               data={exercisesList}
+              callback={setSelectedExercise}
               />
             {/* </View> */}
             </ScrollView>
             <View>
-              <View>
-                <TextInput placeholder="Number of sets" keyboardType ='number-pad'/>
-                <Text> Reps</Text>
+              <View style={{flexDirection:'row'}}>
+                <TextInput value={sets} onChangeText={onChangeSets} placeholder="Number of sets" keyboardType ='number-pad'/>
+                <TextInput value={reps} onChangeText={onChangeReps} placeholder="Number of reps" keyboardType ='number-pad'/>
                </View>
-               <Button title ='Add Exercise' onPress={()=>{}}/>
+               <Button title ='Add Exercise' onPress={()=>{onConfirmAdd()}}/>
             </View>
             </View>
             </TouchableWithoutFeedback>

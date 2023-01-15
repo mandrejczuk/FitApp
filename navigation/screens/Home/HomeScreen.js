@@ -27,7 +27,7 @@ export default function HomeScreen({navigation})
     const navigateDetails = () =>
     {
       
-        navigation.navigate('DayDetails',{selectedDay,data/*,exercises*/})
+        navigation.navigate('DayDetails',{selectedDay,data})
     } 
 
     function formatDate(date) {

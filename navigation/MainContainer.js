@@ -3,15 +3,17 @@ import {View, Text} from 'react-native'
 
 import { NavigationContainer } from '@react-navigation/native'
 import {createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 //Screens
 
-import HomeNavigation from './HomeNavigation'
+// import HomeNavigation from './HomeNavigation'
 import ExercisesScreen from './screens/Exercises/ExercisesScreen'
 import ProfileScreen from './screens/Profile/ProfileScreen'
 import CalculatorsScreen from './screens/Calculators/CalculatorsScreen'
 import DayDetailsScreen from './screens/Home/DayDetailsSceen'
+import HomeScreen from './screens/Home/HomeScreen';
 
 //Screen names
 const homeName = 'Home'
@@ -20,6 +22,19 @@ const profileName = 'Profile'
 const calculatorsName= 'Calculators'
 
 const Tab = createBottomTabNavigator();
+
+const HomeStack = createNativeStackNavigator();
+  
+
+function HomeNavigation() {
+    
+    return (
+      <HomeStack.Navigator screenOptions={{ headerShown: false }}>
+        <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
+        <HomeStack.Screen name="DayDetails" component={DayDetailsScreen} />
+      </HomeStack.Navigator>
+    );
+  }
 
 export default function MainContainer(){
     return(
