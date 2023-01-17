@@ -17,49 +17,49 @@ export function exercises_WorkoutDaysDataLoad() {
     tx.executeSql(
       "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id)" +
         "VALUES (?,?,?,?)",
-      [8, 8, 1, 111]
+      [8, 8, 2, 111]
     );
     tx.executeSql(
       "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id)" +
         "VALUES (?,?,?,?)",
-      [8, 8, 1, 192]
+      [8, 8, 2, 192]
     );
     tx.executeSql(
       "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id)" +
         "VALUES (?,?,?,?)",
-      [4, 8, 1, 340]
-    );
-
-    tx.executeSql(
-      "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id)" +
-        "VALUES (?,?,?,?)",
-      [8, 8, 2, 105]
-    );
-    tx.executeSql(
-      "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id)" +
-        "VALUES (?,?,?,?)",
-      [8, 8, 2, 1069]
-    );
-    tx.executeSql(
-      "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id)" +
-        "VALUES (?,?,?,?)",
-      [4, 8, 2, 81]
+      [4, 8, 2, 340]
     );
 
     tx.executeSql(
       "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id)" +
         "VALUES (?,?,?,?)",
-      [8, 8, 3, 191]
+      [8, 8, 3, 105]
     );
     tx.executeSql(
       "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id)" +
         "VALUES (?,?,?,?)",
-      [8, 8, 3, 97]
+      [8, 8, 3, 1069]
     );
     tx.executeSql(
       "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id)" +
         "VALUES (?,?,?,?)",
-      [4, 8, 3, 148]
+      [4, 8, 3, 81]
+    );
+
+    tx.executeSql(
+      "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id)" +
+        "VALUES (?,?,?,?)",
+      [8, 8, 4, 191]
+    );
+    tx.executeSql(
+      "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id)" +
+        "VALUES (?,?,?,?)",
+      [8, 8, 4, 97]
+    );
+    tx.executeSql(
+      "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id)" +
+        "VALUES (?,?,?,?)",
+      [4, 8, 4, 148]
     );
   },
   function (error) {

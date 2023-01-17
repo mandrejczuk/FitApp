@@ -99,8 +99,8 @@ const styles = StyleSheet.create({
     box: {
       backgroundColor: '#ffffff',
       margin: 10,
-      borderRadius: '50',
-      borderWidth: '2px',
+      borderRadius: 50,
+      borderWidth: 2,
       justifyContent: 'center',
       shadowColor: "#000",
   shadowOffset: {

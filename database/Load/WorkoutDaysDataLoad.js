@@ -11,18 +11,22 @@ export function workoutDaysDataLoad() {
           "FOREIGN KEY (workout_id) REFERENCES Workouts (id)" +
           ")"
       );
+      tx.executeSql(
+        "INSERT INTO WorkoutDays(type,workout_id)" + "VALUES (?,?)",
+        ["CUSTOM", 1]
+      );
 
       tx.executeSql(
         "INSERT INTO WorkoutDays(type,workout_id)" + "VALUES (?,?)",
-        ["A", 1]
+        ["A", 2]
       );
       tx.executeSql(
         "INSERT INTO WorkoutDays(type,workout_id)" + "VALUES (?,?)",
-        ["B", 1]
+        ["B", 2]
       );
       tx.executeSql(
         "INSERT INTO WorkoutDays(type,workout_id)" + "VALUES (?,?)",
-        ["C", 1]
+        ["C", 2]
       );
     },
     function (error) {

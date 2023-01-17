@@ -19,11 +19,11 @@ export default function  WorkoutBox({data,selectedDay,navigateDetails}){
             {item.done > 0 
             ? 
             (
-              <Ionicons name="checkmark-outline" size="32px" color="green" />
+              <Ionicons name="checkmark-outline" size={32} color="green" />
             ) 
             : 
             (
-              <Ionicons name="close-outline" size="32px" color="red" />
+              <Ionicons name="close-outline" size={32} color="red" />
             )}
           </View>
         );

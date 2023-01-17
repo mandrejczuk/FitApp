@@ -9,6 +9,10 @@ export function workoutsDataLoad() {
           "name VARCHAR," +
           "description VARCHAR)"
       );
+      tx.executeSql("INSERT INTO Workouts(name,description)" + "VALUES (?,?)", [
+        "CUSTOM",
+        "EXERCISES ADDED BY USER TO PLAN",
+      ]);
 
       tx.executeSql("INSERT INTO Workouts(name,description)" + "VALUES (?,?)", [
         "German Volume",

@@ -6,6 +6,8 @@ import { deleteExerciseDoneById } from "../../../database/Delete/DeleteExerciseD
 import { ExercisesList } from "./ExercisesList.js";
 import { getExerciesByNameCategoryEquipment } from "../../../database/Requests/GetAllExercises.js";
 import { db } from "../../../database/DatabaseOpen.js";
+import { addCustomExerciseToPlan } from "../../../database/Requests/AddExerciseDone.js";
+import { formatDate } from "../../../components/FormatDate.js";
 
 export default function DayDetailsScreen({ route, navigation }) {
 
@@ -149,6 +151,7 @@ export default function DayDetailsScreen({ route, navigation }) {
           done: 0
         }
         data.push(newItem)
+        addCustomExerciseToPlan(sets,reps,selectedExercise.id,80,formatDate(selectedDay))
         setAddModalVisible(false)
       }
      
@@ -320,11 +323,11 @@ export default function DayDetailsScreen({ route, navigation }) {
         {item.done > 0 
         ? 
         (
-          <Ionicons style={styles.icon} name="checkmark-outline" size="24px" color="green" />
+          <Ionicons style={styles.icon} name="checkmark-outline" size={24} color="green" />
         ) 
         : 
         (
-          <Ionicons style={styles.icon} name="close-outline" size="24px" color="red" />
+          <Ionicons style={styles.icon} name="close-outline" size={24} color="red" />
         )}
       </View>
     );
@@ -335,14 +338,16 @@ export default function DayDetailsScreen({ route, navigation }) {
       <DateHeader/>
     </View>
     <View style= {styles.tabled}>
+    <ScrollView>
     <View style={styles.box}>
                     <FlatList
                     data ={data}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                     ListHeaderComponent={header}
-                    />
+                    />    
                 </View>
+                </ScrollView>
                 </View>
                 <View style={styles.container}>
                 <Buttons/>
@@ -397,8 +402,8 @@ const styles = StyleSheet.create({
   box: {
     backgroundColor: '#ffffff',
     margin: 10,
-    borderRadius: '50',
-    borderWidth: '2px',
+   // borderRadius: 50,
+    borderWidth: 2,
     justifyContent: 'center',
     shadowColor: "#000",
 shadowOffset: {

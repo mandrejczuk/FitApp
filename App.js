@@ -9,7 +9,7 @@ LogBox.ignoreLogs(["EventEmitter.removeListener"])
 
 function App(){
 
-  // dataDelete();
+   //dataDelete();
   // db.readTransaction(function(tx)
   // {
   //     tx.executeSql('SELECT count(*) as licz  FROM sqlite_master WHERE type = ? AND name != ? AND name != ? AND name != ? ',['table','__WebKitDatabaseInfoTable__','sqlite_sequence','android_metadata'],function(tx,res){
@@ -21,8 +21,19 @@ function App(){
       
          
   //     })
+  //     tx.executeSql('SELECT name  FROM sqlite_master WHERE type = ? AND name != ? AND name != ? AND name != ? ',['table','__WebKitDatabaseInfoTable__','sqlite_sequence','android_metadata'],function(tx,res){
+
+          
+  
+  //       for(let i = 0 ; i<res.rows.length; i++)
+  //       {
+  //         console.log(res.rows.item(i).name)
+  //       }
+     
+        
+  //    })
   //   })
-    // dataLoad()
+     dataLoad()
 
   return(
     <MainContainer/>
