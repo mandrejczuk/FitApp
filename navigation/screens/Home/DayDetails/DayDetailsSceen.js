@@ -2,12 +2,12 @@ import { Picker } from "@react-native-picker/picker";
 import * as React from "react";
 import { View, Text, StyleSheet, FlatList, SafeAreaView,Button, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, ScrollView, TextInput } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { deleteExerciseDoneById } from "../../../database/Delete/DeleteExerciseDoneById.js";
+import { deleteExerciseDoneById } from "../../../../database/Delete/DeleteExerciseDoneById.js";
 import { ExercisesList } from "./ExercisesList.js";
-import { getExerciesByNameCategoryEquipment } from "../../../database/Requests/GetAllExercises.js";
-import { db } from "../../../database/DatabaseOpen.js";
-import { addCustomExerciseToPlan } from "../../../database/Requests/AddExerciseDone.js";
-import { formatDate } from "../../../components/FormatDate.js";
+import { getExerciesByNameCategoryEquipment } from "../../../../database/Requests/GetAllExercises.js";
+import { db } from "../../../../database/DatabaseOpen.js";
+import { addCustomExerciseToPlan } from "../../../../database/Requests/AddExerciseDone.js";
+import { formatDate } from "../../../../components/FormatDate.js";
 
 export default function DayDetailsScreen({ route, navigation }) {
 
@@ -97,6 +97,7 @@ export default function DayDetailsScreen({ route, navigation }) {
       const [selectedExercise, setSelectedExercise] = React.useState()
       const [sets,onChangeSets] = React.useState("")
       const [reps, onChangeReps] = React.useState("")
+      const [weight,onChangeWeight]= React.useState("")
 
 
      
@@ -145,13 +146,13 @@ export default function DayDetailsScreen({ route, navigation }) {
        var newItem = {
           id: selectedExercise.id,
           name: selectedExercise.name,
-          weight: '80',
+          weight: weight,
           sets: sets,
           repetitions: reps,
           done: 0
         }
         data.push(newItem)
-        addCustomExerciseToPlan(sets,reps,selectedExercise.id,80,formatDate(selectedDay))
+        addCustomExerciseToPlan(sets,reps,selectedExercise.id,weight,formatDate(selectedDay))
         setAddModalVisible(false)
       }
      
@@ -225,9 +226,10 @@ export default function DayDetailsScreen({ route, navigation }) {
             {/* </View> */}
             </ScrollView>
             <View>
-              <View style={{flexDirection:'row'}}>
-                <TextInput value={sets} onChangeText={onChangeSets} placeholder="Number of sets" keyboardType ='number-pad'/>
-                <TextInput value={reps} onChangeText={onChangeReps} placeholder="Number of reps" keyboardType ='number-pad'/>
+              <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
+                <TextInput style={{width: '20%'}} value={sets} onChangeText={onChangeSets} placeholder="Sets" keyboardType ='number-pad'/>
+                <TextInput style={{width: '20%'}} value={reps} onChangeText={onChangeReps} placeholder="Reps" keyboardType ='number-pad'/>
+                <TextInput style={{width: '20%'}} value={weight} onChangeText={onChangeWeight} placeholder="Weight" keyboardType = 'number-pad'/>
                </View>
                <Button title ='Add Exercise' onPress={()=>{onConfirmAdd()}}/>
             </View>

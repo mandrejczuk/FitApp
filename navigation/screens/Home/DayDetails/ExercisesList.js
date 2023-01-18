@@ -45,7 +45,7 @@ export function ExercisesList({data,callback}){
               renderItem={renderAddItem}
               keyExtractor={item =>item.id}
               />
-              <View>
+              <View style={{justifyContent: 'center'}}>
               <TextInput placeholder="Select Exercise From List" value={selectedExerciseName} editable = {false} />
               </View>
         </View>

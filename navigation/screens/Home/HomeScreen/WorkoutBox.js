@@ -1,7 +1,7 @@
 import * as React from 'react'
-import {View,Text,StyleSheet, FlatList, Button} from 'react-native'
+import {View,Text,StyleSheet, FlatList, Button, ScrollView} from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-export default function  WorkoutBox({data,selectedDay,navigateDetails}){
+export default function  WorkoutBox({data,selectedDay,navigateDetails,setModalTrue}){
 
    
 
@@ -71,9 +71,11 @@ export default function  WorkoutBox({data,selectedDay,navigateDetails}){
               <View style={styles.textContainer}>
                 <Text style={styles.name}>{selectedDay}</Text>
             </View>
-            <View>
-                <Box/>
+            <ScrollView>
+            <View>        
+                <Box/>          
             </View>
+            </ScrollView>
             <View style = {{margin: 10}}>
                 {data.length > 0 
                 ?
@@ -85,7 +87,7 @@ export default function  WorkoutBox({data,selectedDay,navigateDetails}){
                 :
                 <Button
                 title='Plan your day'
-                onPress={()=> navigateDetails()}
+                onPress={()=> setModalTrue()}
                 />
                 }
             </View>

@@ -1,9 +1,9 @@
 import * as React from 'react'
-import {SafeAreaView,View, Text, StyleSheet,} from 'react-native'
+import {SafeAreaView,View, Text, StyleSheet,Modal, TouchableOpacity, TouchableWithoutFeedback, Button} from 'react-native'
 import {Calendar,CalendarUtils} from 'react-native-calendars'
-import { db } from '../../../database/DatabaseOpen';
+import { db } from '../../../../database/DatabaseOpen';
 import WorkoutBox from './WorkoutBox';
-import { getAllExercises } from '../../../database/Requests/GetAllExercises';
+import { getAllExercises } from '../../../../database/Requests/GetAllExercises';
 
 
 export default function HomeScreen({navigation})
@@ -17,6 +17,7 @@ export default function HomeScreen({navigation})
     const [selectedDay,setSelectedDay] = React.useState((new Date()).toLocaleDateString('en-US',DATE_OPTIONS))
     const [markedDates,setMarkedDays] = React.useState({})
     const [data,setData] = React.useState([])
+    const [modalVisible,setModalVisible] = React.useState(false)
     React.useEffect(()=>{
         getData()
 
@@ -29,6 +30,40 @@ export default function HomeScreen({navigation})
       
         navigation.navigate('DayDetails',{selectedDay,data})
     } 
+
+    const navigatePlaningWorkout = () =>
+    {
+        navigation.navigate('CreateTraining')
+    }
+
+    const setModalTrue = () =>
+    {
+        setModalVisible(true)
+    }
+
+    const ModalPlanning = () =>
+    (
+        <Modal
+        visible={modalVisible}
+        transparent={true}
+        onRequestClose={()=>{setModalVisible(false)}}
+        >
+        <TouchableOpacity
+        style={styles.outer}
+        activeOpacity={1}
+        onPressOut={()=>{setModalVisible(false)}}
+        >
+            <TouchableWithoutFeedback>
+                <View style={styles.inner}>
+                    <Button title='YES' onPress={()=>{
+                        setModalVisible(false)
+                        navigatePlaningWorkout()}}/>
+                    <Button title='NO'/>
+                </View>
+            </TouchableWithoutFeedback>
+        </TouchableOpacity>
+        </Modal>
+    )
 
     function formatDate(date) {
         var d = new Date(date),
@@ -113,8 +148,10 @@ export default function HomeScreen({navigation})
             data ={data} 
             selectedDay = {selectedDay}
             navigateDetails = {navigateDetails}
+            setModalTrue = {setModalTrue}
              />
             </View>
+            <ModalPlanning/>
         </SafeAreaView>
     )
 
@@ -143,6 +180,20 @@ const styles = StyleSheet.create({
       },
       workoutBoxContainer: {
         flex: 2,
-      }
+      },
+      outer: {
+        backgroundColor:'#000000aa',
+        alignItems: "center",
+         justifyContent: "center",
+        flex: 1
+      },
+      inner:{
+        backgroundColor: '#ffffff',
+        marginHorizontal: 20,
+        padding: 10,
+        borderRadius: 12
+        // margin: 50,
+        // padding: 40
+      },
    
 })

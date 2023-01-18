@@ -3,7 +3,7 @@ import { db } from "../DatabaseOpen";
 
 
 
-export function addCustomExerciseToPlan(sets,reps,exercise_id,weight,date,)
+export function addCustomExerciseToPlan(sets,reps,exercise_id,weight,date)
 {
     db.transaction(function(tx)
     {

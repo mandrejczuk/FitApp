@@ -12,8 +12,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import ExercisesScreen from './screens/Exercises/ExercisesScreen'
 import ProfileScreen from './screens/Profile/ProfileScreen'
 import CalculatorsScreen from './screens/Calculators/CalculatorsScreen'
-import DayDetailsScreen from './screens/Home/DayDetailsSceen'
-import HomeScreen from './screens/Home/HomeScreen';
+import DayDetailsScreen from './screens/Home/DayDetails/DayDetailsSceen'
+import HomeScreen from './screens/Home/HomeScreen/HomeScreen';
+import  CreateTrainingScreen  from './screens/Home/CreateTraining/CreateTraingingScreen';
 
 //Screen names
 const homeName = 'Home'
@@ -32,6 +33,7 @@ function HomeNavigation() {
       <HomeStack.Navigator screenOptions={{ headerShown: false }}>
         <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
         <HomeStack.Screen name="DayDetails" component={DayDetailsScreen} />
+        <HomeStack.Screen name ="CreateTraining" component={CreateTrainingScreen}/>
       </HomeStack.Navigator>
     );
   }
