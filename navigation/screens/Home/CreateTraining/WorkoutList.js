@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { View,Text, FlatList, ScrollView, Pressable,StyleSheet, TouchableHighlight } from 'react-native'
+import { View,Text, FlatList, ScrollView, Pressable,StyleSheet, TouchableHighlight, TouchableOpacity, ImageBackground } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 
-export default function WorkoutList({workouts,callback})
+export default function WorkoutList({workouts,callback,setWorkout})
 {
     
    
@@ -18,18 +18,25 @@ export default function WorkoutList({workouts,callback})
     const Item = ({item}) =>{
         return(
             <View style={styles.item}>
+                
                 <View style={{flex: 3}}>
-                <Text style={styles.name}>{item.name}</Text>
+                    <TouchableOpacity
+                    onPress={()=>{
+                        setWorkout(item)
+                    }}>
+                <Text style={styles.name}>{item.name}</Text>         
+                </TouchableOpacity>
                 </View>
                 <View style={{flex: 1}}> 
                 <TouchableHighlight
-                style={{alignSelf: 'flex-end', backgroundColor: 'green', width: 30,height: 30}}
+                style={{alignSelf: 'flex-end',  width: 30,height: 30}}
                 onPress={() =>{
                callback(item)
                 }}>
-                    <Ionicons name='information-circle-outline' size={32}/>
+                    <Ionicons name='information-circle-outline'  size={32}/>
                     </TouchableHighlight>
-                    </View>                          
+                    </View> 
+                              
             </View>
         )
 
@@ -51,7 +58,7 @@ const styles = StyleSheet.create({
         fontSize: 26,
       },
       item: {
-        backgroundColor: '#5176FD',
+         backgroundColor: '#5176FD',
         padding: 12,
         marginVertical: 8,
         marginHorizontal: 12,

@@ -4,6 +4,7 @@ import {Calendar,CalendarUtils} from 'react-native-calendars'
 import { db } from '../../../../database/DatabaseOpen';
 import WorkoutBox from './WorkoutBox';
 import { getAllExercises } from '../../../../database/Requests/GetAllExercises';
+import { useIsFocused } from '@react-navigation/native';
 
 
 export default function HomeScreen({navigation})
@@ -18,10 +19,11 @@ export default function HomeScreen({navigation})
     const [markedDates,setMarkedDays] = React.useState({})
     const [data,setData] = React.useState([])
     const [modalVisible,setModalVisible] = React.useState(false)
+    const isFocused = useIsFocused()
     React.useEffect(()=>{
         getData()
 
-    },[selectedDay])
+    },[selectedDay,isFocused])
     
     // const exercises = getAllExercises()
 
@@ -33,7 +35,7 @@ export default function HomeScreen({navigation})
 
     const navigatePlaningWorkout = () =>
     {
-        navigation.navigate('CreateTraining')
+        navigation.navigate('CreateTraining',{selectedDay})
     }
 
     const setModalTrue = () =>
