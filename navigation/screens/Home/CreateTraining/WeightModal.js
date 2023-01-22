@@ -67,7 +67,7 @@ export default function WeightModal({visible,modalSet,exercisesDone,setExercises
                 renderItem={renderItem}
                 keyExtractor={item =>item.id}
                 />
-                <Button title='Add Workout' onPress={()=>{modalSet(false); console.log(exercisesDone); addWorkout()}}/>
+                <Button title='Add Workout' onPress={()=>{modalSet(false); addWorkout()}}/>
                 </View>
             </TouchableWithoutFeedback>
 

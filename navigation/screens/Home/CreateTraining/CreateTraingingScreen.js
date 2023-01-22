@@ -9,8 +9,10 @@ import PreviewList from './PreviewList'
 import AddBar from './AddBar'
 import WeightModal from './WeightModal'
 import { formatDate } from '../../../../components/FormatDate'
+
 export default function CreateTrainingScreen({route,navigation})
 {
+ 
 
     const {selectedDay} = route.params
     const [workouts,setWorkouts] = React.useState([])
@@ -24,7 +26,6 @@ export default function CreateTrainingScreen({route,navigation})
     const [buttonDisabled,setButtonDisabled] = React.useState(true)
     const [weightModalVisible,setWeightModalVisble] = React.useState(false)
     const [exercisesDone,setExercisesDone] = React.useState([])
-    //console.log(exercisesByDay)
     React.useEffect(()=>{
 
         getAllWorkouts()
@@ -78,6 +79,12 @@ export default function CreateTrainingScreen({route,navigation})
       }
     ); })   
     
+    goBack()
+    }
+
+    const goBack = ()=>
+    {
+   
     navigation.goBack()
     }
 

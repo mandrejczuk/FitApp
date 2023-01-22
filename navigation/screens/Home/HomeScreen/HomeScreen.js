@@ -6,9 +6,10 @@ import WorkoutBox from './WorkoutBox';
 import { getAllExercises } from '../../../../database/Requests/GetAllExercises';
 import { useIsFocused } from '@react-navigation/native';
 
-
 export default function HomeScreen({navigation})
 {
+
+    
      
 
     //Select * FROM ExercisesDone ed LEFT JOIN Exercises_WorkoutDays ewd ON ewd.id = ed.exerciseWorkoutDay_id LEFT JOIN Exercises e ON e.id = ewd.exercise_id
@@ -19,11 +20,23 @@ export default function HomeScreen({navigation})
     const [markedDates,setMarkedDays] = React.useState({})
     const [data,setData] = React.useState([])
     const [modalVisible,setModalVisible] = React.useState(false)
-    const isFocused = useIsFocused()
+   // const [update,setUpdate] = React.useState(false);
+  
     React.useEffect(()=>{
         getData()
 
-    },[selectedDay,isFocused])
+        // if(update==true)
+        // {
+        //     setUpdate(false)
+        // }
+        const unsubscribe = navigation.addListener('focus', () => {
+            // do something
+           getData()
+          });
+      
+          return unsubscribe;
+
+    },[selectedDay,navigation])
     
     // const exercises = getAllExercises()
 

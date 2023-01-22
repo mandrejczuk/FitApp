@@ -13,7 +13,7 @@ export default function DayDetailsScreen({ route, navigation }) {
 
     const {selectedDay} = route.params
     
-    const {data} = route.params
+   const {data} = route.params
     // const {exercises} = route.params
     console.log(selectedDay)
     console.log(data)
@@ -39,8 +39,11 @@ export default function DayDetailsScreen({ route, navigation }) {
         
     // },[categoryValue,equipmentValue,text])
 
+    React.useEffect(()=>{
+      setSelectedDeleteValue(start())
+    },[])
 
-   
+    
 
     function start()
     {
