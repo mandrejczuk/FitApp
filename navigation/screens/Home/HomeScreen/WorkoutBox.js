@@ -3,7 +3,7 @@ import {View,Text,StyleSheet, FlatList, Button, ScrollView} from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 export default function  WorkoutBox({data,selectedDay,navigateDetails,setModalTrue}){
 
-   
+ 
 
   
     const renderItem = ({ item }) => (

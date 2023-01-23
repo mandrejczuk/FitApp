@@ -5,6 +5,8 @@ import { db } from '../../../../database/DatabaseOpen';
 import WorkoutBox from './WorkoutBox';
 import { getAllExercises } from '../../../../database/Requests/GetAllExercises';
 import { useIsFocused } from '@react-navigation/native';
+import CalendarComponent from './CalendarComponent';
+import { getDatesRng } from '../../../../database/Requests/GetDatesRng';
 
 export default function HomeScreen({navigation})
 {
@@ -19,25 +21,44 @@ export default function HomeScreen({navigation})
     const [selectedDay,setSelectedDay] = React.useState((new Date()).toLocaleDateString('en-US',DATE_OPTIONS))
     const [markedDates,setMarkedDays] = React.useState({})
     const [data,setData] = React.useState([])
+    const [dates,setDates] = React.useState(getDatesRng())
     const [modalVisible,setModalVisible] = React.useState(false)
+    const [show,setShow] = React.useState(true)
    // const [update,setUpdate] = React.useState(false);
-  
     React.useEffect(()=>{
         getData()
+        getDates()
+        
+       
+        dates.forEach((val)=>
+        {      
+                let temp = markedDates
+       if(val.date == formatDate(selectedDay))
+       {
+            temp[val.date] = {marked: true, selected:true}
+       }
+       else
+       {
 
-        // if(update==true)
-        // {
-        //     setUpdate(false)
-        // }
+       
+         temp[val.date] = {marked: true}
+       }
+        
+         setMarkedDays(temp)
+        })
+        
+
+        
         const unsubscribe = navigation.addListener('focus', () => {
            getData()
+           getDates()
           });
       
           return unsubscribe;
 
     },[selectedDay,navigation])
     
-    // const exercises = getAllExercises()
+
 
     const navigateDetails = () =>
     {
@@ -123,6 +144,47 @@ export default function HomeScreen({navigation})
         });
     }
 
+    const getDates = () =>{
+        db.readTransaction(function(tx)
+        {
+            tx.executeSql('SELECT Distinct date FROM ExercisesDone ',
+            [],function(_,res)
+            {
+                var temp =[]
+
+                for(let i = 0 ; i < res.rows.length ; i++)
+                {
+                    temp.push(res.rows.item(i))
+                }
+                setDates(temp)
+
+            })
+        }, function(error){
+            console.log('Transaction GET DATES EXERCISES DONE (homescreen) DATA ERROR: ' + error.message);
+        }, function() {
+          console.log('Populated database (GET DATES EXERCISESDONE) OK');
+          dates.forEach((val)=>
+          {      
+                  let temp = markedDates
+         if(val.date == formatDate(selectedDay))
+         {
+              temp[val.date] = {marked: true, selected:true}
+         }
+         else
+         {
+  
+         
+           temp[val.date] = {marked: true}
+         }
+          
+           setMarkedDays(temp)
+          })
+          console.log(dates)
+          
+        });
+    }
+
+
     
 
     
@@ -149,17 +211,14 @@ export default function HomeScreen({navigation})
         <SafeAreaView style={styles.container} >
             <View style={styles.calendarContainer}>
             <ScrollView>
-            <Calendar
-            
-            markedDates={markedDates}
-           onDayPress={date => dayPressHandler(date)}
-            onDayLongPress={date => dayLongPressHandler(date)}
+        <CalendarComponent
+        markedDates={markedDates}
+       dayPressHandler={dayPressHandler}
+        dayLongPressHandler={dayLongPressHandler}
+        show={show}
+        setShow={setShow}
         />
          </ScrollView>
-            </View>
-        
-            <View style = {styles.calendarKeyContainer}>
-            <Text>zaznaczenia kalendarza today, restday, workoutday,day pressed</Text>
             </View>
             <View style={styles.workoutBoxContainer}>
             <WorkoutBox 
@@ -196,7 +255,7 @@ const styles = StyleSheet.create({
         marginBottom: 10
       },
       workoutBoxContainer: {
-        flex: 2,
+        flex: 3,
       },
       outer: {
         backgroundColor:'#000000aa',
