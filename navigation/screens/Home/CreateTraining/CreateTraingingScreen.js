@@ -69,7 +69,7 @@ export default function CreateTrainingScreen({route,navigation})
         
           tx.executeSql('INSERT INTO ExercisesDone(weight,done,date,exerciseWorkoutDay_id) '
                       +'VALUES(?,?,?,?)',
-                    [exercise.weight,false,exercise.date,exercise.exerciseWorkoutDay_id])
+                    [exercise.weight,0,exercise.date,exercise.exerciseWorkoutDay_id])
       },
       function (error) {
         console.log("Transaction ERROR data delete: " + error.message);

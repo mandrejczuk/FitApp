@@ -8,6 +8,13 @@ import { getExerciesByNameCategoryEquipment } from "../../../../database/Request
 import { db } from "../../../../database/DatabaseOpen.js";
 import { addCustomExerciseToPlan } from "../../../../database/Requests/AddExerciseDone.js";
 import { formatDate } from "../../../../components/FormatDate.js";
+import DateHeader from "./DateHeader.js";
+import WorkoutExercisesList from "./WorkoutExercisesList.js";
+import { updateDoneExerciseDone } from "../../../../database/Requests/UpdateDoneExerciseDone.js";
+import { isThisANewRecord } from "../../../../database/Requests/IsThisANewRecord.js";
+import { addRecord } from "../../../../database/Requests/AddRecord.js";
+import { deleteRecordByExerciseDone } from "../../../../database/Requests/deleteRecordByExerciseDone.js";
+import AddExerciseModal from "./AddExerciseModal.js";
 
 export default function DayDetailsScreen({ route, navigation }) {
 
@@ -23,6 +30,8 @@ export default function DayDetailsScreen({ route, navigation }) {
     const [selectedDeleteValue,setSelectedDeleteValue] = React.useState(start())
     const [selectedAddValue,setSelectedAddValue] = React.useState()
      const [selectedExerciseName,setSelectedExerciseName] = React.useState()
+     const [refresh,setRefresh] = React.useState(false)
+     const [isRecord,setIsRecord] = React.useState('setted')
     //  const [text, onChangeText] = React.useState("");
     // const [categoryValue, setCategoryValue] = React.useState('(8,9,10,11,12,13,14,15)');
     // const [equipmentValue, setEquipmentValue] = React.useState('("",1,2,3,4,5,6,7,8,9,10,11)');
@@ -92,156 +101,156 @@ export default function DayDetailsScreen({ route, navigation }) {
 
  
 
-    const AddExerciseModal = () => {
-      const [text, onChangeText] = React.useState("");
-      const [categoryValue, setCategoryValue] = React.useState('(8,9,10,11,12,13,14,15)');
-      const [equipmentValue, setEquipmentValue] = React.useState('("",1,2,3,4,5,6,7,8,9,10,11)');
-      const [exercisesList,setExercisesList] = React.useState(getExerciesByNameCategoryEquipment(text,categoryValue,equipmentValue))
-      const [selectedExercise, setSelectedExercise] = React.useState()
-      const [sets,onChangeSets] = React.useState("")
-      const [reps, onChangeReps] = React.useState("")
-      const [weight,onChangeWeight]= React.useState("")
+    // const AddExerciseModal = () => {
+    //   const [text, onChangeText] = React.useState("");
+    //   const [categoryValue, setCategoryValue] = React.useState('(8,9,10,11,12,13,14,15)');
+    //   const [equipmentValue, setEquipmentValue] = React.useState('("",1,2,3,4,5,6,7,8,9,10,11)');
+    //   const [exercisesList,setExercisesList] = React.useState(getExerciesByNameCategoryEquipment(text,categoryValue,equipmentValue))
+    //   const [selectedExercise, setSelectedExercise] = React.useState()
+    //   const [sets,onChangeSets] = React.useState("")
+    //   const [reps, onChangeReps] = React.useState("")
+    //   const [weight,onChangeWeight]= React.useState("")
 
 
      
 
-      React.useEffect(()=>{
+    //   React.useEffect(()=>{
 
-        // setExercisesList(getExerciesByNameCategoryEquipment(text,categoryValue,equipmentValue))
-       // console.log(JSON.stringify(exercisesList))
+    //     // setExercisesList(getExerciesByNameCategoryEquipment(text,categoryValue,equipmentValue))
+    //    // console.log(JSON.stringify(exercisesList))
   
-       db.readTransaction(function(tx)
-       {
+    //    db.readTransaction(function(tx)
+    //    {
           
-         tx.executeSql('SELECT Distinct e.* FROM Exercises e '
-         + 'LEFT JOIN ExercisesBase eb ON e.exerciseBase_id = eb.id ' 
-         + 'LEFT JOIN Categories C  ON eb.category_id = c.id '
-         + 'LEFT JOIN ExercisesBase_Equipments eeb ON eb.id = eeb.exerciseBase_id ' 
-         + 'LEFT JOIN Equipments eq ON eeb.equipment_id = eq.id  '
-         + 'WHERE '
-         + 'equipment_id IN '+ equipmentValue
-         + ' AND '
-         + 'category_id IN ' + categoryValue
-         + ' AND '
-         + 'e.name LIKE ' + '"%' + text + '%"'  
-         ,[],function(_,res)
-           {
-             var tempo = []
-               for(let i = 0; i < res.rows.length ; i++)
-               {
-                  tempo.push(res.rows.item(i))
-               }
-               setExercisesList(tempo)
-           })
-       },
-       function (error) {
-         console.log("Transaction ERROR data delete: " + error.message);
-       },
-       function () {
-         console.log("Populated database (data delete) OK");
-       }
-     );
+    //      tx.executeSql('SELECT Distinct e.* FROM Exercises e '
+    //      + 'LEFT JOIN ExercisesBase eb ON e.exerciseBase_id = eb.id ' 
+    //      + 'LEFT JOIN Categories C  ON eb.category_id = c.id '
+    //      + 'LEFT JOIN ExercisesBase_Equipments eeb ON eb.id = eeb.exerciseBase_id ' 
+    //      + 'LEFT JOIN Equipments eq ON eeb.equipment_id = eq.id  '
+    //      + 'WHERE '
+    //      + 'equipment_id IN '+ equipmentValue
+    //      + ' AND '
+    //      + 'category_id IN ' + categoryValue
+    //      + ' AND '
+    //      + 'e.name LIKE ' + '"%' + text + '%"'  
+    //      ,[],function(_,res)
+    //        {
+    //          var tempo = []
+    //            for(let i = 0; i < res.rows.length ; i++)
+    //            {
+    //               tempo.push(res.rows.item(i))
+    //            }
+    //            setExercisesList(tempo)
+    //        })
+    //    },
+    //    function (error) {
+    //      console.log("Transaction ERROR data delete: " + error.message);
+    //    },
+    //    function () {
+    //      console.log("Populated database (data delete) OK");
+    //    }
+    //  );
           
-      },[categoryValue,equipmentValue,text])
+    //   },[categoryValue,equipmentValue,text])
   
-      function onConfirmAdd()
-      {
-       var newItem = {
-          id: selectedExercise.id,
-          name: selectedExercise.name,
-          weight: weight,
-          sets: sets,
-          repetitions: reps,
-          done: 0
-        }
-        data.push(newItem)
-        addCustomExerciseToPlan(sets,reps,selectedExercise.id,weight,formatDate(selectedDay))
-        setAddModalVisible(false)
-      }
+    //   function onConfirmAdd()
+    //   {
+    //    var newItem = {
+    //       id: selectedExercise.id,
+    //       name: selectedExercise.name,
+    //       weight: weight,
+    //       sets: sets,
+    //       repetitions: reps,
+    //       done: 0
+    //     }
+    //     data.push(newItem)
+    //     addCustomExerciseToPlan(sets,reps,selectedExercise.id,weight,formatDate(selectedDay))
+    //     setAddModalVisible(false)
+    //   }
      
-      return (
-        <Modal
-        visible={addModalVisible}
-        transparent={true}
-        onRequestClose={()=>{setAddModalVisible(false)}}
-        >
-            <TouchableOpacity
-            style={styles.outer}
-            activeOpacity={1}
-            onPressOut={()=>{setAddModalVisible(false)}}
-            >
-              <TouchableWithoutFeedback>
-            <View style={styles.inner}>
-              <View style={{alignItems:'center'}}>
-              <TextInput onChangeText={onChangeText}  placeholder="Search" value={text} />
-              </View>
-              <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-              <View style={styles.category}>
-        <Picker
-        selectedValue={categoryValue}
-        onValueChange={(itemValue, itemIndex) =>  setCategoryValue(itemValue)}
-        style={styles.pickercategory}
-        >
-        <Picker.Item label="All" value="(8,9,10,11,12,13,14,15)" />
-        <Picker.Item label="Arms" value="(8)" />
-        <Picker.Item label="Legs" value="(9)" />
-        <Picker.Item label="Abs" value="(10)" />
-        <Picker.Item label="Chest" value="(11)" />
-        <Picker.Item label="Back" value="(12)" />
-        <Picker.Item label="Shoulders" value="(13)" />
-        <Picker.Item label="Calves" value="(14)" />
-        <Picker.Item label="Cardio" value="(15)" />
-        </Picker>
+    //   return (
+    //     <Modal
+    //     visible={addModalVisible}
+    //     transparent={true}
+    //     onRequestClose={()=>{setAddModalVisible(false)}}
+    //     >
+    //         <TouchableOpacity
+    //         style={styles.outer}
+    //         activeOpacity={1}
+    //         onPressOut={()=>{setAddModalVisible(false)}}
+    //         >
+    //           <TouchableWithoutFeedback>
+    //         <View style={styles.inner}>
+    //           <View style={{alignItems:'center'}}>
+    //           <TextInput onChangeText={onChangeText}  placeholder="Search" value={text} />
+    //           </View>
+    //           <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+    //           <View style={styles.category}>
+    //     <Picker
+    //     selectedValue={categoryValue}
+    //     onValueChange={(itemValue, itemIndex) =>  setCategoryValue(itemValue)}
+    //     style={styles.pickercategory}
+    //     >
+    //     <Picker.Item label="All" value="(8,9,10,11,12,13,14,15)" />
+    //     <Picker.Item label="Arms" value="(8)" />
+    //     <Picker.Item label="Legs" value="(9)" />
+    //     <Picker.Item label="Abs" value="(10)" />
+    //     <Picker.Item label="Chest" value="(11)" />
+    //     <Picker.Item label="Back" value="(12)" />
+    //     <Picker.Item label="Shoulders" value="(13)" />
+    //     <Picker.Item label="Calves" value="(14)" />
+    //     <Picker.Item label="Cardio" value="(15)" />
+    //     </Picker>
         
-      </View>
-      <View style={styles.equipment}>
-        <Picker
-        selectedValue={equipmentValue}
-        onValueChange={(itemValue, itemIndex) => setEquipmentValue(itemValue)}
-        style={styles.pickerequipment}
-        >
-        <Picker.Item label="All" value="('',1,2,3,4,5,6,7,8,9,10,11)" />
-        <Picker.Item label="Barbell" value="(1)" />
-        <Picker.Item label="SZ-Bar" value="(2)" />
-        <Picker.Item label="Dumbbell" value="(3)" />
-        <Picker.Item label="Gym mat" value="(4)" />
-        <Picker.Item label="Swiss Ball" value="(5)" />
-        <Picker.Item label="Pull-up bar" value="(6)" />
-        <Picker.Item label="none" value="(7)" />
-        <Picker.Item label="Bench" value="(8)" />
-        <Picker.Item label="Incline bench" value="(9)" />
-        <Picker.Item label="Kettlebell" value="(10)" />
-        <Picker.Item label="Resistance Band" value="(11)" />
-        </Picker>
-      </View>
-              </View>
-            <ScrollView>
-            {/* <View style={{height: 200}}>   */}
-              {/* <FlatList
-              data={exercises}
-              renderItem={renderAddItem}
-              keyExtractor={item =>item.id}
-              /> */}
-              <ExercisesList
-              data={exercisesList}
-              callback={setSelectedExercise}
-              />
-            {/* </View> */}
-            </ScrollView>
-            <View>
-              <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
-                <TextInput style={{width: '20%'}} value={sets} onChangeText={onChangeSets} placeholder="Sets" keyboardType ='number-pad'/>
-                <TextInput style={{width: '20%'}} value={reps} onChangeText={onChangeReps} placeholder="Reps" keyboardType ='number-pad'/>
-                <TextInput style={{width: '20%'}} value={weight} onChangeText={onChangeWeight} placeholder="Weight" keyboardType = 'number-pad'/>
-               </View>
-               <Button title ='Add Exercise' onPress={()=>{onConfirmAdd()}}/>
-            </View>
-            </View>
-            </TouchableWithoutFeedback>
-            </TouchableOpacity>
-        </Modal>
-    )
-            }
+    //   </View>
+    //   <View style={styles.equipment}>
+    //     <Picker
+    //     selectedValue={equipmentValue}
+    //     onValueChange={(itemValue, itemIndex) => setEquipmentValue(itemValue)}
+    //     style={styles.pickerequipment}
+    //     >
+    //     <Picker.Item label="All" value="('',1,2,3,4,5,6,7,8,9,10,11)" />
+    //     <Picker.Item label="Barbell" value="(1)" />
+    //     <Picker.Item label="SZ-Bar" value="(2)" />
+    //     <Picker.Item label="Dumbbell" value="(3)" />
+    //     <Picker.Item label="Gym mat" value="(4)" />
+    //     <Picker.Item label="Swiss Ball" value="(5)" />
+    //     <Picker.Item label="Pull-up bar" value="(6)" />
+    //     <Picker.Item label="none" value="(7)" />
+    //     <Picker.Item label="Bench" value="(8)" />
+    //     <Picker.Item label="Incline bench" value="(9)" />
+    //     <Picker.Item label="Kettlebell" value="(10)" />
+    //     <Picker.Item label="Resistance Band" value="(11)" />
+    //     </Picker>
+    //   </View>
+    //           </View>
+    //         <ScrollView>
+    //         {/* <View style={{height: 200}}>   */}
+    //           {/* <FlatList
+    //           data={exercises}
+    //           renderItem={renderAddItem}
+    //           keyExtractor={item =>item.id}
+    //           /> */}
+    //           <ExercisesList
+    //           data={exercisesList}
+    //           callback={setSelectedExercise}
+    //           />
+    //         {/* </View> */}
+    //         </ScrollView>
+    //         <View>
+    //           <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
+    //             <TextInput style={{width: '20%'}} value={sets} onChangeText={onChangeSets} placeholder="Sets" keyboardType ='number-pad'/>
+    //             <TextInput style={{width: '20%'}} value={reps} onChangeText={onChangeReps} placeholder="Reps" keyboardType ='number-pad'/>
+    //             <TextInput style={{width: '20%'}} value={weight} onChangeText={onChangeWeight} placeholder="Weight" keyboardType = 'number-pad'/>
+    //            </View>
+    //            <Button title ='Add Exercise' onPress={()=>{onConfirmAdd()}}/>
+    //         </View>
+    //         </View>
+    //         </TouchableWithoutFeedback>
+    //         </TouchableOpacity>
+    //     </Modal>
+    // )
+    //         }
 
     const renderDeleteExerciseList = () => {
       return data.map((exercise)=>{
@@ -282,81 +291,163 @@ export default function DayDetailsScreen({ route, navigation }) {
   )
     
 
-    const DateHeader = () =>(
-      <View style={styles.header}>
-    <Text style={styles.hdtext}>Workout plan on {selectedDay} </Text>
-    <View style={styles.wrapRowTop}>
-    <Text style={styles.hdtext}>click </Text>
-    <Text style={styles.here} onPress={()=>navigation.navigate('HomeScreen')}>here </Text>
-    <Text style={styles.hdtext}>to go back</Text>
-    </View>
    
-      </View>
-    )
-
     const Buttons = () =>(
       <View style={{flexDirection: 'row', justifyContent:'space-around'}}>
         <Button style={{flex: 1, borderRadius: 12}} title="Delete Exercise" color='red' onPress={()=>{setDeleteModalVisible(true)}}/>
         <Button style={{flex: 1, borderRadius: 12}} title="Add Exercise" color='lightgreen' onPress={()=>{setAddModalVisible(true)}}/>
-        <AddExerciseModal/>
-        <DeleteExerciseModal/>
       </View>
     )
 
-    const renderItem = ({ item }) => (
-      <Item item={item} />
-    );
+   const callbackDone = (item) =>
+   {
+    let index =data.indexOf(item)
+    let temp = data[index]
+    if(temp.done == 0)
+    {
+      temp.done = 1
+    }
+    else{
+      temp.done = 0
+    }
+    console.log(temp)
+   data.splice(index,1,temp) 
+   setRefresh(!refresh)
+  updateDoneExerciseDone(temp.id,temp.done)
+  if(temp.done == 0)
+  {
+    //Check if this exerciseDone is a Record
+      isExerciseARecord(temp.id)
+    
+      console.log(isRecord)
+    if(isRecord)
+    {
+    
+      //delete Record
+      deleteRecordByExerciseDone(temp.id)
+    }
 
-    const header = () =>(
-      <View style={styles.wrapRow}>
-        <Text style={styles.row}>Name </Text>
-        <Text  style={styles.row}>Weight [kg] </Text>
-        <Text  style={styles.row}>Sets </Text>
-        <Text  style={styles.row}>Reps </Text>
-        <Text  style={styles.row}>Done </Text>
-      </View>
-    )
+    setIsRecord('settted')
+  }
+  else if(temp.done == 1)
+  {
+   
+   //Estimating potential record 
+    let estORM;
+    if(temp.repetitions > 1)
+    {
+       estORM = temp.weight * (1 + (temp.repetitions/30))
+    }
+    else{
+       estORM = temp.weight
+    }
+    //Check if this estimated value is a record
+    isThisANewRecord(temp.exercise_id,estORM)
+    console.log(isRecord)
+    if(isRecord)
+    {
+      //Save record
+      addRecord(temp.id,estORM)
+    }
 
-    const Item = ({ item }) => (
-      <View style={styles.wrapRow}>
-        <Text style={styles.row}>
-          {item.name}{" "}
-        </Text>
-        <Text style={styles.row}>{item.weight} </Text>
-        <Text style={styles.row}>{item.sets} </Text>
-        <Text style={styles.row}>{item.repetitions} </Text>
-        {item.done > 0 
-        ? 
-        (
-          <Ionicons style={styles.icon} name="checkmark-outline" size={24} color="green" />
-        ) 
-        : 
-        (
-          <Ionicons style={styles.icon} name="close-outline" size={24} color="red" />
-        )}
-      </View>
-    );
+    setIsRecord('settted')
+  }
+   }
+
+
+  function isThisANewRecord(id,weight)
+  {
+    db.readTransaction(function(tx)
+    {
+        tx.executeSql('SELECT count(*) as licz FROM Records r '
+        +'LEFT JOIN ExercisesDone ed ON r.exerciseDone_id = ed.id '
+        +'LEFT JOIN Exercises_WorkoutDays ewd ON ewd.id = ed.exerciseWorkoutDay_id '
+        +'WHERE exercise_id = ? and ed.weight > ?',[id,weight],function(_,res)
+        {
+            console.log(res.rows.item(0).licz)
+            if(res.rows.item(0).licz > 0)
+            {
+               setIsRecord(false);
+            }
+            else
+            {
+              setIsRecord(true);
+             // addRecord(id2,weight)
+            }
+        })
+    },
+    function (error) {
+      console.log("Transaction ERROR IS THIS A NEW RECORD : " + error.message);
+    },
+    function () {
+      console.log("Populated database (IS THIS A NEW RECORD) OK");
+    })
+
+  }
+
+  function isExerciseARecord(exerciseDone_id)
+{
+
+
+    
+
+    db.readTransaction(function(tx)
+    {
+        tx.executeSql('SELECT COUNT(*) as licz FROM Records '
+        +'WHERE exerciseDone_id = ? ',[exerciseDone_id],function(_,res)
+        {
+          console.log(res.rows.item(0).licz)
+            if(res.rows.item(0).licz > 0)
+            {
+             setIsRecord(true)
+            }
+            else
+            {
+             setIsRecord(false)
+            }
+        })
+
+    },
+    function (error) {
+      console.log("Transaction ERROR IS EXERCISE A RECORD : " + error.message);
+    },
+    function () {
+      console.log("Populated database (IS EXERCISE A RECORD) OK");
+    })
+
+  
+}
+
+    
+   
 
   return (
     <SafeAreaView style = {styles.container}>
     <View style={styles.data}>
-      <DateHeader/>
+      <DateHeader
+      selectedDay={selectedDay}
+      navigation={navigation}
+      />
     </View>
     <View style= {styles.tabled}>
     <ScrollView>
     <View style={styles.box}>
-                    <FlatList
-                    data ={data}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id}
-                    ListHeaderComponent={header}
-                    />    
+                    <WorkoutExercisesList
+                    data={data}
+                    callbackDone={callbackDone}
+                    extraData={refresh}
+                    />
                 </View>
                 </ScrollView>
                 </View>
                 <View style={styles.container}>
                 <Buttons/>
                 </View>
+                <AddExerciseModal
+                addModalVisible={addModalVisible}
+                setAddModalVisible={setAddModalVisible}
+                />
+        <DeleteExerciseModal/>
     </SafeAreaView>
   );
 }

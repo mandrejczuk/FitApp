@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {SafeAreaView,View, Text, StyleSheet,Modal, TouchableOpacity, TouchableWithoutFeedback, Button} from 'react-native'
+import {SafeAreaView,View, Text, StyleSheet,Modal, TouchableOpacity, TouchableWithoutFeedback, Button, ScrollView} from 'react-native'
 import {Calendar,CalendarUtils} from 'react-native-calendars'
 import { db } from '../../../../database/DatabaseOpen';
 import WorkoutBox from './WorkoutBox';
@@ -30,7 +30,6 @@ export default function HomeScreen({navigation})
         //     setUpdate(false)
         // }
         const unsubscribe = navigation.addListener('focus', () => {
-            // do something
            getData()
           });
       
@@ -149,12 +148,16 @@ export default function HomeScreen({navigation})
     return(
         <SafeAreaView style={styles.container} >
             <View style={styles.calendarContainer}>
+            <ScrollView>
             <Calendar
+            
             markedDates={markedDates}
            onDayPress={date => dayPressHandler(date)}
             onDayLongPress={date => dayLongPressHandler(date)}
         />
+         </ScrollView>
             </View>
+        
             <View style = {styles.calendarKeyContainer}>
             <Text>zaznaczenia kalendarza today, restday, workoutday,day pressed</Text>
             </View>
@@ -178,6 +181,7 @@ const styles = StyleSheet.create({
     calendarContainer: {
         flex: 2,
         margin: 10,
+        backgroundColor:'yellow'
     },
     textContainer: {
         flex: 1,
@@ -187,8 +191,6 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
     },
     calendar: {
         marginBottom: 10

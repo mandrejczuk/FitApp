@@ -2,7 +2,7 @@ import React from 'react'
 import { View,Text, FlatList, ScrollView,SafeAreaView,StyleSheet,Pressable, Button } from 'react-native'
 
 
-export default function AddBar({callback,buttonDisabled,setWeightModal})
+export default function AddBar({buttonDisabled,setWeightModal})
 {
     
     return(

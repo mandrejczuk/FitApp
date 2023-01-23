@@ -9,7 +9,7 @@ LogBox.ignoreLogs(["EventEmitter.removeListener"])
 
 function App(){
 
-   //dataDelete();
+  // dataDelete();
   // db.readTransaction(function(tx)
   // {
   //     tx.executeSql('SELECT count(*) as licz  FROM sqlite_master WHERE type = ? AND name != ? AND name != ? AND name != ? ',['table','__WebKitDatabaseInfoTable__','sqlite_sequence','android_metadata'],function(tx,res){

@@ -29,7 +29,7 @@ export function addCustomExerciseToPlan(sets,reps,exercise_id,weight,date)
             
             tx.executeSql('INSERT INTO ExercisesDone(weight,done,date,exerciseWorkoutDay_id) '
                           +'VALUES (?,?,?,?)',
-                          [weight,false,date,id])
+                          [weight,0,date,id])
 
           })
         }
@@ -43,7 +43,7 @@ export function addCustomExerciseToPlan(sets,reps,exercise_id,weight,date)
               var id = res.insertId
               tx.executeSql('INSERT INTO ExercisesDone(weight,done,date,exerciseWorkoutDay_id) '
               +'VALUES (?,?,?,?)',
-              [weight,false,date,id])
+              [weight,0,date,id])
             }
           );
 
