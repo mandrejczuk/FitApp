@@ -10,7 +10,7 @@ import {workoutDaysDataLoad} from './WorkoutDaysDataLoad'
 import {exercisesDoneDataLoad} from './ExercisesDoneDataLoad'
 import {recordsDataLoad} from './RecordsDataLoad'
 import { dataDelete } from "../Delete/DataDelete";
-
+import { notesDataLoad } from "./NotesDataLoad";
 
 export function dataLoad()
 {
@@ -39,6 +39,7 @@ export function dataLoad()
                 exercises_WorkoutDaysDataLoad();
                 exercisesDoneDataLoad();
                 recordsDataLoad();
+                notesDataLoad();
         
             }
             //dataDelete()

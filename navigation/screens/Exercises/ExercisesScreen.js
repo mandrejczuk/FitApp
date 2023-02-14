@@ -1,8 +1,9 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Modal, Pressable,TextInput } from "react-native";
+import {SafeAreaView, View, Text, StyleSheet, Modal, Pressable,TextInput } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { ExerciseCards } from "./ExerciseCard";
 import { db } from '../../../database/DatabaseOpen';
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 function ExercisesScreen() {
 
@@ -42,8 +43,6 @@ function ExercisesScreen() {
             temp.push(res.rows.item(i));
            }
            setData(temp)
-           console.log(data)
-
         })
 
     }, function(error){
@@ -62,21 +61,26 @@ function ExercisesScreen() {
     }
   }
 
-  
+ 
 
   
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.inputView}>
+        <View style={styles.searchBorder}>
+      <Ionicons style={styles.serachIcon} name='search-outline' size={24} color='#000' />
       <TextInput
         onChangeText={onChangeText}
         value={text}
-        placeholder='Serach'
+        placeholder='Search'
         style={styles.input}
       />
       </View>
+        
+      </View>
       <View style = {styles.row}>
       <View style={styles.category}>
+        <Text style={styles.textPicker}>Category</Text>
         <Picker
         selectedValue={categoryValue}
         onValueChange={(itemValue, itemIndex) =>  setCategoryValue(itemValue)}
@@ -94,7 +98,9 @@ function ExercisesScreen() {
         </Picker>
         
       </View>
+      <View style={{flex: 1}}/>
       <View style={styles.equipment}>
+        <Text style={styles.textPicker}>Available Equipment</Text>
         <Picker
         selectedValue={equipmentValue}
         onValueChange={(itemValue, itemIndex) => setEquipmentValue(itemValue)}
@@ -133,24 +139,35 @@ function ExercisesScreen() {
         </Pressable>
         </View>
       </Modal>
-      <View style={styles.container} >
+      <View style={styles.listContainter} >
       <ExerciseCards 
       callback ={callbackFunction}
       data = {data}/>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
    flex: 1,
+   backgroundColor: '#fff',
+   paddingVertical: 18,
+   paddingHorizontal: 8
+  },
+  listContainter: {
+    flex: 7,
     alignItems: "center",
     justifyContent: "center",
   },
   text: {
     fontSize: 26,
     fontWeight: "bold",
+  },
+  textPicker:{
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center'
   },
   outer: {
     backgroundColor:'#000000aa',
@@ -167,36 +184,70 @@ const styles = StyleSheet.create({
     // padding: 40
   },
   input: {
-    borderWidth: 2,
-    borderRadius: 12,
-    fontSize: 20,
-    margin: 10,
-    padding: 2
+    flex: 1,
+    paddingTop: 10,
+    paddingRight: 10,
+    paddingBottom: 10,
+    paddingLeft: 0,
+    backgroundColor: '#fff',
+    color: '#424242',
+  },
+  serachIcon: {
+    padding: 10
   },
   row: {
     flexDirection: 'row',
-    margin: 10
+    margin: 10,
+    flex: 1,
+    justifyContent: 'space-evenly'
   },
   equipment:{
-    flex: 1,
+    flex: 3,
     
   },
   category: {
-    flex: 1,
+    flex: 3,
    
   },
   pickercategory:{
-    backgroundColor: '#f2f2f2',
-    borderRadius: 12,
-    margin: 10,
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: 'red',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30,
+    marginTop: 20,
+    
   },
   pickerequipment:{
-    backgroundColor: '#f2f2f2',
-    borderRadius: 12,
-    margin: 10,
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'blue',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30,
+    backgroundColor: 'white',
+    marginTop: 20,
   },
   inputView:{
-
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  searchBorder:{
+    flex: 1,
+    borderWidth: 0.5,
+    borderColor: 'grey',
+    flexDirection: 'row',
+    borderRadius: 8,
+    padding: 2,
+    alignItems: 'center'
   },
   title:{
     fontSize: 16,
@@ -205,8 +256,9 @@ const styles = StyleSheet.create({
     padding: 6
   },
   description: {
-    fontSize: 12,
+    fontSize: 14,
     padding: 6,
+    
   }
 });
 

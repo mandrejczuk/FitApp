@@ -10,17 +10,17 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 // import HomeNavigation from './HomeNavigation'
 import ExercisesScreen from './screens/Exercises/ExercisesScreen'
-import ProfileScreen from './screens/Profile/ProfileScreen'
+import StatsScreen from './screens/Stats/StatsScreen'
 import CalculatorsScreen from './screens/Calculators/CalculatorsScreen'
 import DayDetailsScreen from './screens/Home/DayDetails/DayDetailsSceen'
 import HomeScreen from './screens/Home/HomeScreen/HomeScreen';
 import  CreateTrainingScreen  from './screens/Home/CreateTraining/CreateTraingingScreen';
 
 //Screen names
-const homeName = 'Home'
+const homeName = 'Calendar'
 const exercisesName ='Exercises'
-const profileName = 'Profile'
-const calculatorsName= 'Calculators'
+const statsName = 'Statistics'
+const calculatorsName= 'Tools'
 
 const Tab = createBottomTabNavigator();
 
@@ -50,7 +50,7 @@ export default function MainContainer(){
                 let rn = route.name
                 if(rn === homeName)
                 {
-                    iconName = focused ? 'home' : 'home-outline'
+                    iconName = focused ? 'calendar' : 'calendar-outline'
                 }
                 else if(rn === exercisesName)
                 {
@@ -58,11 +58,11 @@ export default function MainContainer(){
                 }
                 else if(rn === calculatorsName)
                 {
-                    iconName = focused ? 'calculator' : 'calculator-outline'
+                    iconName = focused ? 'build' : 'build-outline'
                 }
-                else if(rn === profileName)
+                else if(rn === statsName)
                 {
-                    iconName = focused ? 'person' : 'person-outline'
+                    iconName = focused ? 'stats-chart' : 'stats-chart-outline'
                 }
               
                
@@ -73,7 +73,7 @@ export default function MainContainer(){
             <Tab.Screen name = {homeName} component = {HomeNavigation}/>
             <Tab.Screen name = {exercisesName} component = {ExercisesScreen}/>
             <Tab.Screen name = {calculatorsName} component = {CalculatorsScreen}/> 
-            <Tab.Screen name = {profileName} component = {ProfileScreen}/>
+            <Tab.Screen name = {statsName} component = {StatsScreen}/>
        </Tab.Navigator>
        </NavigationContainer>
     )

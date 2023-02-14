@@ -1,19 +1,15 @@
 import { Picker } from "@react-native-picker/picker";
 import * as React from "react";
 import { View, Text, StyleSheet, FlatList, SafeAreaView,Button, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, ScrollView, TextInput } from "react-native";
-import Ionicons from 'react-native-vector-icons/Ionicons'
 import { deleteExerciseDoneById } from "../../../../database/Delete/DeleteExerciseDoneById.js";
-import { ExercisesList } from "./ExercisesList.js";
-import { getExerciesByNameCategoryEquipment } from "../../../../database/Requests/GetAllExercises.js";
+
 import { db } from "../../../../database/DatabaseOpen.js";
-import { addCustomExerciseToPlan } from "../../../../database/Requests/AddExerciseDone.js";
-import { formatDate } from "../../../../components/FormatDate.js";
+
 import DateHeader from "./DateHeader.js";
 import WorkoutExercisesList from "./WorkoutExercisesList.js";
 import { updateDoneExerciseDone } from "../../../../database/Requests/UpdateDoneExerciseDone.js";
-import { isThisANewRecord } from "../../../../database/Requests/IsThisANewRecord.js";
 import { addRecord } from "../../../../database/Requests/AddRecord.js";
-import { deleteRecordByExerciseDone } from "../../../../database/Requests/deleteRecordByExerciseDone.js";
+import { deleteRecordByExerciseDone } from "../../../../database/Requests/DeleteRecordByExerciseDone.js";
 import AddExerciseModal from "./AddExerciseModal.js";
 
 export default function DayDetailsScreen({ route, navigation }) {
