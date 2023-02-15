@@ -54,7 +54,7 @@ const onChangedHeight = (text) => {
       <Text fontSize="2xl" >Height (cm)</Text>
         <Input  w={{
         base: "45%",
-        md: "25%"}} size="xl" placeholder="Enter Height" keyboardType="numeric"
+        md: "25%"}} rounded='xl' bg='#FFFFFF' size="xl" placeholder="Enter Height" keyboardType="numeric"
         onChangeText={text => onChangedHeight(text)}
         value = {height}  />
         </HStack>
@@ -62,7 +62,7 @@ const onChangedHeight = (text) => {
       <Text fontSize="2xl" >Weight(kg)</Text>
         <Input  w={{
         base: "45%",
-        md: "25%"}} rounded='xl' size="xl" placeholder="Enter Weight" keyboardType="numeric"
+        md: "25%"}} rounded='xl' bg='#FFFFFF' size="xl" placeholder="Enter Weight" keyboardType="numeric"
         onChangeText={text => onChangedWeight(text)} 
         value = {weight}
          />

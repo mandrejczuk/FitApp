@@ -1,12 +1,7 @@
 import * as React from 'react'
 import  { useState } from 'react';
-import { Platform } from 'react-native';
 import {View, Text, NativeBaseProvider, StatusBar} from 'native-base'
-import {Picker} from '@react-native-picker/picker'
-import { render } from 'react-dom/cjs/react-dom.production.min';
-import Dropdown from './CalculatorsDropdown';
 import CalculatorsSelect from './CalculatorsSelect';
-import Example from './CalculatorsSelect'
 import BMIScreen from "./BMIScreen";
 import ORMScreen from "./ORMScreen";
 import SetCounterScreen from './SetCounterScreen';
@@ -20,7 +15,7 @@ function  CalculatorsScreen()
 
     return(
         <NativeBaseProvider>
-        <View   onPress={() => navigation.navigate('Home')} style={{ flex: 1, paddingTop: 18}} safeAreaTop='28'>
+        <View   onPress={() => navigation.navigate('Home')} style={{ flex: 1, paddingTop: 30}} safeAreaTop='28'>
            <CalculatorsSelect
            changeCalc= {calc=> setCalc(calc)}
            />

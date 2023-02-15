@@ -13,10 +13,12 @@ export default function CalculatorsSelect(props)
         <Select 
         onValueChange={(selectedValue) => props.changeCalc(selectedValue)}
         minWidth="200" placeholder="Choose tool"
-        size='xl' _selectedItem={{
-        bg: "#FFFFFF",
-        endIcon: <CheckIcon size={5} />
-      }} mt="1">
+        size='xl'
+         _selectedItem={{
+          bg: "#FFFFFF",   
+          endIcon: <CheckIcon size={5} />
+        }}
+       bg="#FFFFFF" rounded='xl' mt="1">
           <Select.Item label="BMI Calculator" value="BMI" />
           <Select.Item label="ORM Calculator" value="ORM" />
           <Select.Item label="Set Counter" value="SetCounter" />

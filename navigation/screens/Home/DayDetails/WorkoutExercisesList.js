@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
       fontSize: 26,
       fontWeight: '500',
       fontStyle:'italic',
-      fontFamily: 'Verdana',
       textDecorationLine: 'underline',
       textDecorationStyle: 'solid',
       color: '#CAC000',

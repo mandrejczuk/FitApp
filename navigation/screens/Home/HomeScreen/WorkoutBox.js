@@ -71,11 +71,9 @@ export default function  WorkoutBox({data,selectedDay,navigateDetails,setModalTr
               <View style={styles.textContainer}>
                 <Text style={styles.name}>{selectedDay}</Text>
             </View>
-            <ScrollView>
             <View>        
                 <Box/>          
             </View>
-            </ScrollView>
             <View style = {{margin: 10}}>
                 {data.length > 0 
                 ?

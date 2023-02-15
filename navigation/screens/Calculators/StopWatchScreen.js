@@ -36,24 +36,34 @@ export default function StopwatchScreen() {
 
 
   return (
-    <View>
-      <Text>{timerOn ? 'xd':'co'}</Text>
+    <View style={{flex: 1}}>
+
       <View style={styles.row}>
-        <Text>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:</Text>
-        <Text>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}:</Text>
-        <Text>{("0" + ((time / 10) % 100)).slice(-2)}</Text>
+        <Text style={styles.text}>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:</Text>
+        <Text style={styles.text}>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}:</Text>
+        <Text style={styles.text}>{("0" + ((time / 10) % 100)).slice(-2)}</Text>
       </View>
       <View style={styles.buttons}>
       {!timerOn && time === 0 && (
-          <Button onPress={() => setTimerOn(true)}>Start</Button>
+        <View style={{flex: 1}}>
+          <Button style={styles.buttonStart} onPress={() => setTimerOn(true)}>Start</Button>
+          </View>
         )}
-        {timerOn && <Button onPress={() => setTimerOn(false)}>Stop</Button>}
+        {timerOn && (
+        <View style={{flex: 1}}>
+        <Button  style={styles.buttonStop} onPress={() => setTimerOn(false)}>Stop</Button>
+        </View>
+        )}
          {!timerOn && time > 0 && ( 
-          <Button onPress={() => setTime(0)}>Reset</Button>
+           <View style={{flex: 1}}>
+           <Button style={styles.buttonResume} onPress={() => setTimerOn(true)}>Resume</Button>
+           </View>
          )}
     
          {!timerOn && time > 0 && (
-          <Button onPress={() => setTimerOn(true)}>Resume</Button>
+             <View style={{flex: 1}}>
+             <Button style={styles.buttonReset} onPress={() => setTime(0)}>Reset</Button>
+             </View>
          )}
       </View>
     </View>
@@ -66,5 +76,41 @@ export default function StopwatchScreen() {
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
+    flex: 2,
+    justifyContent: 'center'
   },
+  buttons: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'flex-end'
+  },
+  buttonStart:{
+    backgroundColor: 'green',
+    width: '70%',
+    flexDirection: 'column',
+    alignSelf: 'center'
+  },
+  buttonStop:{
+    backgroundColor: 'red',
+    width: '70%',
+    flexDirection: 'column',
+    alignSelf: 'center'
+  },
+  text:{
+    fontSize: 60,
+    textAlignVertical: 'center',
+    textAlign: 'center'
+  },
+  buttonReset:{
+    width: '70%',
+    flexDirection: 'column',
+    alignSelf: 'center',
+    backgroundColor: 'red',
+  },
+  buttonResume:{
+    width: '70%',
+    flexDirection: 'column',
+    alignSelf: 'center',
+    backgroundColor: 'green',
+  }
 });

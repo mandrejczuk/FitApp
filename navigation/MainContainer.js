@@ -19,22 +19,52 @@ import  CreateTrainingScreen  from './screens/Home/CreateTraining/CreateTraingin
 //Screen names
 const homeName = 'Calendar'
 const exercisesName ='Exercises'
-const statsName = 'Statistics'
+const statsName = 'Stats'
 const calculatorsName= 'Tools'
 
 const Tab = createBottomTabNavigator();
 
-const HomeStack = createNativeStackNavigator();
-  
+const CalendarStack = createNativeStackNavigator();
+const ExerciseStack = createNativeStackNavigator();  
+const StatsStack = createNativeStackNavigator();
+const ToolsStack = createNativeStackNavigator();
 
-function HomeNavigation() {
+function ToolsNavigation()
+{
+    return(
+        <ToolsStack.Navigator screenOptions={{headerShown: false}}>
+            <ToolsStack.Screen name = "ToolsScreen" component={CalculatorsScreen}/>
+        </ToolsStack.Navigator>
+    )
+}
+
+
+function ExerciseNavigation()
+{
+    return(
+        <ExerciseStack.Navigator screenOptions={{headerShown: false}}>
+            <ExerciseStack.Screen name = "ExercisesScreen" component={ExercisesScreen}/>
+        </ExerciseStack.Navigator>
+    )
+}
+
+function StatsNavigation()
+{
+    return(
+        <StatsStack.Navigator screenOptions={{headerShown: false}}>
+            <StatsStack.Screen name = "StatsScreen" component={StatsScreen}/>
+        </StatsStack.Navigator>
+    )
+}
+
+function CalendarNavigation() {
     
     return (
-      <HomeStack.Navigator screenOptions={{ headerShown: false }}>
-        <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
-        <HomeStack.Screen name="DayDetails" component={DayDetailsScreen} />
-        <HomeStack.Screen name ="CreateTraining" component={CreateTrainingScreen}/>
-      </HomeStack.Navigator>
+      <CalendarStack.Navigator screenOptions={{ headerShown: false }}>
+        <CalendarStack.Screen name="HomeScreen" component={HomeScreen} />
+        <CalendarStack.Screen name="DayDetails" component={DayDetailsScreen} />
+        <CalendarStack.Screen name ="CreateTraining" component={CreateTrainingScreen}/>
+      </CalendarStack.Navigator>
     );
   }
 
@@ -70,10 +100,10 @@ export default function MainContainer(){
             },
            headerShown: false 
         })}>
-            <Tab.Screen name = {homeName} component = {HomeNavigation}/>
-            <Tab.Screen name = {exercisesName} component = {ExercisesScreen}/>
-            <Tab.Screen name = {calculatorsName} component = {CalculatorsScreen}/> 
-            <Tab.Screen name = {statsName} component = {StatsScreen}/>
+            <Tab.Screen name = {homeName} component = {CalendarNavigation}/>
+            <Tab.Screen name = {exercisesName} component = {ExerciseNavigation}/>
+            <Tab.Screen name = {calculatorsName} component = {ToolsNavigation}/> 
+            <Tab.Screen name = {statsName} component = {StatsNavigation}/>
        </Tab.Navigator>
        </NavigationContainer>
     )
