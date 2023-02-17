@@ -6,14 +6,14 @@ export function recordsDataLoad()
     {
         tx.executeSql('CREATE TABLE IF NOT EXISTS Records('
             + 'id INTEGER PRIMARY KEY AUTOINCREMENT,'
-            + 'created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,'
+            + 'date TEXT,'
             + 'value REAL,'
             + 'exerciseDone_id INTEGER,'
             + 'FOREIGN KEY(exerciseDone_id) REFERENCES ExercisesDone(id)'
             + ')')
 
-            tx.executeSql('INSERT INTO RECORDS(exerciseDone_id,value) VALUES (?,?)',
-            [1,40])
+            tx.executeSql('INSERT INTO RECORDS(exerciseDone_id,date,value) VALUES (?,?,?)',
+            [1,'2022-02-13',40])
 
     }, function(error) {
         console.log('Transaction ERROR  Records data load: ' + error.message);

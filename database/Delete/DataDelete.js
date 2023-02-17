@@ -16,6 +16,7 @@ export function dataDelete()
         tx.executeSql('DROP TABLE IF EXISTS Exercises_WorkoutDays')
         tx.executeSql('DROP TABLE IF EXISTS ExercisesDone')
         tx.executeSql('DROP TABLE IF EXISTS Records')
+        tx.executeSql('DROP TABLE IF EXISTS Notes')
     },
     function (error) {
       console.log("Transaction ERROR data delete: " + error.message);

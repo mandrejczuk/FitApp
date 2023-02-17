@@ -11,6 +11,7 @@ import { updateDoneExerciseDone } from "../../../../database/Requests/UpdateDone
 import { addRecord } from "../../../../database/Requests/AddRecord.js";
 import { deleteRecordByExerciseDone } from "../../../../database/Requests/DeleteRecordByExerciseDone.js";
 import AddExerciseModal from "./AddExerciseModal.js";
+import { formatDate } from "../../../../components/FormatDate.js";
 
 export default function DayDetailsScreen({ route, navigation }) {
 
@@ -194,7 +195,7 @@ export default function DayDetailsScreen({ route, navigation }) {
     if(isRecord)
     {
       //Save record
-      addRecord(temp.id,estORM)
+      addRecord(temp.id,estORM,formatDate(selectedDay))
     }
 
     setIsRecord('settted')
