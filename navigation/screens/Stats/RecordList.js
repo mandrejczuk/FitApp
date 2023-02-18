@@ -21,7 +21,7 @@ export default function RecordList({data})
 {
     data.length == 0 &&
     <View>
-        <Text>no data</Text>
+        <Text>Data length ruwna 0</Text>
     </View>
 }
     {

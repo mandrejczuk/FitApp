@@ -7,6 +7,7 @@ import RecordList from './RecordList';
 import Graph from './Graph';
 import { db } from '../../../database/DatabaseOpen';
 import SafeViewAndroid from '../../../components/SafeViewAndroid';
+import GraphPlaceholder from './GraphPlaceholder';
 
 //wykres, wybor cwiczenia, wybierz cwiczenie,pod wykrsem wypisane rekordy w flatlist
 function StatsScreen ({navigation}) {
@@ -19,6 +20,7 @@ function StatsScreen ({navigation}) {
   const [records,setRecords] = React.useState([])
   React.useEffect(()=>
   {
+    console.log(exercise)
     if( typeof exerciseData === 'undefined')
     {
       getExerciseData()
@@ -27,7 +29,7 @@ function StatsScreen ({navigation}) {
     {
       setFilteredData(exerciseData)
     }
-
+    console.log(records.length +' dlugosc rekorduw')
     
   },[])
 
@@ -45,6 +47,9 @@ function StatsScreen ({navigation}) {
          setExerciseData(temp)
          setFilteredData(temp)
       })
+
+     
+
     }, function(error){
       console.log('Transaction  EXERCISE DATA STATS SCREEN ERROR: ' + error.message);
   }, function() {
@@ -69,9 +74,10 @@ function StatsScreen ({navigation}) {
                           {x: res.rows.item(i).date, y: res.rows.item(i).value}
                         )
                       }
-                      console.log(temp)
+                  
                       setRecords(temp)
-                    } )    
+                    } )  
+                        
     }, function(error){
       console.log('Transaction  RECORDS DATA STATS SCREEN ERROR: ' + error.message);
   }, function() {
@@ -123,39 +129,31 @@ function StatsScreen ({navigation}) {
 
        />}
        <Pressable style={{flex: 1, paddingVertical: 10}}  onPress={()=>setListVisible(false)}>
-        <Graph
+        { exercise !== undefined 
+        ?
+        records.length != 0 &&
+        
+        <Graph 
         data={records}
         />
-        {!listVisible && <RecordList
+      
+         :
+          <GraphPlaceholder/>
+          }
+        {!listVisible && exercise !== undefined  && 
+       
+        <RecordList
         data={records}
-        />}
+        />
+       
+        }
+        
         </Pressable>
         </View>
        
       </SafeAreaView>
     )
 
-    // const data = [
-    //     { x: new Date(2022, 0, 26), y: 30 },
-    //     { x: new Date(2022, 1, 1), y: 35 },
-    //     { x: new Date(2022, 2, 1), y: 10 },
-    //     { x: new Date(2022, 3, 1), y: 45 },
-    //     { x: new Date(2022, 4, 1), y: 30 },
-    //   ];
-//     return(
-//         <View style={{ flex: 1}} >
-//         <VictoryChart>
-//         <VictoryLine
-//         data={data}
-//     x="x"
-//     y="y"
-//     style={{
-//       data: { stroke: "#c43a31" },
-//     }}
-//   />
-// </VictoryChart> 
-//         </View>
-//     )
     
 }
 

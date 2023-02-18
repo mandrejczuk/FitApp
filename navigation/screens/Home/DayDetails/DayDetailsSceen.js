@@ -184,7 +184,7 @@ export default function DayDetailsScreen({ route, navigation }) {
     let estORM;
     if(temp.repetitions > 1)
     {
-       estORM = temp.weight * (1 + (temp.repetitions/30))
+       estORM = Math.round(temp.weight * (1 + (temp.repetitions/30))*100)/100
     }
     else{
        estORM = temp.weight
