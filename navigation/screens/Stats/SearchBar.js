@@ -11,7 +11,7 @@ export default function SearchBar({text,onChangeText,setListVisble})
     <View>
         <View style={{  flexDirection: 'row', padding: 10, width: '95%', backgroundColor: '#d9dbda', borderRadius: 10, alignItems: 'center'}}>
         <Ionicons  name='search-outline' size={20} color='#black' style={{marginLeft: 1, marginRight: 4}} />
-        <TextInput placeholder='Search Exercise' style={{fontSize: 20}} value={text} onChangeText={(newText) =>{onChangeText(newText)}} onFocus={()=>setListVisble(true)}   />
+        <TextInput numberOfLines={1} placeholder='Search Exercise' style={{fontSize: 20,marginRight:20}} value={text} onChangeText={(newText) =>{onChangeText(newText)}} onFocus={()=>setListVisble(true)}   />
         </View>
     </View>
     )

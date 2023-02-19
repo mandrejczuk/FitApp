@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {View, Text} from 'react-native'
-import { VictoryChart, VictoryLine } from "victory-native";
+// import { VictoryChart, VictoryLine } from "victory-native";
 
 
 
@@ -12,7 +12,7 @@ export default function Graph({data})
     return(
         <View style={{ flex: 1}} >
             
-                <VictoryChart minDomain={{ y: 0 }}>
+                {/* <VictoryChart minDomain={{ y: 0 }}>
                 <VictoryLine animate={{
   duration: 2000,
   onLoad: { duration: 1000 }
@@ -25,7 +25,7 @@ labels={({ datum }) => datum.y}
               data: { stroke: "#c43a31" },
             }}
           />
-        </VictoryChart>
+        </VictoryChart> */}
 
                 </View>
     )

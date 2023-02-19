@@ -7,6 +7,9 @@ import { getAllExercises } from '../../../../database/Requests/GetAllExercises';
 import { useIsFocused } from '@react-navigation/native';
 import CalendarComponent from './CalendarComponent';
 import { getDatesRng } from '../../../../database/Requests/GetDatesRng';
+import DateText from './DateText';
+import NavigationButton from './NavigationButton';
+import SafeViewAndroid from '../../../../components/SafeViewAndroid';
 
 export default function HomeScreen({navigation})
 {
@@ -208,9 +211,8 @@ export default function HomeScreen({navigation})
     
     
     return(
-        <SafeAreaView style={styles.container} >
-            <View style={styles.calendarContainer}>
-            <ScrollView>
+        <SafeAreaView style={SafeViewAndroid.AndroidSafeArea} >
+            <ScrollView style={{flex: 1}}>
         <CalendarComponent
         markedDates={markedDates}
        dayPressHandler={dayPressHandler}
@@ -219,15 +221,21 @@ export default function HomeScreen({navigation})
         setShow={setShow}
         />
          </ScrollView>
-            </View>
-            <View style={styles.workoutBoxContainer}>
+            <DateText
+            date={selectedDay}
+            />
+            <View style={{flex: 1, padding: 20, justifyContent: 'center'}}>
             <WorkoutBox 
             data ={data} 
             selectedDay = {selectedDay}
-            navigateDetails = {navigateDetails}
-            setModalTrue = {setModalTrue}
-             />
+            />
             </View>
+            <NavigationButton
+            navigateDetails={navigateDetails}
+            data={data}
+            setModalTrue={setModalTrue}
+            />
+
             <ModalPlanning/>
         </SafeAreaView>
     )
