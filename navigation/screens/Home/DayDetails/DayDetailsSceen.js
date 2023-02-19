@@ -27,7 +27,7 @@ export default function DayDetailsScreen({ route, navigation }) {
   const [data,setData] = React.useState(sdata)
     const [deleteModalVisible,setDeleteModalVisible] = React.useState(false)
     const [addModalVisible,setAddModalVisible] = React.useState(false)
-    const [selectedDeleteValue,setSelectedDeleteValue] = React.useState(start())
+    const [selectedDeleteValue,setSelectedDeleteValue] = React.useState()
     const [selectedAddValue,setSelectedAddValue] = React.useState()
      const [selectedExerciseName,setSelectedExerciseName] = React.useState()
      const [refresh,setRefresh] = React.useState(false)
@@ -49,7 +49,6 @@ export default function DayDetailsScreen({ route, navigation }) {
     // },[categoryValue,equipmentValue,text])
 
     React.useEffect(()=>{
-      setSelectedDeleteValue(start())
       getData()
     },[])
 
@@ -81,24 +80,17 @@ export default function DayDetailsScreen({ route, navigation }) {
         });
       }
 
-    function start()
-    {
-      if(data.length > 0)
-      {
-        return data[0].id
-      }
-      else return 
-    }
+   
 
 
   
 
     const onConfirmDelete = () =>{
-      console.log(JSON.stringify(data))
-      console.log(JSON.stringify(selectedDeleteValue))
-      const result = data.filter(exercise =>exercise.id == selectedDeleteValue)
-      const index = data.indexOf(result[0])
-      console.log(JSON.stringify(result))
+      // console.log(JSON.stringify(data))
+      // console.log(JSON.stringify(selectedDeleteValue))
+      // const result = data.filter(exercise =>exercise.id == selectedDeleteValue)
+      // const index = data.indexOf(result[0])
+      // console.log(JSON.stringify(result))
    //   console.log(index)
     
 
@@ -108,8 +100,9 @@ export default function DayDetailsScreen({ route, navigation }) {
 //   numbers.splice(index, 1);
 // }
 // console.log(numbers); 
-      deleteExerciseDoneById(result[0].id);
-      data.splice(index,1)
+      deleteExerciseDoneById(selectedDeleteValue.id);
+      getData()
+      //data.splice(index,1)
        setDeleteModalVisible(false);
      //  console.log(data)
    }
@@ -134,11 +127,7 @@ export default function DayDetailsScreen({ route, navigation }) {
 
     
 
-    const renderDeleteExerciseList = () => {
-      return data.map((exercise)=>{
-        return <Picker.Item key={exercise.id} label = {exercise.name} value = {exercise.id}/>
-      })
-    }
+   
 
  
 
@@ -155,17 +144,26 @@ export default function DayDetailsScreen({ route, navigation }) {
           >
             <TouchableWithoutFeedback>
           <View style={styles.inner}>
-          <Picker
-          style= {{margin: 10, width: 150, height: 35}}
-          selectedValue = {selectedDeleteValue}
-          onValueChange = {(itemValue,itemIndex) =>
-          {
-            setSelectedDeleteValue(itemValue);
-          }}
-          >
-            {renderDeleteExerciseList()}
-          </Picker>
-          <Button title="Confirm Delete" onPress={() => {onConfirmDelete()}}/>
+            <Text style={{fontSize: 22,textAlign: 'center', fontWeight:'600'}}>Select exercise to delete from  list</Text>
+            <View style={{flex: 1,justifyContent: 'center'}}>
+              <View>
+          <ScrollView contentContainerStyle={{justifyContent:'center'}} style={{marginTop: 10, backgroundColor: '#556B2F', borderRadius: 10, padding: 6}}>
+          {data.map((item,index)=>{
+            return(
+              <View key={index}>
+             <Pressable onPress={()=>setSelectedDeleteValue(item)}>
+              <View>
+                <Text style={{fontSize:18, textAlign:'center',fontWeight:'500'}}>{item.name} </Text>
+              </View>
+            </Pressable>
+              </View>
+            )
+          })}
+          </ScrollView>
+          </View>
+          </View>
+          <Text style={{fontSize: 20,textAlign: 'center', color: 'grey'}}>Selected exercise: {selectedDeleteValue !== undefined ?selectedDeleteValue.name: 'Click ' }</Text>
+          <Button color='red' title="Confirm Delete" onPress={() => {onConfirmDelete()}}/>
           </View>
           </TouchableWithoutFeedback>
           </TouchableOpacity>
@@ -176,7 +174,7 @@ export default function DayDetailsScreen({ route, navigation }) {
    
     const Buttons = () =>(
       <View style={{flexDirection: 'row', justifyContent:'space-around'}}>
-        <Button style={{flex: 1, borderRadius: 12}} title="Delete Exercise" color='red' onPress={()=>{setDeleteModalVisible(true)}}/>
+       {data.length > 0 && <Button style={{flex: 1, borderRadius: 12}} title="Delete Exercise" color='red' onPress={()=>{setDeleteModalVisible(true)}}/>}
         <Button style={{flex: 1, borderRadius: 12}} title="Add Exercise" color='lightgreen' onPress={()=>{setAddModalVisible(true)}}/>
       </View>
     )
@@ -424,7 +422,7 @@ elevation: 13,
     backgroundColor: '#ffffff',
     marginHorizontal: 20,
     padding: 10,
-    borderRadius: 12
+    borderRadius: 12,
     // margin: 50,
     // padding: 40
   },
