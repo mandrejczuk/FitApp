@@ -93,10 +93,24 @@ export default function HomeScreen({navigation})
         >
             <TouchableWithoutFeedback>
                 <View style={styles.inner}>
-                    <Button title='YES' onPress={()=>{
+                    <Text style={{paddingHorizontal:16, paddingVertical:12 ,fontSize: 24, fontWeight:'600', color: '#585858', textAlign: 'center'}}>Would you like to use predefined workouts?</Text>
+                    <View style={{ flexDirection:'row', justifyContent: 'space-evenly'}}>
+                    <Button
+                    color='green'
+                     title='YES' onPress={()=>{
                         setModalVisible(false)
-                        navigatePlaningWorkout()}}/>
-                    <Button title='NO'/>
+                        navigatePlaningWorkout()
+                        }}/>
+
+                    <Button 
+                    color='red'
+                    title='NO'
+                    onPress={()=>{
+                        setModalVisible(false)
+                        navigateDetails()
+                    }}
+                    />
+                    </View>
                 </View>
             </TouchableWithoutFeedback>
         </TouchableOpacity>

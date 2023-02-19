@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, FlatList, SafeAreaView,Button, Modal, Pressable
 import { deleteExerciseDoneById } from "../../../../database/Delete/DeleteExerciseDoneById.js";
 
 import { db } from "../../../../database/DatabaseOpen.js";
+import SafeViewAndroid from '../../../../components/SafeViewAndroid'
 
 import DateHeader from "./DateHeader.js";
 import WorkoutExercisesList from "./WorkoutExercisesList.js";
@@ -270,7 +271,7 @@ export default function DayDetailsScreen({ route, navigation }) {
    
 
   return (
-    <SafeAreaView style = {styles.container}>
+    <SafeAreaView style = {SafeViewAndroid.AndroidSafeArea}>
     <View style={styles.data}>
       <DateHeader
       selectedDay={selectedDay}
