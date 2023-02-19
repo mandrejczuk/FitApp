@@ -8,7 +8,7 @@ export default function NavigationButton({navigateDetails,data,setModalTrue})
         {data.length > 0 
         ?
         <Button
-        title='Navigate to this day'
+        title='Check Details'
         color='#3CB371'
         onPress={()=> navigateDetails()}
         />

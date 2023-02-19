@@ -5,15 +5,15 @@ export function ExercisesList({data,callback}){
 
 
   const [selectedExerciseName,setSelectedExerciseName] = React.useState('Select Exercise From List')
-  console.log(JSON.stringify(data))
+  //console.log(JSON.stringify(data))
   if(Array.isArray(data))
   {
-    console.log('tak')
-    console.log(data[0])
-    console.log(data.length)
+    // console.log('tak')
+    // console.log(data[0])
+    // console.log(data.length)
   }
   else{
-    console.log('nie')
+    // console.log('nie')
   }
     const renderAddItem = ({ item }) => {   
 
@@ -46,7 +46,7 @@ export function ExercisesList({data,callback}){
               keyExtractor={item =>item.id}
               />
               <View style={{justifyContent: 'center'}}>
-              <TextInput placeholder="Select Exercise From List" value={selectedExerciseName} editable = {false} />
+              <TextInput style={{textAlign: 'center', paddingVertical:12,paddingHorizontal:4}}  fontSize={24} placeholder="Select Exercise From List" value={selectedExerciseName} editable = {false} />
               </View>
         </View>
     )

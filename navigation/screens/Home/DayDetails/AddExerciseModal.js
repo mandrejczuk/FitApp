@@ -4,9 +4,11 @@ import { db } from "../../../../database/DatabaseOpen.js";
 import { getExerciesByNameCategoryEquipment } from "../../../../database/Requests/GetAllExercises.js";
 import { Picker } from "@react-native-picker/picker";
 import { ExercisesList } from "./ExercisesList.js";
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import { addCustomExerciseToPlan } from "../../../../database/Requests/AddExerciseDone.js";
+import { formatDate } from "../../../../components/FormatDate.js";
 
-
-export default function AddExerciseModal({addModalVisible,setAddModalVisible}) 
+export default function AddExerciseModal({addModalVisible,setAddModalVisible,selectedDay,getData}) 
 {
     const [text, onChangeText] = React.useState("");
     const [categoryValue, setCategoryValue] = React.useState('(8,9,10,11,12,13,14,15)');
@@ -69,8 +71,9 @@ export default function AddExerciseModal({addModalVisible,setAddModalVisible})
         repetitions: reps,
         done: 0
       }
-      data.push(newItem)
+      //data.push(newItem)
       addCustomExerciseToPlan(sets,reps,selectedExercise.id,weight,formatDate(selectedDay))
+      getData()
       setAddModalVisible(false)
     }
    
@@ -87,11 +90,13 @@ export default function AddExerciseModal({addModalVisible,setAddModalVisible})
           >
             <TouchableWithoutFeedback>
           <View style={styles.inner}>
-            <View style={{alignItems:'center'}}>
-            <TextInput onChangeText={onChangeText}  placeholder="Search" value={text} />
+            <View  style={{  flexDirection: 'row', padding: 10, width: '55%', backgroundColor: '#d9dbda', borderRadius: 10,alignSelf: 'center', alignItems: 'center'}}>
+            <Ionicons  name='search-outline' size={20} color='#black' style={{marginLeft: 1, marginRight: 4}} />
+            <TextInput placeholder='Search Exercise' style={{fontSize: 20,marginRight:20}} onChangeText={onChangeText}   value={text} />
             </View>
-            <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-            <View style={styles.category}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-evenly', padding: 16}}>
+            <View style={{flex:1,justifyContent: 'center'}}>
+            <Text style={{fontSize: 16, fontWeight: 'bold', textAlign: 'center'}}>Category</Text>
       <Picker
       selectedValue={categoryValue}
       onValueChange={(itemValue, itemIndex) =>  setCategoryValue(itemValue)}
@@ -109,13 +114,14 @@ export default function AddExerciseModal({addModalVisible,setAddModalVisible})
       </Picker>
       
     </View>
-    <View style={styles.equipment}>
+    <View style={{flex:1, justifyContent: 'center'}}>
+      <Text style={{fontSize: 16,fontWeight: 'bold', textAlign: 'center'}}>Available Equipment</Text>
       <Picker
       selectedValue={equipmentValue}
       onValueChange={(itemValue, itemIndex) => setEquipmentValue(itemValue)}
       style={styles.pickerequipment}
       >
-      <Picker.Item label="All" value="('',1,2,3,4,5,6,7,8,9,10,11)" />
+      <Picker.Item  label="All" value="('',1,2,3,4,5,6,7,8,9,10,11)" />
       <Picker.Item label="Barbell" value="(1)" />
       <Picker.Item label="SZ-Bar" value="(2)" />
       <Picker.Item label="Dumbbell" value="(3)" />
@@ -130,7 +136,7 @@ export default function AddExerciseModal({addModalVisible,setAddModalVisible})
       </Picker>
     </View>
             </View>
-          <ScrollView>
+         
           {/* <View style={{height: 200}}>   */}
             {/* <FlatList
             data={exercises}
@@ -142,14 +148,13 @@ export default function AddExerciseModal({addModalVisible,setAddModalVisible})
             callback={setSelectedExercise}
             />
           {/* </View> */}
-          </ScrollView>
           <View>
-            <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
-              <TextInput style={{width: '20%'}} value={sets} onChangeText={onChangeSets} placeholder="Sets" keyboardType ='number-pad'/>
-              <TextInput style={{width: '20%'}} value={reps} onChangeText={onChangeReps} placeholder="Reps" keyboardType ='number-pad'/>
-              <TextInput style={{width: '20%'}} value={weight} onChangeText={onChangeWeight} placeholder="Weight" keyboardType = 'number-pad'/>
+            <View style={{flexDirection:'row', justifyContent:'space-evenly',padding: 12 }}>
+              <TextInput style={{width: '30%', textAlign: 'center',backgroundColor: '#d9dbda',borderRadius: 10}} value={sets} onChangeText={onChangeSets} placeholder="Sets" keyboardType ='number-pad'/>
+              <TextInput style={{width: '30%', textAlign: 'center',backgroundColor: '#d9dbda',borderRadius: 10}} value={reps} onChangeText={onChangeReps} placeholder="Reps" keyboardType ='number-pad'/>
+              <TextInput style={{width: '30%', textAlign: 'center',backgroundColor: '#d9dbda',borderRadius: 10}} value={weight} onChangeText={onChangeWeight} placeholder="Weight" keyboardType = 'number-pad'/>
              </View>
-             <Button title ='Add Exercise' onPress={()=>{onConfirmAdd()}}/>
+             <Button  color='#32CD32' title ='Add Exercise' onPress={()=>{onConfirmAdd()}}/>
           </View>
           </View>
           </TouchableWithoutFeedback>
@@ -162,6 +167,31 @@ export default function AddExerciseModal({addModalVisible,setAddModalVisible})
           const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  pickercategory:{
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: 'red',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30,
+    marginTop: 20,
+    
+  },
+  pickerequipment:{
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'blue',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30,
+    borderWidth: 3,
+    borderColor: 'black',
+    marginTop: 20,
   },
   wrapRowTop: {
     flexDirection:"row",
@@ -245,10 +275,12 @@ elevation: 13,
     flex: 1
   },
   inner:{
+    minWidth: '90%',
     backgroundColor: '#ffffff',
     marginHorizontal: 20,
     padding: 10,
-    borderRadius: 12
+    borderRadius: 12,
+
     // margin: 50,
     // padding: 40
   },

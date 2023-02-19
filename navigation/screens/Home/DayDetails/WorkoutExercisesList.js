@@ -48,14 +48,23 @@ export default function WorkoutExercisesList({data,callbackDone,extraData})
       )};
 
     return(
-       <View>
+       <View style={{flex: 1}}>
+        {data.length > 0 
+        ?
+        <View style={styles.box}>
          <FlatList
                     data ={data}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                     ListHeaderComponent={header}
                     extraData={extraData}
-                    />  
+                    /> 
+                    </View> 
+                    :
+                    
+                    <Text style={{flex:1,textAlign:'center', textAlignVertical: 'center', fontSize: 26,fontWeight:'700', color: 'grey'}}>No planned exercises for selected day</Text>
+                
+        }
        </View>
     )
 }

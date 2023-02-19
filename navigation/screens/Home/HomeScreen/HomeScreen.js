@@ -65,8 +65,9 @@ export default function HomeScreen({navigation})
 
     const navigateDetails = () =>
     {
+        const sdata = data
       
-        navigation.navigate('DayDetails',{selectedDay,data})
+        navigation.navigate('DayDetails',{selectedDay,sdata})
     } 
 
     const navigatePlaningWorkout = () =>
@@ -196,7 +197,7 @@ export default function HomeScreen({navigation})
           
            setMarkedDays(temp)
           })
-          console.log(dates)
+        //  console.log(dates)
           
         });
     }

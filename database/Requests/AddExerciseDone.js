@@ -14,7 +14,7 @@ export function addCustomExerciseToPlan(sets,reps,exercise_id,weight,date)
       +'AND sets = '+sets+' '
       +'AND repetitions = '+reps+' ',[],function(tx,res){
         
-        console.log(res.rows.item(0).licz)
+        //console.log(res.rows.item(0).licz)
         if(res.rows.item(0).licz >0)
         {
           

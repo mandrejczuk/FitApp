@@ -17,12 +17,14 @@ import { formatDate } from "../../../../components/FormatDate.js";
 export default function DayDetailsScreen({ route, navigation }) {
 
     const {selectedDay} = route.params
-    
-   const {data} = route.params
+  // const {data} = route.params
+  const {sdata}=route.params
+   
     // const {exercises} = route.params
-    console.log(selectedDay)
-    console.log(data)
+    // console.log(selectedDay)
+    // console.log(data)
  //   console.log(data.length)
+  const [data,setData] = React.useState(sdata)
     const [deleteModalVisible,setDeleteModalVisible] = React.useState(false)
     const [addModalVisible,setAddModalVisible] = React.useState(false)
     const [selectedDeleteValue,setSelectedDeleteValue] = React.useState(start())
@@ -48,9 +50,36 @@ export default function DayDetailsScreen({ route, navigation }) {
 
     React.useEffect(()=>{
       setSelectedDeleteValue(start())
+      getData()
     },[])
 
-    
+     const getData =  () =>{
+        db.readTransaction(function(tx)
+        {
+            tx.executeSql('SELECT ed.id, weight, done,date,exerciseWorkoutDay_id, sets, repetitions, workoutDay_id, exercise_id,name,description '
+                        +'FROM ExercisesDone ed '
+                        +'LEFT JOIN Exercises_WorkoutDays ewd ON ewd.id = ed.exerciseWorkoutDay_id '
+                        +'LEFT JOIN Exercises e ON e.id = ewd.exercise_id '
+                        + 'WHERE date = "'
+                        + formatDate(selectedDay) +'" '
+                        ,[],function(_,res)
+            {
+                var temp = []
+
+                for(let i = 0; i < res.rows.length ; i++)
+                {
+                    temp.push(res.rows.item(i))
+                }
+                setData(temp);
+                
+            })
+        }, function(error){
+            console.log('Transaction GET EXERCISEDONE (homescreen) DATA ERROR: ' + error.message);
+        }, function() {
+          console.log('Populated database (GetExercisesDoneData) OK');
+          
+        });
+      }
 
     function start()
     {
@@ -65,10 +94,13 @@ export default function DayDetailsScreen({ route, navigation }) {
   
 
     const onConfirmDelete = () =>{
+      console.log(JSON.stringify(data))
+      console.log(JSON.stringify(selectedDeleteValue))
       const result = data.filter(exercise =>exercise.id == selectedDeleteValue)
       const index = data.indexOf(result[0])
-      console.log(index)
-      data.splice(index,1)
+      console.log(JSON.stringify(result))
+   //   console.log(index)
+    
 
 //       const numbers = [1, 2, 3];
 // const index = numbers.indexOf(3);
@@ -77,8 +109,9 @@ export default function DayDetailsScreen({ route, navigation }) {
 // }
 // console.log(numbers); 
       deleteExerciseDoneById(result[0].id);
+      data.splice(index,1)
        setDeleteModalVisible(false);
-       console.log(data)
+     //  console.log(data)
    }
    
 
@@ -159,7 +192,7 @@ export default function DayDetailsScreen({ route, navigation }) {
     else{
       temp.done = 0
     }
-    console.log(temp)
+   // console.log(temp)
    data.splice(index,1,temp) 
    setRefresh(!refresh)
   updateDoneExerciseDone(temp.id,temp.done)
@@ -168,7 +201,7 @@ export default function DayDetailsScreen({ route, navigation }) {
     //Check if this exerciseDone is a Record
       isExerciseARecord(temp.id)
     
-      console.log(isRecord)
+   //   console.log(isRecord)
     if(isRecord)
     {
     
@@ -192,7 +225,7 @@ export default function DayDetailsScreen({ route, navigation }) {
     }
     //Check if this estimated value is a record
     isThisANewRecord(temp.exercise_id,estORM)
-    console.log(isRecord)
+   // console.log(isRecord)
     if(isRecord)
     {
       //Save record
@@ -213,7 +246,7 @@ export default function DayDetailsScreen({ route, navigation }) {
         +'LEFT JOIN Exercises_WorkoutDays ewd ON ewd.id = ed.exerciseWorkoutDay_id '
         +'WHERE exercise_id = ? and ed.weight > ?',[id,weight],function(_,res)
         {
-            console.log(res.rows.item(0).licz)
+        //    console.log(res.rows.item(0).licz)
             if(res.rows.item(0).licz > 0)
             {
                setIsRecord(false);
@@ -245,7 +278,7 @@ export default function DayDetailsScreen({ route, navigation }) {
         tx.executeSql('SELECT COUNT(*) as licz FROM Records '
         +'WHERE exerciseDone_id = ? ',[exerciseDone_id],function(_,res)
         {
-          console.log(res.rows.item(0).licz)
+       //   console.log(res.rows.item(0).licz)
             if(res.rows.item(0).licz > 0)
             {
              setIsRecord(true)
@@ -278,16 +311,14 @@ export default function DayDetailsScreen({ route, navigation }) {
       navigation={navigation}
       />
     </View>
-    <View style= {styles.tabled}>
-    <ScrollView>
-    <View style={styles.box}>
+    <View style= {styles.tabled}>   
+    <View style={{flex: 1}}>
                     <WorkoutExercisesList
                     data={data}
                     callbackDone={callbackDone}
                     extraData={refresh}
                     />
                 </View>
-                </ScrollView>
                 </View>
                 <View style={styles.container}>
                 <Buttons/>
@@ -295,6 +326,8 @@ export default function DayDetailsScreen({ route, navigation }) {
                 <AddExerciseModal
                 addModalVisible={addModalVisible}
                 setAddModalVisible={setAddModalVisible}
+                selectedDay={selectedDay}
+                getData={getData}
                 />
         <DeleteExerciseModal/>
     </SafeAreaView>
@@ -335,7 +368,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   tabled:{
-    flex: 2
+    flex: 2,
   },
   header:{
     flex: 1,
