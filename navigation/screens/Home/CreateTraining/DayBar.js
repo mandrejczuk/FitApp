@@ -12,8 +12,8 @@ export default function DayBar({selectedWorkout,workoutDays,selectedWorkoutDay,s
     const SelectedWorkout = () =>
     {
         return (
-        <View>
-            <Text>{selectedWorkout.name}</Text>
+        <View style={{padding: 12}}>
+            <Text style={{ fontSize: 20}}>Selected workout: {selectedWorkout.name}</Text>
             <PickerWorkoutDay/>
         </View>
         )
@@ -29,6 +29,7 @@ export default function DayBar({selectedWorkout,workoutDays,selectedWorkoutDay,s
     const PickerWorkoutDay = () =>
     {
         return(
+            <View style={{backgroundColor:'lightgrey',borderRadius: 12}}>
         <Picker 
         selectedValue = {selectedWorkoutDay}
         onValueChange = {(itemValue,itemIndex) =>
@@ -39,9 +40,10 @@ export default function DayBar({selectedWorkout,workoutDays,selectedWorkoutDay,s
                
             }}
             >
-                <Picker.Item label="Choose a Day" enabled={placeholderEnabled} value="disabled" color="#aaa"  />
+                <Picker.Item style={{textAlign: 'center'}} label="Choose a Day" enabled={placeholderEnabled} value="disabled" color="#aaa"  />
                 {renderWorkoutDaysList()}
             </Picker>
+            </View>
         )
     }
 

@@ -9,6 +9,7 @@ import PreviewList from './PreviewList'
 import AddBar from './AddBar'
 import WeightModal from './WeightModal'
 import { formatDate } from '../../../../components/FormatDate'
+import SafeViewAndroid from '../../../../components/SafeViewAndroid'
 
 export default function CreateTrainingScreen({route,navigation})
 {
@@ -34,7 +35,7 @@ export default function CreateTrainingScreen({route,navigation})
         {
           setButtonDisabled(false)
         }
-        console.log(exercisesByDay)
+      //  console.log(exercisesByDay)
         if(exercisesByDay != [])
         {
           var temp = []
@@ -47,7 +48,8 @@ export default function CreateTrainingScreen({route,navigation})
                 weight: '',
                 done: false,
                 date:  formatDate(selectedDay),
-                exerciseWorkoutDay_id: exercisesByDay[i].id
+                exerciseWorkoutDay_id: exercisesByDay[i].id,
+                expectedValue: roundWeightValue((Math.round(exercisesByDay[i].value * exercisesByDay[i].orm)/100))
               }
             )
           }
@@ -56,7 +58,30 @@ export default function CreateTrainingScreen({route,navigation})
         
     },[exercisesByDay])
 
-
+    const roundWeightValue = (value)=>{
+      if(value >= 2.5 )
+      {
+      if(value % 10 >= 0 && value % 10 <2.5)
+      {
+        return (value - value%10)
+      }
+      else if(value % 10 >= 2.5 && value % 10 < 5)
+      {
+        return (value - value%10 + 2.5)
+      }
+      else if(value % 10 >= 5 && value % 10 < 7.5)
+      {
+        return (value - value%10 + 5)
+      }
+      else if(value % 10 >= 7.5)
+      {
+        return (value - value%10 + 7.5)
+      }
+    }
+    else{
+      return 'Enter Weight'
+    }
+    }
 
     const addWorkout = () =>
     {
@@ -110,11 +135,23 @@ export default function CreateTrainingScreen({route,navigation})
       db.readTransaction(function(tx)
       {
        
+       
+          
         
-          tx.executeSql('SELECT ewd.id,sets,repetitions, e.name,ewd.orm ' 
-          +'FROM Exercises_WorkoutDays ewd LEFT JOIN WorkoutDays wd ON ewd.workoutDay_id = wd.id '
-          +'LEFT JOIN Exercises e ON ewd.exercise_id = e.id '
+          // tx.executeSql('SELECT ewd.id,sets,repetitions, e.name,ewd.orm ' 
+          // +'FROM Exercises_WorkoutDays ewd LEFT JOIN WorkoutDays wd ON ewd.workoutDay_id = wd.id '
+          // +'LEFT JOIN Exercises e ON ewd.exercise_id = e.id '
+          // +'WHERE wd.id = '+item
+          tx.executeSql('SELECT ewd.id,sets,repetitions, name,ewd.orm, r.value '
+          +'FROM WorkoutDays wd LEFT JOIN Exercises_WorkoutDays ewd ON wd.id = ewd.workoutday_id '
+          +'LEFT JOIN (SELECT r.id,r.date,max(r.value) as value, ewd1.id as exerciseworkoutday_id '
+          +'FROM Records r LEFT JOIN ExercisesDone ed1 ON ed1.id = r.exerciseDone_id '
+          +'LEFT JOIN Exercises_WorkoutDays ewd1 ON ewd1.id = ed1.exerciseworkoutday_id '
+          +'Group by ewd1.exercise_id) r '
+          +'ON r.exerciseworkoutday_id = ewd.id '
+          +'LEFT JOIN exercises e ON e.id = ewd.exercise_id '
           +'WHERE wd.id = '+item
+
           ,[],function(_,res)
           {
               var data = []
@@ -198,18 +235,19 @@ const workoutListCallback = (item) =>
 
    
     return(
-        <SafeAreaView style={{flex: 1}}>
-            <View style={{flex: 1}}>
+        <SafeAreaView style={SafeViewAndroid.AndroidSafeArea}>
+            <View >
             <TopBar/>
             </View>
-            <View style ={{flex: 3, backgroundColor: 'yellow'}}>
+            <View style ={{ padding: 12}}>
             <WorkoutList
             workouts={workouts}
             callback ={workoutListCallback}
             setWorkout ={setWorkout}
             />
             </View>
-            <View style={{flex: 1}}>
+            { selectedWorkout !== undefined &&
+            <View>
             <DayBar
             selectedWorkout={selectedWorkout}
             workoutDays={workoutDays}
@@ -217,16 +255,22 @@ const workoutListCallback = (item) =>
             setWorkoutDay={setWorkoutDay}
             />
             </View>
-            <View style={{flex: 3, backgroundColor: 'pink'}}>
+}
+{ selectedWorkout !== undefined && selectedWorkoutDay !== undefined &&
+            <View style={{flex: 3}}>
               <PreviewList
               trainingList={exercisesByDay}/>
             </View>
+}
+            { selectedWorkout !== undefined &&
             <View style={{flex: 1}}>
             <AddBar
             setWeightModal={setWeightModalVisble}
             buttonDisabled={buttonDisabled}
             />
             </View>
+}
+            
             <DescriptionModal
             description = {desription}
             visible = {descriptionModalVisible}

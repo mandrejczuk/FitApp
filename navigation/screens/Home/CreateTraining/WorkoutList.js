@@ -43,7 +43,7 @@ export default function WorkoutList({workouts,callback,setWorkout})
     }
 
     return(
-        <View style={{flex: 1}}>
+        <View style={{}}>
         <FlatList
             data ={workouts}
             renderItem ={renderItem}

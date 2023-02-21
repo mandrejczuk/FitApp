@@ -17,7 +17,7 @@ export default function PreviewList({trainingList})
     //     console.log(exerciseWeight.findIndex(element=>element.id == item.id))
     //     return exerciseWeight.findIndex(element=>element.id == item.id)
     // }
-    console.log(trainingList)
+  //  console.log(trainingList)
 
     //console.log(exerciseWeight)
     const renderItem = ({item}) =>
@@ -37,16 +37,16 @@ export default function PreviewList({trainingList})
 
         return(
             <View style={styles.item}>
-            <View style={{flex: 2,justifyContent: 'center'}}>
-            <Text>{item.name}</Text>
+            <View style={{flex: 2}}>
+            <Text style={{textAlign: 'center', fontSize: 20}}>{item.name}</Text>
             </View>
-            <View style={{flex: 1,flexDirection: 'column', alignItems: 'center'}}>
-            <Text>Sets {item.sets}</Text>
-            <Text>Reps {item.repetitions}</Text>
+            <View style={{flex: 1,flexDirection: 'column'}}>
+            <Text style={{fontSize: 16, textAlign: 'center'}}>Sets {item.sets}</Text>
+            <Text style={{fontSize: 16,textAlign: 'center'}}>Reps {item.repetitions}</Text>
             </View>
-            <View style={{flex: 1,flexDirection:'column', justifyContent: 'center', alignItems:'center'}}>
-                <Text>%1RM</Text>
-                <Text>{item.orm}</Text>
+            <View style={{flex: 1,flexDirection:'column'}}>
+                <Text style={{fontSize: 16, textAlign: 'center'}}>%1RM</Text>
+                <Text style={{fontSize: 16,textAlign: 'center' }}>{item.orm}</Text>
             </View>
             {/* <View style={{flex: 1, flexDirection: 'column', justifyContent :'center', alignItems: 'center'}}>
                 <Text>Weight</Text>
@@ -64,23 +64,20 @@ export default function PreviewList({trainingList})
     if(trainingList.length == 0)
     return(
         <View>
-            <Text>Lista</Text>
+            <Text>This day doesn't contain any exercise</Text>
         </View>
     )
     else{
         return(
-            <View>
-                <ScrollView>
-                <View style={{flex: 1,alignItems: 'center'}}>
+           
+                <View style={{flex: 1, padding: 12}}>
                 <FlatList
                     data={trainingList}
                     renderItem={renderItem}
                     keyExtractor={item =>item.id}
-                    style={{borderStyle:'solid',borderWidth: 1, borderColor: 'black'}}
                 />
                 </View>
-                </ScrollView>
-            </View>
+        
         )
     }
 }
@@ -88,10 +85,13 @@ export default function PreviewList({trainingList})
 
 const styles = StyleSheet.create({
       item: {
-        backgroundColor: '#5176FD',
+        backgroundColor: 'green',
         padding: 10,
         marginVertical: 8,
         marginHorizontal: 12,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        borderRadius: 10,
+        alignSelf: 'center',
+        alignItems: 'center',
       },
 })

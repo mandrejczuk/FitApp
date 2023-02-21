@@ -6,7 +6,8 @@ export default function TopBar()
 {
     return(
         <View>
-            <Text>Choose Workout</Text>
+            <Text style={{fontSize: 24,fontWeight: '700',textAlign:'center'}}>Predefined workouts list</Text>
+            <Text style={{fontSize: 16,fontWeight: '600',textAlign:'center',color: 'grey'}}>Click workout to select</Text>
         </View>
     )
 }

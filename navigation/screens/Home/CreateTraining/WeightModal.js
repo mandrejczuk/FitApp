@@ -12,7 +12,7 @@ export default function WeightModal({visible,modalSet,exercisesDone,setExercises
     //     console.log(item)
     //    // setExercisesDone(temp)
     // }
-    
+   // console.log(JSON.stringify(exercisesDone))
     const renderItem = ({item}) =>
     {
         return (
@@ -23,14 +23,15 @@ export default function WeightModal({visible,modalSet,exercisesDone,setExercises
     const Item =({item}) =>
     { 
 
+      //  console.log(JSON.stringify(item))
         const updateWeight = (text)=>
         {
-            console.log(text)
+          //  console.log(text)
             var temp = exercisesDone
 
                 temp[item.id].weight = parseFloat(text);
 
-                console.log(temp[item.id].weight)
+                //console.log(temp[item.id].weight)
               
                 setExercisesDone(temp)
         }
@@ -40,10 +41,10 @@ export default function WeightModal({visible,modalSet,exercisesDone,setExercises
         return(
         <View style={styles.item}>
         <View style={{flex: 2,justifyContent:'center'}}>
-        <Text>{item.name}</Text>
+        <Text style={{textAlign: 'center', fontSize: 16, fontWeight:'500'}}>{item.name}</Text>
         </View>
         <View style={{flex: 1, justifyContent:'center'}}>
-            <TextInput value={text} onChangeText={(text)=>{onChangeText(text); updateWeight(text)}} placeholder='Enter Weight' keyboardType='numeric'></TextInput>
+            <TextInput style={{backgroundColor:'#FFFFFF', textAlign: 'center',borderWidth: 1,borderColor: 'black'}} value={text} onChangeText={(text)=>{onChangeText(text); updateWeight(text)}} placeholder={item.expectedValue.toString()} keyboardType='numeric'></TextInput>
         </View>
         </View>
         )
@@ -67,7 +68,7 @@ export default function WeightModal({visible,modalSet,exercisesDone,setExercises
                 renderItem={renderItem}
                 keyExtractor={item =>item.id}
                 />
-                <Button title='Add Workout' onPress={()=>{modalSet(false); addWorkout()}}/>
+                <Button color='green' title='Add Workout' onPress={()=>{modalSet(false); addWorkout()}}/>
                 </View>
             </TouchableWithoutFeedback>
 
@@ -81,7 +82,6 @@ const styles = StyleSheet.create(
     {
         outer: {
             backgroundColor:'#000000aa',
-            alignItems: "center",
              justifyContent: "center",
             flex: 1
           },
@@ -89,7 +89,7 @@ const styles = StyleSheet.create(
             backgroundColor: '#ffffff',
             marginHorizontal: 20,
             padding: 10,
-            borderRadius: 12
+            borderRadius: 12,
             // margin: 50,
             // padding: 40
           },
@@ -98,7 +98,8 @@ const styles = StyleSheet.create(
             padding: 10,
             marginVertical: 8,
             marginHorizontal: 12,
-            flexDirection: 'row'
+            flexDirection: 'row',
+            borderRadius: 8
           },
 
     }
