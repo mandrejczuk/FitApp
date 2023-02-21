@@ -1,5 +1,5 @@
 import React from "react";
-import { View,Text,Pressable,FlatList,StyleSheet, TouchableHighlight } from "react-native";
+import { View,Text,Pressable,FlatList,StyleSheet, TouchableHighlight, TouchableOpacity } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 export default function WorkoutExercisesList({data,callbackDone,extraData})
@@ -9,7 +9,7 @@ export default function WorkoutExercisesList({data,callbackDone,extraData})
     const header = () =>(
         <View style={styles.wrapRow}>
           <Text style={styles.row}>Name </Text>
-          <Text  style={styles.row}>Weight [kg] </Text>
+          <Text  style={styles.row}>Weight</Text>
           <Text  style={styles.row}>Sets </Text>
           <Text  style={styles.row}>Reps </Text>
           <Text  style={styles.row}>Done </Text>
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     icon:{
       flex: 1,
       paddingHorizontal: 2,
-      paddingVertical: 10,
+      paddingVertical: 8,
       textAlign: 'center',
     },
     outer: {

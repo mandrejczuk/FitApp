@@ -13,6 +13,9 @@ import { addRecord } from "../../../../database/Requests/AddRecord.js";
 import { deleteRecordByExerciseDone } from "../../../../database/Requests/DeleteRecordByExerciseDone.js";
 import AddExerciseModal from "./AddExerciseModal.js";
 import { formatDate } from "../../../../components/FormatDate.js";
+import NoteButton from "./NoteButton.js";
+import NoteModal from "./NoteModal.js";
+import { noteSave } from "../../../../database/Requests/Note.js";
 
 export default function DayDetailsScreen({ route, navigation }) {
 
@@ -32,6 +35,8 @@ export default function DayDetailsScreen({ route, navigation }) {
      const [selectedExerciseName,setSelectedExerciseName] = React.useState()
      const [refresh,setRefresh] = React.useState(false)
      const [isRecord,setIsRecord] = React.useState('setted')
+     const [noteModalVisible,setNodeModalVisible] = React.useState(false)
+     const [noteData, setNoteData] = React.useState()
     //  const [text, onChangeText] = React.useState("");
     // const [categoryValue, setCategoryValue] = React.useState('(8,9,10,11,12,13,14,15)');
     // const [equipmentValue, setEquipmentValue] = React.useState('("",1,2,3,4,5,6,7,8,9,10,11)');
@@ -50,6 +55,7 @@ export default function DayDetailsScreen({ route, navigation }) {
 
     React.useEffect(()=>{
       getData()
+      getNoteData()
     },[])
 
      const getData =  () =>{
@@ -80,8 +86,51 @@ export default function DayDetailsScreen({ route, navigation }) {
         });
       }
 
-   
 
+      const getNoteData = ()=>{
+        
+        db.readTransaction(function(tx)
+        {
+          tx.executeSql('SELECT Count(*) as licz FROM NOTES WHERE date = "'+formatDate(selectedDay)+'"',[],function(_,res)
+          {
+            if(res.rows.item(0).licz >0)
+            {
+              console.log('xdddd')
+              tx.executeSql('SELECT content FROM NOTES WHERE date = "'+formatDate(selectedDay)+'"',[],function(_,res){
+
+                setNoteData(res.rows.item(0).content)
+              }), function(error){
+                console.log('Transaction GET NOTE CONTENT (DayDetails) DATA ERROR: ' + error.message);
+            }, function() {
+              console.log('Populated database (DayDetails) OK');
+              
+            };
+            }
+            else{
+              setNoteData("")
+            }
+          {
+            }
+        
+          })
+        })
+      }
+
+
+   
+      const callbackNoteModal = () =>
+      {
+        setNodeModalVisible(false)
+        noteSave(noteData,selectedDay)
+      }
+
+      // const noteVisible = () =>
+      // {
+      //   getNoteData()
+      //   setNodeModalVisible(true)
+      //   console.log(JSON.stringify(noteData))
+
+      // }
 
   
 
@@ -144,13 +193,12 @@ export default function DayDetailsScreen({ route, navigation }) {
           >
             <TouchableWithoutFeedback>
           <View style={styles.inner}>
-            <Text style={{fontSize: 22,textAlign: 'center', fontWeight:'600'}}>Select exercise to delete from  list</Text>
-            <View style={{flex: 1,justifyContent: 'center'}}>
-              <View>
-          <ScrollView contentContainerStyle={{justifyContent:'center'}} style={{marginTop: 10, backgroundColor: '#556B2F', borderRadius: 10, padding: 6}}>
+            <Text style={{fontSize: 22,textAlign: 'center', fontWeight:'600',color: 'grey'}}>Click on exercise to delete</Text>
+             <View style={{height: 150}}> 
+          <ScrollView contentContainerStyle={{justifyContent:'center'}} style={{marginTop: 10, borderRadius: 10, padding: 6}}>
           {data.map((item,index)=>{
             return(
-              <View key={index}>
+              <View style={styles.item} key={index}>
              <Pressable onPress={()=>setSelectedDeleteValue(item)}>
               <View>
                 <Text style={{fontSize:18, textAlign:'center',fontWeight:'500'}}>{item.name} </Text>
@@ -161,8 +209,9 @@ export default function DayDetailsScreen({ route, navigation }) {
           })}
           </ScrollView>
           </View>
-          </View>
-          <Text style={{fontSize: 20,textAlign: 'center', color: 'grey'}}>Selected exercise: {selectedDeleteValue !== undefined ?selectedDeleteValue.name: 'Click ' }</Text>
+         
+          
+          <Text style={{fontSize: 20,textAlign: 'center', color: 'grey'}}> {selectedDeleteValue !== undefined ?selectedDeleteValue.name: 'Click on list above' }</Text>
           <Button color='red' title="Confirm Delete" onPress={() => {onConfirmDelete()}}/>
           </View>
           </TouchableWithoutFeedback>
@@ -321,6 +370,11 @@ export default function DayDetailsScreen({ route, navigation }) {
                 <View style={styles.container}>
                 <Buttons/>
                 </View>
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                <NoteButton
+                setNodeModalVisible={setNodeModalVisible}
+                />
+                </View>
                 <AddExerciseModal
                 addModalVisible={addModalVisible}
                 setAddModalVisible={setAddModalVisible}
@@ -328,6 +382,13 @@ export default function DayDetailsScreen({ route, navigation }) {
                 getData={getData}
                 />
         <DeleteExerciseModal/>
+        <NoteModal
+        noteModalVisible={noteModalVisible}
+        callback ={callbackNoteModal}
+        selectedDay={selectedDay}
+        noteData={noteData}
+        setNoteData={setNoteData}
+        />
     </SafeAreaView>
   );
 }
@@ -427,7 +488,7 @@ elevation: 13,
     // padding: 40
   },
   item: {
-    backgroundColor: '#5176FD',
+    backgroundColor: '#B22222',
     padding: 12,
     marginVertical: 8,
     marginHorizontal: 12,
