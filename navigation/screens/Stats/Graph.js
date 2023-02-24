@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {View, Text} from 'react-native'
-//  import { VictoryChart, VictoryLine } from "victory-native";
+ import { VictoryChart, VictoryLine,VictoryTheme } from "victory-native";
 
 
 
@@ -10,24 +10,25 @@ export default function Graph({data})
     if(data.length > 1)
     {
     return(
-        <View style={{ flex: 1}} >
-{/*             
-                <VictoryChart minDomain={{ y: 0 }}>
-                <VictoryLine animate={{
-  duration: 2000,
-  onLoad: { duration: 1000 }
-}}
-labels={({ datum }) => datum.y}
+       
+            
+                <VictoryChart minDomain={{ y: 0 }}
+                theme={VictoryTheme.material}
+                >
+                
+                  
+                <VictoryLine
                 data={data}
             x="x"
             y="y"
             style={{
-              data: { stroke: "#c43a31" },
+              data: { stroke: "#3573ca" }
             }}
-          />
-        </VictoryChart> */}
 
-                </View>
+          />
+        </VictoryChart>
+
+                
     )
 }
 else{

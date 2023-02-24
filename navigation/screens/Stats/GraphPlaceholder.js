@@ -4,7 +4,7 @@ import {View, Text} from 'react-native'
 
 export default function GraphPlaceholder({recordsLength,selected})
 {
-    console.log(recordsLength +'gunwo')
+    
     if(selected === undefined)
     {
     return(

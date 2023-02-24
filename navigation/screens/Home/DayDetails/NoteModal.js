@@ -20,8 +20,10 @@ export default function NoteModal({noteModalVisible,callback,selectedDay,noteDat
           <View style={styles.inner}>
             <View style={{borderBottomWidth: 1,borderColor: 'grey'}}>
                 <Text style={{textAlign: 'center', fontSize: 22,fontWeight: '500'}}>{selectedDay}</Text>
-            </View>
-           <TextInput value={noteData}  defaultValue={noteData} style={{paddingHorizontal: 6, paddingVertical: 10}} numberOfLines={10} underlineColorAndroid='transparent'  multiline={true}  onChangeText={setNoteData} placeholder='Enter Note'  placeholderTextColor='grey'/>
+            </View>  
+            
+           <TextInput value={noteData}  defaultValue={noteData} style={{textAlignVertical: 'top',paddingHorizontal: 6, paddingVertical: 10}} numberOfLines={10}  multiline={true}  onChangeText={setNoteData} placeholder='Enter Note'  placeholderTextColor='grey'/>
+        
           </View>
           
           </TouchableWithoutFeedback>

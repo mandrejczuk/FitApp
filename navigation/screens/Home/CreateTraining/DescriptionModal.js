@@ -21,8 +21,8 @@ export default function DescriptionModal({description,visible,modalSet})
             onPressOut={()=>{modalSet(false)}}
             >
             <TouchableWithoutFeedback>
-                <View style={styles.inner}>
-                <Text>{description}</Text>
+                <View style={styles.inner}>           
+                <Text style={{padding: 8, fontSize: 18}}>{description}</Text>
                 </View>
             </TouchableWithoutFeedback>
 

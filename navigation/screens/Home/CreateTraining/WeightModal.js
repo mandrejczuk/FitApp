@@ -3,16 +3,7 @@ import { View,Button,Text, FlatList, ScrollView,SafeAreaView,StyleSheet,Pressabl
 
 export default function WeightModal({visible,modalSet,exercisesDone,setExercisesDone,addWorkout})
 {
-  // console.log(JSON.stringify(exercisesDone))
-    // const zrubto = ({text,item})=>
-    // {
-    //     var temp = exercisesDone
 
-    //   //  temp[item.id].weight = text;
-    //     console.log(item)
-    //    // setExercisesDone(temp)
-    // }
-   // console.log(JSON.stringify(exercisesDone))
     const renderItem = ({item}) =>
     {
         return (
@@ -23,15 +14,15 @@ export default function WeightModal({visible,modalSet,exercisesDone,setExercises
     const Item =({item}) =>
     { 
 
-      //  console.log(JSON.stringify(item))
+      
         const updateWeight = (text)=>
         {
-          //  console.log(text)
+        
             var temp = exercisesDone
 
                 temp[item.id].weight = parseFloat(text);
 
-                //console.log(temp[item.id].weight)
+             
               
                 setExercisesDone(temp)
         }

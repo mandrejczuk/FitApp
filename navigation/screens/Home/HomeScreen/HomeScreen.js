@@ -1,24 +1,18 @@
 import * as React from 'react'
-import {SafeAreaView,View, Text, StyleSheet,Modal, TouchableOpacity, TouchableWithoutFeedback, Button, ScrollView} from 'react-native'
-import {Calendar,CalendarUtils} from 'react-native-calendars'
+import {SafeAreaView,View,ScrollView} from 'react-native'
 import { db } from '../../../../database/DatabaseOpen';
 import WorkoutBox from './WorkoutBox';
-import { getAllExercises } from '../../../../database/Requests/GetAllExercises';
-import { useIsFocused } from '@react-navigation/native';
 import CalendarComponent from './CalendarComponent';
 import { getDatesRng } from '../../../../database/Requests/GetDatesRng';
 import DateText from './DateText';
 import NavigationButton from './NavigationButton';
 import SafeViewAndroid from '../../../../components/SafeViewAndroid';
+import ModalPlanning from './ModalPlan';
 
 export default function HomeScreen({navigation})
 {
-
-    
      
-
-    //Select * FROM ExercisesDone ed LEFT JOIN Exercises_WorkoutDays ewd ON ewd.id = ed.exerciseWorkoutDay_id LEFT JOIN Exercises e ON e.id = ewd.exercise_id
-    //rozwiazanie
+   
 
     const DATE_OPTIONS = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
     const [selectedDay,setSelectedDay] = React.useState((new Date()).toLocaleDateString('en-US',DATE_OPTIONS))
@@ -27,7 +21,6 @@ export default function HomeScreen({navigation})
     const [dates,setDates] = React.useState(getDatesRng())
     const [modalVisible,setModalVisible] = React.useState(false)
     const [show,setShow] = React.useState(true)
-   // const [update,setUpdate] = React.useState(false);
     React.useEffect(()=>{
         getData()
         getDates()
@@ -38,7 +31,7 @@ export default function HomeScreen({navigation})
                 let temp = markedDates
        if(val.date == formatDate(selectedDay))
        {
-            temp[val.date] = {marked: true, selected:true}
+            temp[val.date] = {marked: true}
        }
        else
        {
@@ -49,7 +42,7 @@ export default function HomeScreen({navigation})
         
          setMarkedDays(temp)
         })
-        
+         
 
         
         const unsubscribe = navigation.addListener('focus', () => {
@@ -80,43 +73,7 @@ export default function HomeScreen({navigation})
         setModalVisible(true)
     }
 
-    const ModalPlanning = () =>
-    (
-        <Modal
-        visible={modalVisible}
-        transparent={true}
-        onRequestClose={()=>{setModalVisible(false)}}
-        >
-        <TouchableOpacity
-        style={styles.outer}
-        activeOpacity={1}
-        onPressOut={()=>{setModalVisible(false)}}
-        >
-            <TouchableWithoutFeedback>
-                <View style={styles.inner}>
-                    <Text style={{paddingHorizontal:16, paddingVertical:12 ,fontSize: 24, fontWeight:'600', color: '#585858', textAlign: 'center'}}>Would you like to use predefined workouts?</Text>
-                    <View style={{ flexDirection:'row', justifyContent: 'space-evenly'}}>
-                    <Button
-                    color='green'
-                     title='YES' onPress={()=>{
-                        setModalVisible(false)
-                        navigatePlaningWorkout()
-                        }}/>
-
-                    <Button 
-                    color='red'
-                    title='NO'
-                    onPress={()=>{
-                        setModalVisible(false)
-                        navigateDetails()
-                    }}
-                    />
-                    </View>
-                </View>
-            </TouchableWithoutFeedback>
-        </TouchableOpacity>
-        </Modal>
-    )
+    
 
     function formatDate(date) {
         var d = new Date(date),
@@ -186,7 +143,7 @@ export default function HomeScreen({navigation})
                   let temp = markedDates
          if(val.date == formatDate(selectedDay))
          {
-              temp[val.date] = {marked: true, selected:true}
+              temp[val.date] = {marked: true}
          }
          else
          {
@@ -197,7 +154,6 @@ export default function HomeScreen({navigation})
           
            setMarkedDays(temp)
           })
-        //  console.log(dates)
           
         });
     }
@@ -242,7 +198,6 @@ export default function HomeScreen({navigation})
             <View style={{flex: 1, padding: 20, justifyContent: 'center'}}>
             <WorkoutBox 
             data ={data} 
-            selectedDay = {selectedDay}
             />
             </View>
             <NavigationButton
@@ -250,8 +205,11 @@ export default function HomeScreen({navigation})
             data={data}
             setModalTrue={setModalTrue}
             />
-
-            <ModalPlanning/>
+            <ModalPlanning
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            navigateDetails={navigateDetails}
+            navigatePlaningWorkout={navigatePlaningWorkout}/>
         </SafeAreaView>
     )
 
@@ -259,40 +217,3 @@ export default function HomeScreen({navigation})
     
 }
 
-const styles = StyleSheet.create({
-    calendarContainer: {
-        flex: 2,
-        margin: 10,
-        backgroundColor:'yellow'
-    },
-    textContainer: {
-        flex: 1,
-    },
-    calendarKeyContainer: {
-        flex: 1,
-    },
-    container: {
-        flex: 1,
-    },
-    calendar: {
-        marginBottom: 10
-      },
-      workoutBoxContainer: {
-        flex: 3,
-      },
-      outer: {
-        backgroundColor:'#000000aa',
-        alignItems: "center",
-         justifyContent: "center",
-        flex: 1
-      },
-      inner:{
-        backgroundColor: '#ffffff',
-        marginHorizontal: 20,
-        padding: 10,
-        borderRadius: 12
-        // margin: 50,
-        // padding: 40
-      },
-   
-})

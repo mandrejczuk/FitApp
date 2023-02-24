@@ -19,7 +19,6 @@ export default function CreateTrainingScreen({route,navigation})
     const [workouts,setWorkouts] = React.useState([])
     const [selectedWorkout,setSelectedWorkout] = React.useState()
     const [descriptionModalVisible,setDescriptionModalVisible] = React.useState(false)
-    const [previewModalVisible,setPreviewModalVisible] = React.useState(false)
     const [selectedWorkoutDay,setSelectedWorkoutDay] = React.useState()
     const [desription,setDescription] = React.useState()
     const [workoutDays,setWorkoutDays] = React.useState([])
@@ -35,7 +34,7 @@ export default function CreateTrainingScreen({route,navigation})
         {
           setButtonDisabled(false)
         }
-      //  console.log(exercisesByDay)
+        
         if(exercisesByDay != [])
         {
           var temp = []
@@ -134,14 +133,7 @@ export default function CreateTrainingScreen({route,navigation})
 
       db.readTransaction(function(tx)
       {
-       
-       
-          
-        
-          // tx.executeSql('SELECT ewd.id,sets,repetitions, e.name,ewd.orm ' 
-          // +'FROM Exercises_WorkoutDays ewd LEFT JOIN WorkoutDays wd ON ewd.workoutDay_id = wd.id '
-          // +'LEFT JOIN Exercises e ON ewd.exercise_id = e.id '
-          // +'WHERE wd.id = '+item
+
           tx.executeSql('SELECT ewd.id,sets,repetitions, name,ewd.orm, r.value '
           +'FROM WorkoutDays wd LEFT JOIN Exercises_WorkoutDays ewd ON wd.id = ewd.workoutday_id '
           +'LEFT JOIN (SELECT r.id,r.date,max(r.value) as value, ewd1.id as exerciseworkoutday_id '
@@ -239,7 +231,7 @@ const workoutListCallback = (item) =>
             <View >
             <TopBar/>
             </View>
-            <View style ={{ padding: 12}}>
+            <View style ={{flex: 1, padding: 12}}>
             <WorkoutList
             workouts={workouts}
             callback ={workoutListCallback}
@@ -247,8 +239,8 @@ const workoutListCallback = (item) =>
             />
             </View>
             { selectedWorkout !== undefined &&
-            <View>
-            <DayBar
+            <View style={{flex: 1}}>
+            <DayBar 
             selectedWorkout={selectedWorkout}
             workoutDays={workoutDays}
             selectedWorkoutDay={selectedWorkoutDay}
@@ -262,7 +254,7 @@ const workoutListCallback = (item) =>
               trainingList={exercisesByDay}/>
             </View>
 }
-            { selectedWorkout !== undefined &&
+{ selectedWorkout !== undefined && selectedWorkoutDay !== undefined &&
             <View style={{flex: 1}}>
             <AddBar
             setWeightModal={setWeightModalVisble}

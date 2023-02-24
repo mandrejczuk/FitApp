@@ -10,6 +10,7 @@ export default function CalendarComponent({markedDates,dayPressHandler,dayLongPr
         markedDates={markedDates}
        onDayPress={date => dayPressHandler(date)}
         onDayLongPress={date => dayLongPressHandler(date)}
+        
     /> 
     )
 }

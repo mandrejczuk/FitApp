@@ -20,13 +20,9 @@ import { noteSave } from "../../../../database/Requests/Note.js";
 export default function DayDetailsScreen({ route, navigation }) {
 
     const {selectedDay} = route.params
-  // const {data} = route.params
   const {sdata}=route.params
    
-    // const {exercises} = route.params
-    // console.log(selectedDay)
-    // console.log(data)
- //   console.log(data.length)
+
   const [data,setData] = React.useState(sdata)
     const [deleteModalVisible,setDeleteModalVisible] = React.useState(false)
     const [addModalVisible,setAddModalVisible] = React.useState(false)
@@ -37,21 +33,7 @@ export default function DayDetailsScreen({ route, navigation }) {
      const [isRecord,setIsRecord] = React.useState('setted')
      const [noteModalVisible,setNodeModalVisible] = React.useState(false)
      const [noteData, setNoteData] = React.useState()
-    //  const [text, onChangeText] = React.useState("");
-    // const [categoryValue, setCategoryValue] = React.useState('(8,9,10,11,12,13,14,15)');
-    // const [equipmentValue, setEquipmentValue] = React.useState('("",1,2,3,4,5,6,7,8,9,10,11)');
-    // const [exercisesList,setExercisesList] = React.useState(getExerciesByNameCategoryEquipment(text,categoryValue,equipmentValue))
-   
-    // React.useEffect(()=>{
-
-    //   setExercisesList(getExerciesByNameCategoryEquipment(text,categoryValue,equipmentValue))
-    //  // console.log(JSON.stringify(exercisesList))
-
-
-    //  getData()
-
-        
-    // },[categoryValue,equipmentValue,text])
+  
 
     React.useEffect(()=>{
       getData()
@@ -95,7 +77,7 @@ export default function DayDetailsScreen({ route, navigation }) {
           {
             if(res.rows.item(0).licz >0)
             {
-              console.log('xdddd')
+             
               tx.executeSql('SELECT content FROM NOTES WHERE date = "'+formatDate(selectedDay)+'"',[],function(_,res){
 
                 setNoteData(res.rows.item(0).content)
@@ -124,36 +106,32 @@ export default function DayDetailsScreen({ route, navigation }) {
         noteSave(noteData,selectedDay)
       }
 
-      // const noteVisible = () =>
-      // {
-      //   getNoteData()
-      //   setNodeModalVisible(true)
-      //   console.log(JSON.stringify(noteData))
-
-      // }
-
+    
   
 
     const onConfirmDelete = () =>{
-      // console.log(JSON.stringify(data))
-      // console.log(JSON.stringify(selectedDeleteValue))
-      // const result = data.filter(exercise =>exercise.id == selectedDeleteValue)
-      // const index = data.indexOf(result[0])
-      // console.log(JSON.stringify(result))
-   //   console.log(index)
+   
+      if(selectedDeleteValue.done == 1)
+    {
+    //Check if this exerciseDone is a Record
+      isExerciseARecord(selectedDeleteValue.id)
     
+    if(isRecord)
+    {
+    
+      //delete Record
+      deleteRecordByExerciseDone(selectedDeleteValue.id)
+    }
 
-//       const numbers = [1, 2, 3];
-// const index = numbers.indexOf(3);
-// if (index > -1) {
-//   numbers.splice(index, 1);
-// }
-// console.log(numbers); 
+    setIsRecord('settted')
+    }
+    else{
+      deleteExerciseDoneById(selectedDeleteValue.id);
+    }
       deleteExerciseDoneById(selectedDeleteValue.id);
       getData()
-      //data.splice(index,1)
        setDeleteModalVisible(false);
-     //  console.log(data)
+    
    }
    
 
@@ -239,7 +217,7 @@ export default function DayDetailsScreen({ route, navigation }) {
     else{
       temp.done = 0
     }
-   // console.log(temp)
+ 
    data.splice(index,1,temp) 
    setRefresh(!refresh)
   updateDoneExerciseDone(temp.id,temp.done)
@@ -248,7 +226,6 @@ export default function DayDetailsScreen({ route, navigation }) {
     //Check if this exerciseDone is a Record
       isExerciseARecord(temp.id)
     
-   //   console.log(isRecord)
     if(isRecord)
     {
     
@@ -293,7 +270,7 @@ export default function DayDetailsScreen({ route, navigation }) {
         +'LEFT JOIN Exercises_WorkoutDays ewd ON ewd.id = ed.exerciseWorkoutDay_id '
         +'WHERE exercise_id = ? and ed.weight > ?',[id,weight],function(_,res)
         {
-        //    console.log(res.rows.item(0).licz)
+       
             if(res.rows.item(0).licz > 0)
             {
                setIsRecord(false);
@@ -301,7 +278,7 @@ export default function DayDetailsScreen({ route, navigation }) {
             else
             {
               setIsRecord(true);
-             // addRecord(id2,weight)
+          
             }
         })
     },
@@ -325,7 +302,7 @@ export default function DayDetailsScreen({ route, navigation }) {
         tx.executeSql('SELECT COUNT(*) as licz FROM Records '
         +'WHERE exerciseDone_id = ? ',[exerciseDone_id],function(_,res)
         {
-       //   console.log(res.rows.item(0).licz)
+    
             if(res.rows.item(0).licz > 0)
             {
              setIsRecord(true)

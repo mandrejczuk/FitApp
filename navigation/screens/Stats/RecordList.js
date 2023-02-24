@@ -21,7 +21,7 @@ export default function RecordList({data})
 {
     data.length == 0 &&
     <View>
-        <Text>Data length ruwna 0</Text>
+        <Text style={{fontSize: 24, color: 'grey', textAlign: 'center',textAlignVertical:'center'}}>No records recorded</Text>
     </View>
 }
     {

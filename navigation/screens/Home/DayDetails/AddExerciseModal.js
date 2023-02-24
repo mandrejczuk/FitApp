@@ -137,17 +137,11 @@ export default function AddExerciseModal({addModalVisible,setAddModalVisible,sel
     </View>
             </View>
          
-          {/* <View style={{height: 200}}>   */}
-            {/* <FlatList
-            data={exercises}
-            renderItem={renderAddItem}
-            keyExtractor={item =>item.id}
-            /> */}
             <ExercisesList
             data={exercisesList}
             callback={setSelectedExercise}
             />
-          {/* </View> */}
+     
           <View>
             <View style={{flexDirection:'row', justifyContent:'space-evenly',padding: 12 }}>
               <TextInput style={{width: '30%', textAlign: 'center',backgroundColor: '#d9dbda',borderRadius: 10}} value={sets} onChangeText={onChangeSets} placeholder="Sets" keyboardType ='number-pad'/>

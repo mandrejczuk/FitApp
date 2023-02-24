@@ -23,3 +23,4 @@ export default function NavigationButton({navigateDetails,data,setModalTrue})
     </View>
     )
 }
+

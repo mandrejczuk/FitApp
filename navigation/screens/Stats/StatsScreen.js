@@ -1,6 +1,6 @@
 import * as React from 'react'
 import ProfileValues from './ProfileValues'
-import { Alert, Dimensions,View, StatusBar,SafeAreaView, Pressable, TouchableOpacity } from "react-native";
+import { Alert, Dimensions,View, StatusBar,SafeAreaView, Pressable, TouchableOpacity, ScrollView } from "react-native";
 import SearchBar from './SearchBar';
 import SearchList from './SearchList';
 import RecordList from './RecordList';
@@ -132,7 +132,6 @@ function StatsScreen ({navigation}) {
         { exercise !== undefined 
         ?
         records.length != 0 &&
-        
         <Graph 
         data={records}
         />
