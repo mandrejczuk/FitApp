@@ -16,6 +16,7 @@ import { formatDate } from "../../../../components/FormatDate.js";
 import NoteButton from "./NoteButton.js";
 import NoteModal from "./NoteModal.js";
 import { noteSave } from "../../../../database/Requests/Note.js";
+import DeleteExerciseModal from "./DeleteExerciseModal.js";
 
 export default function DayDetailsScreen({ route, navigation }) {
 
@@ -158,44 +159,44 @@ export default function DayDetailsScreen({ route, navigation }) {
 
  
 
-    const DeleteExerciseModal = () => (
-      <Modal
-      visible={deleteModalVisible}
-      transparent={true}
-      onRequestClose={()=>{setDeleteModalVisible(false)}}
-      >
-          <TouchableOpacity
-          style={styles.outer}
-          activeOpacity={1}
-          onPressOut={()=>{setDeleteModalVisible(false)}}
-          >
-            <TouchableWithoutFeedback>
-          <View style={styles.inner}>
-            <Text style={{fontSize: 22,textAlign: 'center', fontWeight:'600',color: 'grey'}}>Click on exercise to delete</Text>
-             <View style={{height: 150}}> 
-          <ScrollView contentContainerStyle={{justifyContent:'center'}} style={{marginTop: 10, borderRadius: 10, padding: 6}}>
-          {data.map((item,index)=>{
-            return(
-              <View style={styles.item} key={index}>
-             <Pressable onPress={()=>setSelectedDeleteValue(item)}>
-              <View>
-                <Text style={{fontSize:18, textAlign:'center',fontWeight:'500'}}>{item.name} </Text>
-              </View>
-            </Pressable>
-              </View>
-            )
-          })}
-          </ScrollView>
-          </View>
+  //   const DeleteExerciseModal = () => (
+  //     <Modal
+  //     visible={deleteModalVisible}
+  //     transparent={true}
+  //     onRequestClose={()=>{setDeleteModalVisible(false)}}
+  //     >
+  //         <TouchableOpacity
+  //         style={styles.outer}
+  //         activeOpacity={1}
+  //         onPressOut={()=>{setDeleteModalVisible(false)}}
+  //         >
+  //           <TouchableWithoutFeedback>
+  //         <View style={styles.inner}>
+  //           <Text style={{fontSize: 22,textAlign: 'center', fontWeight:'600',color: 'grey'}}>Click on exercise to delete</Text>
+  //            <View style={{height: 150}}> 
+  //         <ScrollView contentContainerStyle={{justifyContent:'center'}} style={{marginTop: 10, borderRadius: 10, padding: 6}}>
+  //         {data.map((item,index)=>{
+  //           return(
+  //             <View style={styles.item} key={index}>
+  //            <Pressable onPress={()=>setSelectedDeleteValue(item)}>
+  //             <View>
+  //               <Text style={{fontSize:18, textAlign:'center',fontWeight:'500'}}>{item.name} </Text>
+  //             </View>
+  //           </Pressable>
+  //             </View>
+  //           )
+  //         })}
+  //         </ScrollView>
+  //         </View>
          
           
-          <Text style={{fontSize: 20,textAlign: 'center', color: 'grey'}}> {selectedDeleteValue !== undefined ?selectedDeleteValue.name: 'Click on list above' }</Text>
-          <Button color='red' title="Confirm Delete" onPress={() => {onConfirmDelete()}}/>
-          </View>
-          </TouchableWithoutFeedback>
-          </TouchableOpacity>
-      </Modal>
-  )
+  //         <Text style={{fontSize: 20,textAlign: 'center', color: 'grey'}}> {selectedDeleteValue !== undefined ?selectedDeleteValue.name: 'Click on list above' }</Text>
+  //         <Button color='red' title="Confirm Delete" onPress={() => {onConfirmDelete()}}/>
+  //         </View>
+  //         </TouchableWithoutFeedback>
+  //         </TouchableOpacity>
+  //     </Modal>
+  // )
     
 
    
@@ -358,7 +359,14 @@ export default function DayDetailsScreen({ route, navigation }) {
                 selectedDay={selectedDay}
                 getData={getData}
                 />
-        <DeleteExerciseModal/>
+        <DeleteExerciseModal
+        data={data}
+        deleteModalVisible={deleteModalVisible}
+        setDeleteModalVisible={setDeleteModalVisible}
+        selectedDeleteValue={selectedDeleteValue}
+        setSelectedDeleteValue={setSelectedDeleteValue}
+        onConfirmDelete={onConfirmDelete}
+        />
         <NoteModal
         noteModalVisible={noteModalVisible}
         callback ={callbackNoteModal}
