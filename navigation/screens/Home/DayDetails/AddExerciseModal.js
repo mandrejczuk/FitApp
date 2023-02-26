@@ -63,30 +63,77 @@ export default function AddExerciseModal({addModalVisible,setAddModalVisible,sel
 
     function onConfirmAdd()
     {
-     var newItem = {
-        id: selectedExercise.id,
-        name: selectedExercise.name,
-        weight: weight,
-        sets: sets,
-        repetitions: reps,
-        done: 0
-      }
-      //data.push(newItem)
+     if(selectedExercise !== undefined && reps != "" && sets != "" && weight !="" )
+     {
       addCustomExerciseToPlan(sets,reps,selectedExercise.id,weight,formatDate(selectedDay))
       getData()
       setAddModalVisible(false)
+      clearInputs()
+     }
+     else{
+      alert('Complete fields')
+     }
+
     }
+
+    function clearInputs()
+    {
+      setCategoryValue('(8,9,10,11,12,13,14,15)')
+      setEquipmentValue('("",1,2,3,4,5,6,7,8,9,10,11)')
+      onChangeText("")
+      onChangeReps("")
+      onChangeSets("")
+      onChangeWeight("")
+      setSelectedExercise()
+    }
+
+    function setModalVisible(bool)
+    {
+      setAddModalVisible(bool)
+      clearInputs()
+    }
+
+    const onChangedRepsSets = (text,set) => {
+      let newText = '';
+      let numbers = '0123456789';
+    
+      for (var i=0; i < text.length; i++) {
+          if(numbers.indexOf(text[i]) > -1 ) {
+              newText = newText + text[i];
+          }
+          else {
+              alert("Please enter number only");
+          }
+      }
+     set(newText)
+    }
+
+    const onChangedWeight = (text) =>{
+      let newText = '';
+      let numbers = '0123456789.';
+    
+      for (var i=0; i < text.length; i++) {
+          if(numbers.indexOf(text[i]) > -1 ) {
+              newText = newText + text[i];
+          }
+          else {
+              alert("Please enter number only");
+          }
+      }
+    onChangeWeight(newText)
+    }
+    
    
     return (
       <Modal
       visible={addModalVisible}
       transparent={true}
-      onRequestClose={()=>{setAddModalVisible(false)}}
+      onRequestClose={()=>{setModalVisible(false)}}
       >
           <TouchableOpacity
           style={styles.outer}
           activeOpacity={1}
-          onPressOut={()=>{setAddModalVisible(false)}}
+          onPressOut={()=>{setModalVisible(false)}}
           >
             <TouchableWithoutFeedback>
           <View style={styles.inner}>
@@ -144,9 +191,9 @@ export default function AddExerciseModal({addModalVisible,setAddModalVisible,sel
      
           <View>
             <View style={{flexDirection:'row', justifyContent:'space-evenly',padding: 12 }}>
-              <TextInput style={{width: '30%', textAlign: 'center',backgroundColor: '#d9dbda',borderRadius: 10}} value={sets} onChangeText={onChangeSets} placeholder="Sets" keyboardType ='number-pad'/>
-              <TextInput style={{width: '30%', textAlign: 'center',backgroundColor: '#d9dbda',borderRadius: 10}} value={reps} onChangeText={onChangeReps} placeholder="Reps" keyboardType ='number-pad'/>
-              <TextInput style={{width: '30%', textAlign: 'center',backgroundColor: '#d9dbda',borderRadius: 10}} value={weight} onChangeText={onChangeWeight} placeholder="Weight" keyboardType = 'number-pad'/>
+              <TextInput style={{width: '30%', textAlign: 'center',backgroundColor: '#d9dbda',borderRadius: 10}} multiline={true} numberOfLines={1} value={sets} onChangeText={text=>onChangedRepsSets(text,onChangeSets)} placeholder="Sets" keyboardType ='number-pad'/>
+              <TextInput style={{width: '30%', textAlign: 'center',backgroundColor: '#d9dbda',borderRadius: 10}} multiline={true} numberOfLines={1} value={reps} onChangeText={text=>onChangedRepsSets(text,onChangeReps)} placeholder="Reps" keyboardType ='number-pad'/>
+              <TextInput style={{width: '30%', textAlign: 'center',backgroundColor: '#d9dbda',borderRadius: 10}} multiline={true} numberOfLines={1} value={weight} onChangeText={text=>onChangedWeight(text)} placeholder="Weight" keyboardType = 'number-pad'/>
              </View>
              <Button  color='#32CD32' title ='Add Exercise' onPress={()=>{onConfirmAdd()}}/>
           </View>

@@ -99,7 +99,7 @@ export default function DayDetailsScreen({ route, navigation }) {
         })
       }
 
-
+     
    
       const callbackNoteModal = () =>
       {
@@ -132,71 +132,19 @@ export default function DayDetailsScreen({ route, navigation }) {
       deleteExerciseDoneById(selectedDeleteValue.id);
       getData()
        setDeleteModalVisible(false);
-    
+    setSelectedDeleteValue()
    }
    
+   const setDeleteModalVisbleClearInput = (bool) =>
+   {
+    setDeleteModalVisible(bool)
+    setSelectedDeleteValue()
+   }
 
-
-   const renderAddItem = ({ item }) => (
-    <AddItem item={item} />
-  );
-
-  const AddItem = ({ item }) => {
-    return(
-    <View style={styles.item}>   
-    <Pressable
-    onPress={()=>{setSelectedExerciseName(item.name)}}>
-      <Text style={styles.name}>{item.name}</Text>
-      </Pressable>
-    </View>
-  )};
-
- 
 
     
 
-   
 
- 
-
-  //   const DeleteExerciseModal = () => (
-  //     <Modal
-  //     visible={deleteModalVisible}
-  //     transparent={true}
-  //     onRequestClose={()=>{setDeleteModalVisible(false)}}
-  //     >
-  //         <TouchableOpacity
-  //         style={styles.outer}
-  //         activeOpacity={1}
-  //         onPressOut={()=>{setDeleteModalVisible(false)}}
-  //         >
-  //           <TouchableWithoutFeedback>
-  //         <View style={styles.inner}>
-  //           <Text style={{fontSize: 22,textAlign: 'center', fontWeight:'600',color: 'grey'}}>Click on exercise to delete</Text>
-  //            <View style={{height: 150}}> 
-  //         <ScrollView contentContainerStyle={{justifyContent:'center'}} style={{marginTop: 10, borderRadius: 10, padding: 6}}>
-  //         {data.map((item,index)=>{
-  //           return(
-  //             <View style={styles.item} key={index}>
-  //            <Pressable onPress={()=>setSelectedDeleteValue(item)}>
-  //             <View>
-  //               <Text style={{fontSize:18, textAlign:'center',fontWeight:'500'}}>{item.name} </Text>
-  //             </View>
-  //           </Pressable>
-  //             </View>
-  //           )
-  //         })}
-  //         </ScrollView>
-  //         </View>
-         
-          
-  //         <Text style={{fontSize: 20,textAlign: 'center', color: 'grey'}}> {selectedDeleteValue !== undefined ?selectedDeleteValue.name: 'Click on list above' }</Text>
-  //         <Button color='red' title="Confirm Delete" onPress={() => {onConfirmDelete()}}/>
-  //         </View>
-  //         </TouchableWithoutFeedback>
-  //         </TouchableOpacity>
-  //     </Modal>
-  // )
     
 
    
@@ -362,7 +310,7 @@ export default function DayDetailsScreen({ route, navigation }) {
         <DeleteExerciseModal
         data={data}
         deleteModalVisible={deleteModalVisible}
-        setDeleteModalVisible={setDeleteModalVisible}
+        setDeleteModalVisible={setDeleteModalVisbleClearInput}
         selectedDeleteValue={selectedDeleteValue}
         setSelectedDeleteValue={setSelectedDeleteValue}
         onConfirmDelete={onConfirmDelete}

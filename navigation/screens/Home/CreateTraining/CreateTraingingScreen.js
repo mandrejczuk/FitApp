@@ -102,7 +102,7 @@ export default function CreateTrainingScreen({route,navigation})
         console.log("Populated database (data delete) OK");
       }
     ); })   
-    
+
     goBack()
     }
 

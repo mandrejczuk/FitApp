@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {Calendar} from 'react-native-calendars'
 import {View,Text} from 'react-native'
-export default function CalendarComponent({markedDates,dayPressHandler,dayLongPressHandler,show,setShow})
+export default function CalendarComponent({markedDates,dayPressHandler,dayLongPressHandler})
 {
    
    

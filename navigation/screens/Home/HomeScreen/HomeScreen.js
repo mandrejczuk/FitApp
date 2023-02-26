@@ -20,7 +20,6 @@ export default function HomeScreen({navigation})
     const [data,setData] = React.useState([])
     const [dates,setDates] = React.useState(getDatesRng())
     const [modalVisible,setModalVisible] = React.useState(false)
-    const [show,setShow] = React.useState(true)
     React.useEffect(()=>{
         getData()
         getDates()
@@ -41,7 +40,9 @@ export default function HomeScreen({navigation})
        }
         
          setMarkedDays(temp)
+         
         })
+        console.log(markedDates)
          
 
         
@@ -154,7 +155,7 @@ export default function HomeScreen({navigation})
           
            setMarkedDays(temp)
           })
-          
+          console.log(markedDates)
         });
     }
 
@@ -188,8 +189,6 @@ export default function HomeScreen({navigation})
         markedDates={markedDates}
        dayPressHandler={dayPressHandler}
         dayLongPressHandler={dayLongPressHandler}
-        show={show}
-        setShow={setShow}
         />
          </ScrollView>
             <DateText
