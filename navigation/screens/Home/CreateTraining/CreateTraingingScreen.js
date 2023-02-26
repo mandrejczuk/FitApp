@@ -136,13 +136,14 @@ export default function CreateTrainingScreen({route,navigation})
 
           tx.executeSql('SELECT ewd.id,sets,repetitions, name,ewd.orm, r.value '
           +'FROM WorkoutDays wd LEFT JOIN Exercises_WorkoutDays ewd ON wd.id = ewd.workoutday_id '
-          +'LEFT JOIN (SELECT r.id,r.date,max(r.value) as value, ewd1.id as exerciseworkoutday_id '
+          +'LEFT JOIN (SELECT r.id,r.date,max(r.value) as value, ewd1.id as exerciseworkoutday_id,ewd1.exercise_id as exercise_id '
           +'FROM Records r LEFT JOIN ExercisesDone ed1 ON ed1.id = r.exerciseDone_id '
           +'LEFT JOIN Exercises_WorkoutDays ewd1 ON ewd1.id = ed1.exerciseworkoutday_id '
           +'Group by ewd1.exercise_id) r '
-          +'ON r.exerciseworkoutday_id = ewd.id '
+          +'ON r.exercise_id = ewd.exercise_id '
           +'LEFT JOIN exercises e ON e.id = ewd.exercise_id '
           +'WHERE wd.id = '+item
+          
 
           ,[],function(_,res)
           {
