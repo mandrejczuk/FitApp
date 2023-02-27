@@ -14,7 +14,7 @@ export function exercises_WorkoutDaysDataLoad() {
         "FOREIGN KEY (exercise_id) REFERENCES Exercises(id)" +
         ")"
     );
-
+      //GVT A
     tx.executeSql(
       "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id,orm)" +
         "VALUES (?,?,?,?,?)",
@@ -30,7 +30,7 @@ export function exercises_WorkoutDaysDataLoad() {
         "VALUES (?,?,?,?,?)",
       [4, 8, 2, 340,70]
     );
-
+      //GVT B
     tx.executeSql(
       "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id,orm)" +
         "VALUES (?,?,?,?,?)",
@@ -46,7 +46,7 @@ export function exercises_WorkoutDaysDataLoad() {
         "VALUES (?,?,?,?,?)",
       [4, 8, 3, 81,70]
     );
-
+      //GVT C
     tx.executeSql(
       "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id,orm)" +
         "VALUES (?,?,?,?,?)",
@@ -62,6 +62,39 @@ export function exercises_WorkoutDaysDataLoad() {
         "VALUES (?,?,?,?,?)",
       [4, 8, 4, 148,70]
     );
+    //STRONGLIFTS A
+    tx.executeSql(
+      "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id,orm)" +
+        "VALUES (?,?,?,?,?)",
+      [5, 5, 5, 111,75]
+    );
+    tx.executeSql(
+      "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id,orm)" +
+        "VALUES (?,?,?,?,?)",
+      [5, 5, 5, 192,75]
+    );
+    tx.executeSql(
+      "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id,orm)" +
+        "VALUES (?,?,?,?,?)",
+      [5, 5, 5, 109,75]
+    );
+    //STRONGLIFTS B
+    tx.executeSql(
+      "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id,orm)" +
+        "VALUES (?,?,?,?,?)",
+      [5, 5, 6, 111,75]
+    );
+    tx.executeSql(
+      "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id,orm)" +
+        "VALUES (?,?,?,?,?)",
+      [5, 5, 6, 1069,75]
+    );
+    tx.executeSql(
+      "INSERT INTO Exercises_WorkoutDays(sets,repetitions,workoutDay_id,exercise_id,orm)" +
+        "VALUES (?,?,?,?,?)",
+      [5, 5, 6, 109,105]
+    );
+
   },
   function (error) {
     console.log("Transaction ERROR Exercises_WorkoutDays data load: " + error.message);

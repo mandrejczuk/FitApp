@@ -25,25 +25,7 @@ export default function HomeScreen({navigation})
         getDates()
         
        
-        dates.forEach((val)=>
-        {      
-                let temp = markedDates
-       if(val.date == formatDate(selectedDay))
-       {
-            temp[val.date] = {marked: true}
-       }
-       else
-       {
-
        
-         temp[val.date] = {marked: true}
-       }
-        
-         setMarkedDays(temp)
-         
-        })
-        console.log(markedDates)
-         
 
         
         const unsubscribe = navigation.addListener('focus', () => {
@@ -55,6 +37,30 @@ export default function HomeScreen({navigation})
 
     },[selectedDay,navigation])
     
+
+    const marked = React.useMemo(()=>{
+
+        let temp = {}
+        if(dates !== undefined)
+        {
+        temp[formatDate(selectedDay)] = {selected :true}
+        dates.forEach(el =>{
+            if(el.date == formatDate(selectedDay))
+            {
+                temp[el.date] = {selected: true,marked: true}
+            }
+            else
+            {
+            temp[el.date] = {marked: true}
+            }
+        })
+
+    }
+
+        return temp
+
+    },[navigation,selectedDay,dates])
+
 
 
     const navigateDetails = () =>
@@ -123,9 +129,11 @@ export default function HomeScreen({navigation})
     const getDates = () =>{
         db.readTransaction(function(tx)
         {
+           
             tx.executeSql('SELECT Distinct date FROM ExercisesDone ',
             [],function(_,res)
             {
+                setDates()
                 var temp =[]
 
                 for(let i = 0 ; i < res.rows.length ; i++)
@@ -139,23 +147,6 @@ export default function HomeScreen({navigation})
             console.log('Transaction GET DATES EXERCISES DONE (homescreen) DATA ERROR: ' + error.message);
         }, function() {
           console.log('Populated database (GET DATES EXERCISESDONE) OK');
-          dates.forEach((val)=>
-          {      
-                  let temp = markedDates
-         if(val.date == formatDate(selectedDay))
-         {
-              temp[val.date] = {marked: true}
-         }
-         else
-         {
-  
-         
-           temp[val.date] = {marked: true}
-         }
-          
-           setMarkedDays(temp)
-          })
-          console.log(markedDates)
         });
     }
 
@@ -186,7 +177,7 @@ export default function HomeScreen({navigation})
         <SafeAreaView style={SafeViewAndroid.AndroidSafeArea} >
             <ScrollView style={{flex: 1}}>
         <CalendarComponent
-        markedDates={markedDates}
+        markedDates={marked}
        dayPressHandler={dayPressHandler}
         dayLongPressHandler={dayLongPressHandler}
         />

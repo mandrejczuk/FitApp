@@ -181,6 +181,7 @@ export default function CreateTrainingScreen({route,navigation})
               }
             setWorkoutDays(data)
           })
+          console.log(selectedWorkoutDay)
       },
       function (error) {
         console.log("Transaction ERROR data delete: " + error.message);
@@ -225,6 +226,12 @@ const workoutListCallback = (item) =>
   setDescription(item.description)
   setDescriptionModalVisible(true)
 }
+const setWorkoutCallback = (item) =>
+{
+  setWorkout(item)
+  setSelectedWorkoutDay()
+  
+}
 
    
     return(
@@ -236,7 +243,7 @@ const workoutListCallback = (item) =>
             <WorkoutList
             workouts={workouts}
             callback ={workoutListCallback}
-            setWorkout ={setWorkout}
+            setWorkout ={setWorkoutCallback}
             />
             </View>
             { selectedWorkout !== undefined &&
@@ -249,13 +256,13 @@ const workoutListCallback = (item) =>
             />
             </View>
 }
-{ selectedWorkout !== undefined && selectedWorkoutDay !== undefined &&
+{ selectedWorkoutDay !== undefined &&
             <View style={{flex: 3}}>
               <PreviewList
               trainingList={exercisesByDay}/>
             </View>
 }
-{ selectedWorkout !== undefined && selectedWorkoutDay !== undefined &&
+{ selectedWorkoutDay !== undefined &&
             <View style={{flex: 1}}>
             <AddBar
             setWeightModal={setWeightModalVisble}

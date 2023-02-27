@@ -14,21 +14,6 @@ export function exercisesDoneDataLoad() {
           ")"
       );
 
-      tx.executeSql(
-        "INSERT INTO ExercisesDone(weight,done,date,exerciseWorkoutDay_id)" +
-          "VALUES(?,?,date(),?)",
-        [34.5,1, 1]
-      );
-      tx.executeSql(
-        "INSERT INTO ExercisesDone(weight,done,date,exerciseWorkoutDay_id)" +
-          "VALUES(?,?,date(),?)",
-        [70,1, 2]
-      );
-      tx.executeSql(
-        "INSERT INTO ExercisesDone(weight,done,date,exerciseWorkoutDay_id)" +
-          "VALUES(?,?,date(),?)",
-        [5,0, 3]
-      );
     },
     function (error) {
       console.log("Transaction ERROR ExercisesDone data load : " + error.message);

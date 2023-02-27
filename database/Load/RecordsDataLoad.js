@@ -12,8 +12,7 @@ export function recordsDataLoad()
             + 'FOREIGN KEY(exerciseDone_id) REFERENCES ExercisesDone(id)'
             + ')')
 
-            tx.executeSql('INSERT INTO RECORDS(exerciseDone_id,date,value) VALUES (?,?,?)',
-            [1,'2022-02-13',40])
+           
 
     }, function(error) {
         console.log('Transaction ERROR  Records data load: ' + error.message);
