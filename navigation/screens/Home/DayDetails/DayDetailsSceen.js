@@ -31,7 +31,6 @@ export default function DayDetailsScreen({ route, navigation }) {
     const [selectedAddValue,setSelectedAddValue] = React.useState()
      const [selectedExerciseName,setSelectedExerciseName] = React.useState()
      const [refresh,setRefresh] = React.useState(false)
-     const [isRecord,setIsRecord] = React.useState('setted')
      const [noteModalVisible,setNodeModalVisible] = React.useState(false)
      const [noteData, setNoteData] = React.useState()
   
@@ -114,17 +113,12 @@ export default function DayDetailsScreen({ route, navigation }) {
    
       if(selectedDeleteValue.done == 1)
     {
-    //Check if this exerciseDone is a Record
+    //Check if this exerciseDone is a Record and if yes delete
       isExerciseARecord(selectedDeleteValue.id)
     
-    if(isRecord)
-    {
-    
-      //delete Record
-      deleteRecordByExerciseDone(selectedDeleteValue.id)
-    }
+   
 
-    setIsRecord('settted')
+  
     }
     else{
       deleteExerciseDoneById(selectedDeleteValue.id);
@@ -157,6 +151,9 @@ export default function DayDetailsScreen({ route, navigation }) {
 
    const callbackDone = (item) =>
    {
+
+    
+
     let index =data.indexOf(item)
     let temp = data[index]
     if(temp.done == 0)
@@ -172,17 +169,10 @@ export default function DayDetailsScreen({ route, navigation }) {
   updateDoneExerciseDone(temp.id,temp.done)
   if(temp.done == 0)
   {
-    //Check if this exerciseDone is a Record
+    //Check if this exerciseDone is a Record and if yes delete
       isExerciseARecord(temp.id)
     
-    if(isRecord)
-    {
-    
-      //delete Record
-      deleteRecordByExerciseDone(temp.id)
-    }
-
-    setIsRecord('settted')
+   
   }
   else if(temp.done == 1)
   {
@@ -196,21 +186,23 @@ export default function DayDetailsScreen({ route, navigation }) {
     else{
        estORM = temp.weight
     }
-    //Check if this estimated value is a record
-    isThisANewRecord(temp.exercise_id,estORM)
+    //Check if this estimated value is a record and set record
+    isThisANewRecord(temp.exercise_id,estORM,temp.id,formatDate(selectedDay))
    // console.log(isRecord)
-    if(isRecord)
-    {
-      //Save record
-      addRecord(temp.id,estORM,formatDate(selectedDay))
-    }
+    // if(isRecord)
+    // {
+    //   console.log(isRecord +'sprawdzam')
+    //   //Save record
+    //   addRecord(temp.id,estORM,formatDate(selectedDay))
+    // }
 
-    setIsRecord('settted')
+    
+    //console.log(isRecord)
   }
    }
 
 
-  function isThisANewRecord(id,weight)
+  function isThisANewRecord(id,weight,tempid,date)
   {
     db.readTransaction(function(tx)
     {
@@ -223,10 +215,12 @@ export default function DayDetailsScreen({ route, navigation }) {
             if(res.rows.item(0).licz > 0)
             {
                setIsRecord(false);
+               console.log('setrecord false')
             }
             else
             {
-              setIsRecord(true);
+              addRecord(tempid,weight,date)
+              console.log('setrecord true')
           
             }
         })
@@ -254,12 +248,10 @@ export default function DayDetailsScreen({ route, navigation }) {
     
             if(res.rows.item(0).licz > 0)
             {
-             setIsRecord(true)
+             
+             deleteRecordByExerciseDone(exerciseDone_id)
             }
-            else
-            {
-             setIsRecord(false)
-            }
+           
         })
 
     },
