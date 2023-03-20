@@ -111,6 +111,14 @@ export default function DayDetailsScreen({ route, navigation }) {
 
     const onConfirmDelete = () =>{
    
+      if(selectedDeleteValue === undefined)
+      {
+        alert('Select Exercise to Delete')
+      }
+      else
+     {
+  
+
       if(selectedDeleteValue.done == 1)
     {
     //Check if this exerciseDone is a Record and if yes delete
@@ -128,12 +136,14 @@ export default function DayDetailsScreen({ route, navigation }) {
        setDeleteModalVisible(false);
     setSelectedDeleteValue()
    }
+  }
    
    const setDeleteModalVisbleClearInput = (bool) =>
    {
     setDeleteModalVisible(bool)
     setSelectedDeleteValue()
    }
+   
 
 
     
@@ -209,16 +219,17 @@ export default function DayDetailsScreen({ route, navigation }) {
         tx.executeSql('SELECT count(*) as licz FROM Records r '
         +'LEFT JOIN ExercisesDone ed ON r.exerciseDone_id = ed.id '
         +'LEFT JOIN Exercises_WorkoutDays ewd ON ewd.id = ed.exerciseWorkoutDay_id '
-        +'WHERE exercise_id = ? and ed.weight > ?',[id,weight],function(_,res)
+        +'WHERE exercise_id = ? and r.value > ?',[id,weight],function(_,res)
         {
        
             if(res.rows.item(0).licz > 0)
             {
-               setIsRecord(false);
-               console.log('setrecord false')
+              
             }
             else
             {
+              console.log('id: '+id+'\n weight: '+weight)
+              console.log(res.rows.item(0).licz)
               addRecord(tempid,weight,date)
               console.log('setrecord true')
           
